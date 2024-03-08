@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import Header from '../components/header';
+import { SidebarLeft } from '../components';
 
 export default function Publication() {
   const baseURL = "http://localhost:8000/";
@@ -40,78 +41,7 @@ export default function Publication() {
         <div className="container">
           <div className="row g-4">
 
-            <div className="col-lg-3">
-
-              <div className="d-flex align-items-center d-lg-none">
-                <button className="border-0 bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSideNavbar" aria-controls="offcanvasSideNavbar">
-                  <span className="btn btn-primary"><i className="fa-solid fa-sliders-h"></i></span>
-                  <span className="h6 mb-0 fw-bold d-lg-none ms-2">My profile</span>
-                </button>
-              </div>
-
-              <nav className="navbar navbar-expand-lg mx-0">
-                <div className="offcanvas offcanvas-start" tabindex="-1" id="offcanvasSideNavbar">
-                  <div className="offcanvas-header">
-                    <button type="button" className="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                  </div>
-
-                  <div className="offcanvas-body d-block px-2 px-lg-0">
-                    <div className="card overflow-hidden">
-                    <div
-  className="h-50px "
-  style={{
-    backgroundImage: 'url(assets/images/bg/01.jpg)',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat'
-  }}
-></div>
-                      <div className="card-body pt-0">
-                        <div className="text-center">
-                          <div className="avatar avatar-lg mt-n5 mb-3">
-                            <a href="#!"><img className="avatar-img rounded border border-white border-3" src="assets/images/avatar/07.jpg" alt="" /></a>
-                          </div>
-                          <h5 className="mb-0"> <a href="#!">Sam Lanson </a> </h5>
-                          <small>Web Developer at Webestica</small>
-                          <p className="mt-3">Description for startup if exist</p>
-
-                          <div className="hstack gap-2 gap-xl-3 justify-content-center">
-                            <div>
-                              <h6 className="mb-0">256</h6>
-                              <small>Post</small>
-                            </div>
-
-
-                          </div>
-                        </div>
-
-                        <hr />
-
-                        <ul className="nav nav-link-secondary flex-column fw-bold gap-2">
-                          <li className="nav-item">
-                            <a className="nav-link" href="my-profile.html"> <img className="me-2 h-20px fa-fw" src="assets/images/icon/home-outline-filled.svg" alt="" /><span>Feed </span></a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="nav-link" href="my-profile-connections.html"> <img className="me-2 h-20px fa-fw" src="assets/images/icon/person-outline-filled.svg" alt="" /><span>Connections </span></a>
-                          </li>
-
-                          <li className="nav-item">
-                            <a className="nav-link" href="notifications.html"> <img className="me-2 h-20px fa-fw" src="assets/images/icon/notification-outlined-filled.svg" alt="" /><span>Notifications </span></a>
-                          </li>
-
-                        </ul>
-                      </div>
-
-                      <div className="card-footer text-center py-2">
-                        <a className="btn btn-link btn-sm" href="my-profile.html">View Profile </a>
-                      </div>
-                    </div>
-
-                    <p className="small text-center mt-1">©2024 <a className="text-reset" target="_blank" href="https://www.webestica.com/"> Webestica </a></p>
-                  </div>
-                </div>
-              </nav>
-            </div>
+            <SidebarLeft />
 
             <div className="col-md-8 col-lg-6 vstack gap-4">
 
@@ -821,47 +751,48 @@ export default function Publication() {
         </div>
       </div>
       <div className="modal fade" id="feedActionPhoto" tabindex="-1" aria-labelledby="feedActionPhotoLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="feedActionPhotoLabel">Add post photo</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div className="modal-body">
-              <div className="d-flex mb-3">
-
-                <div className="avatar avatar-xs me-2">
-                  <img className="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt="" />
-                </div>
-                <form className="w-100">
-                  <textarea className="form-control pe-4 fs-3 lh-1 border-0" rows="2" placeholder="Share your thoughts..."></textarea>
-                </form>
+      <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div className="modal-content">
+          {/* Modal feed header START */}
+          <div className="modal-header">
+            <h5 className="modal-title" id="modalLabelCreateFeed">Create post</h5>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+          </div>
+          {/* Modal feed header END */}
+          {/* Modal feed body START */}
+          <div className="modal-body">
+            {/* Add Feed */}
+            <div className="d-flex mb-3">
+              {/* Avatar */}
+              <div className="avatar avatar-xs me-2">
+                <img className="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt />
               </div>
-
-              <div>
-              <label className="form-label">Upload attachment</label>
-<div className="dropzone dropzone-default card shadow-none" data-dropzone='{"maxFiles":2}'>
-  <div className="dz-message">
-    <label htmlFor="fileInput">
-      <i className="bi bi-images display-3"></i>
-      <p>Drag here or click to upload photo.</p>
-    </label>
-    <input type="file" id="fileInput" style={{ display: 'none' }} />
-  </div>
-</div>
-
-              </div>
-
+              {/* Feed box  */}
+              <form className="w-100">
+                <textarea className="form-control pe-4 fs-3 lh-1 border-0" rows={4} placeholder="Share your thoughts..." autofocus defaultValue={""} />
+              </form>
             </div>
-
-            <div className="modal-footer ">
-              <button type="button" className="btn btn-danger-soft me-2" data-bs-dismiss="modal">Cancel</button>
+            {/* Feed rect START */}
+            <div className="hstack gap-2">
+              <a className="icon-md bg-success bg-opacity-10 text-success rounded-circle" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Photo"> <i className="bi bi-image-fill" /> </a>
+              <a className="icon-md bg-info bg-opacity-10 text-info rounded-circle" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Video"> <i className="bi bi-camera-reels-fill" /> </a>
+            </div>
+            {/* Feed rect END */}
+          </div>
+          {/* Modal feed body END */}
+          {/* Modal feed footer */}
+          <div className="modal-footer row justify-content-between">
+            {/* Button */}
+            <div className="col-lg-8 text-sm-end">
+              <button type="button" className="btn btn-danger-soft me-2"> <i className="bi bi-camera-video-fill pe-1" /> Live video</button>
               <button type="button" className="btn btn-success-soft">Post</button>
             </div>
           </div>
+          {/* Modal feed footer */}
         </div>
       </div>
+    </div>
+
       <div className="modal fade" id="feedActionVideo" tabindex="-1" aria-labelledby="feedActionVideoLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">

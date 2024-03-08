@@ -71,7 +71,7 @@ function Login() {
                       <input type="checkbox" className="form-check-input" id="rememberCheck" />
                       <label className="form-check-label" htmlFor="rememberCheck">Se souvenir de moi?</label>
                     </div>
-                    <a href="forgot-password.html">Mot de passe oublié?</a>
+                    <Link to="/forgot-password">Mot de passe oublié?</Link>
                   </div>
                   {/* Bouton */}
                   <div className="d-grid"><button type="submit" className="btn btn-lg btn-primary">Se connecter</button></div>

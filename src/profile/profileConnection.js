@@ -6,14 +6,11 @@
     <Header/>
     <br></br>
     <main>
-      {/* Container START */}
-      <div className="container">
+      <div className="container">   
+
         <div className="row g-4">
-          {/* Main content START */}
           <div className="col-lg-8 vstack gap-4">
-            {/* Card Connections START */}
             <div className="card">
-              {/* Card header START */}
               <div className="card-header border-0 pb-0">
                 <h5 className="card-title"> Person chercher</h5> 
               </div>

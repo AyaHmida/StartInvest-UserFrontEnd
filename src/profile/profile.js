@@ -44,8 +44,7 @@ const Profile = () => {
             <div className="card-footer mt-3 pt-2 pb-0">
               {/* Nav profile pages */}
               <ul className="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
-                <li className="nav-item"> <a className="nav-link active" href="my-profile.html"> Posts </a> </li>
-                <li className="nav-item"> <a className="nav-link" href="my-profile-connections.html"> Connections <span className="badge bg-success bg-opacity-10 text-success small"> 23</span> </a> </li>
+                <li className="nav-item"> <a className="nav-link active" > Posts </a> </li>
               </ul>
             </div>
           </div>
@@ -284,15 +283,11 @@ const Profile = () => {
                 {/* Card body END */}
               </div>
             </div>
-            {/* Card END */}
           </div>
         </div>
-        {/* Right sidebar END */}
-      </div> {/* Row END */}
+      </div> 
     </div>
-    {/* Container END */}
-    {/* **************** MAIN CONTENT END **************** */}
-    {/* Modal create Feed START */}
+
     <div className="modal fade" id="modalCreateFeed" tabIndex={-1} aria-labelledby="modalLabelCreateFeed" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
@@ -335,59 +330,10 @@ const Profile = () => {
         </div>
       </div>
     </div>
-    {/* Modal create feed END */}
-    {/* Modal create Feed photo START */}
-    <div className="modal fade" id="feedActionPhoto" tabIndex={-1} aria-labelledby="feedActionPhotoLabel" aria-hidden="true">
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          {/* Modal feed header START */}
-          <div className="modal-header">
-            <h5 className="modal-title" id="feedActionPhotoLabel">Add post photo</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-          </div>
-          {/* Modal feed header END */}
-          {/* Modal feed body START */}
-          <div className="modal-body">
-            {/* Add Feed */}
-            <div className="d-flex mb-3">
-              {/* Avatar */}
-              <div className="avatar avatar-xs me-2">
-                <img className="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt />
-              </div>
-              {/* Feed box  */}
-              <form className="w-100">
-                <textarea className="form-control pe-4 fs-3 lh-1 border-0" rows={2} placeholder="Share your thoughts..." defaultValue={""} />
-              </form>
-            </div>
-            {/* Dropzone photo START */}
-            <div>
-              <label className="form-label">Upload attachment</label>
-              <div className="dropzone dropzone-default card shadow-none" data-dropzone="{&quot;maxFiles&quot;:2}">
-                <div className="dz-message">
-                  <i className="bi bi-images display-3" />
-                  <p>Drag here or click to upload photo.</p>
-                </div>
-              </div>
-            </div>
-            {/* Dropzone photo END */}
-          </div>
-          {/* Modal feed body END */}
-          {/* Modal feed footer */}
-          <div className="modal-footer ">
-            {/* Button */}
-            <button type="button" className="btn btn-danger-soft me-2" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" className="btn btn-success-soft">Post</button>
-          </div>
-          {/* Modal feed footer */}
-        </div>
-      </div>
-    </div>
-    {/* Modal create Feed photo END */}
-    {/* Modal create Feed video START */}
+
     <div className="modal fade" id="feedActionVideo" tabIndex={-1} aria-labelledby="feedActionVideoLabel" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
-          {/* Modal feed header START */}
           <div className="modal-header">
             <h5 className="modal-title" id="feedActionVideoLabel">Add post video</h5>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
@@ -431,101 +377,7 @@ const Profile = () => {
     </div>
     {/* Modal create Feed video END */}
     {/* Modal create events START */}
-    <div className="modal fade" id="modalCreateEvents" tabIndex={-1} aria-labelledby="modalLabelCreateAlbum" aria-hidden="true">
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          {/* Modal feed header START */}
-          <div className="modal-header">
-            <h5 className="modal-title" id="modalLabelCreateAlbum">Create event</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-          </div>
-          {/* Modal feed header END */}
-          {/* Modal feed body START */}
-          <div className="modal-body">
-            {/* Form START */}
-            <form className="row g-4">
-              {/* Title */}
-              <div className="col-12">
-                <label className="form-label">Title</label>
-                <input type="email" className="form-control" placeholder="Event name here" />
-              </div>
-              {/* Description */}
-              <div className="col-12">
-                <label className="form-label">Description</label>
-                <textarea className="form-control" rows={2} placeholder="Ex: topics, schedule, etc." defaultValue={""} />
-              </div>
-              {/* Date */}
-              <div className="col-sm-4">
-                <label className="form-label">Date</label>
-                <input type="text" className="form-control flatpickr" placeholder="Select date" />
-              </div>
-              {/* Time */}
-              <div className="col-sm-4">
-                <label className="form-label">Time</label>
-                <input type="text" className="form-control flatpickr" data-enabletime="true" data-nocalendar="true" placeholder="Select time" />
-              </div>
-              {/* Duration */}
-              <div className="col-sm-4">
-                <label className="form-label">Duration</label>
-                <input type="email" className="form-control" placeholder="1hr 23m" />
-              </div>
-              {/* Location */}
-              <div className="col-12">
-                <label className="form-label">Location</label>
-                <input type="email" className="form-control" placeholder="Logansport, IN 46947" />
-              </div>
-              {/* Add guests */}
-              <div className="col-12">
-                <label className="form-label">Add guests</label>
-                <input type="email" className="form-control" placeholder="Guest email" />
-              </div>
-              {/* Avatar group START */}
-              <div className="col-12 mt-3">
-                <ul className="avatar-group list-unstyled align-items-center mb-0">
-                  <li className="avatar avatar-xs">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar" />
-                  </li>
-                  <li className="avatar avatar-xs">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="avatar" />
-                  </li>
-                  <li className="avatar avatar-xs">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt="avatar" />
-                  </li>
-                  <li className="avatar avatar-xs">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/04.jpg" alt="avatar" />
-                  </li>
-                  <li className="avatar avatar-xs">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/05.jpg" alt="avatar" />
-                  </li>
-                  <li className="avatar avatar-xs">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/06.jpg" alt="avatar" />
-                  </li>
-                  <li className="avatar avatar-xs">
-                    <img className="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar" />
-                  </li>
-                  <li className="ms-3">
-                    <small> +50 </small>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <label className="form-label">Upload attachment</label>
-                <div className="dropzone dropzone-default card shadow-none" data-dropzone="{&quot;maxFiles&quot;:2}">
-                  <div className="dz-message">
-                    <i className="bi bi-file-earmark-text display-3" />
-                    <p>Drop presentation and document here or click to upload.</p>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-danger-soft me-2" data-bs-dismiss="modal"> Cancel</button>
-            <button type="button" className="btn btn-success-soft">Create now</button>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
  );
 };

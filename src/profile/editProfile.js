@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import Header from '../components/header';
+import { SidebarLeft } from '../components';
 const allSectors = ['Technologie', 'Finance', 'Santé', 'Éducation', 'Art', 'Agriculture', 'E-commerce', 'Énergie', 'Automobile', 'Tourisme'];
 
 export default function PageDeMiseAJourProfil() {
@@ -44,82 +45,9 @@ export default function PageDeMiseAJourProfil() {
         <div className="container">
           <br/><br/>
           <div className="row g-4">
-            {/* Barre latérale START */}
-            <div className="col-lg-3">
-              {/* Bouton pour afficher le filtre avancé sur les petits écrans START */}
-              <div className="d-flex align-items-center d-lg-none">
-                <button className="border-0 bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSideNavbar" aria-controls="offcanvasSideNavbar">
-                  <span className="btn btn-primary"><i className="fa-solid fa-sliders-h" /></span>
-                  <span className="h6 mb-0 fw-bold d-lg-none ms-2">Mon profil</span>
-                </button>
-              </div>
-              {/* Bouton pour afficher le filtre avancé sur les petits écrans END */}
-              {/* Barre de navigation START*/}
-              <nav className="navbar navbar-expand-lg mx-0"> 
-                <div className="offcanvas offcanvas-start" tabIndex={-1} id="offcanvasSideNavbar">
-                  {/* En-tête du volet latéral */}
-                  <div className="offcanvas-header">
-                    <button type="button" className="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close" />
-                  </div>
-                  {/* Corps du volet latéral */}
-                  <div className="offcanvas-body d-block px-2 px-lg-0">
-                    {/* Carte START */}
-                    <div className="card overflow-hidden">
-                      {/* Image de couverture */}
-                      <div className="h-50px" style={{backgroundImage: 'url(assets/images/bg/01.jpg)', backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} />
-                      {/* Corps de la carte START */}
-                      <div className="card-body pt-0">
-                        <div className="text-center">
-                          {/* Avatar */}
-                          <div className="avatar avatar-lg mt-n5 mb-3">
-                            <a href="#!"><img className="avatar-img rounded border border-white border-3" src="assets/images/avatar/07.jpg" alt /></a>
-                          </div>
-                          {/* Informations */}
-                          <h5 className="mb-0"> <a href="#!">Sam Lanson </a> </h5>
-                          <small>Développeur Web chez Webestica</small>
-                          <p className="mt-3">Description de la startup s'il y en a une</p>
-                          {/* Statistiques de l'utilisateur START */}
-                          <div className="hstack gap-2 gap-xl-3 justify-content-center">
-                            {/* Élément de statistiques de l'utilisateur */}
-                            <div>
-                              <h6 className="mb-0">256</h6>
-                              <small>Publications</small>
-                            </div>
-                          </div>
-                          {/* Statistiques de l'utilisateur END */}
-                        </div>
-                        {/* Séparateur */}
-                        <hr />
-                        {/* Barre latérale START */}
-                        <ul className="nav nav-link-secondary flex-column fw-bold gap-2">
-                          <li className="nav-item">
-                            <a className="nav-link" href="my-profile.html"> <img className="me-2 h-20px fa-fw" src="assets/images/icon/home-outline-filled.svg" alt /><span>Fil d'actualité </span></a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="nav-link" href="my-profile-connections.html"> <img className="me-2 h-20px fa-fw" src="assets/images/icon/person-outline-filled.svg" alt /><span>Connexions </span></a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="nav-link" href="notifications.html"> <img className="me-2 h-20px fa-fw" src="assets/images/icon/notification-outlined-filled.svg" alt /><span>Notifications </span></a>
-                          </li>
-                        </ul>
-                        {/* Barre latérale END */}
-                      </div>
-                      {/* Corps de la carte END */}
-                      {/* Pied de carte */}
-                      <div className="card-footer text-center py-2">
-                        <a className="btn btn-link btn-sm" href="my-profile.html">Voir le profil </a>
-                      </div>
-                    </div>
-                    <p className="small text-center mt-1">©2024 <a className="text-reset" target="_blank" href="https://www.webestica.com/"> Webestica </a></p>
-                  </div>
-                </div>
-              </nav>
-              {/* Barre de navigation END*/}
-            </div>
-            {/* Barre latérale END */}
-            {/* Contenu principal START */}
+            <SidebarLeft/>
+           
             <div className="col-md-8 col-lg-6 vstack gap-4">
-              {/* Mise à jour du profil START */}
               <div className="card">
                 {/* Titre START */}
                 <div className="card-header border-0 pb-0">
