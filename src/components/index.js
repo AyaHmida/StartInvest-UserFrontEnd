@@ -10,6 +10,7 @@ export {default as Register} from '../auth/register'
 export {default as Login} from '../auth/login'
 export {default as Forgetpassword} from '../auth/forgetpassword'
 export {default as Resetpassword} from '../auth/resetpassword'
+export {default as SidebarLeft} from '../components/sidebarLeft'
 
 
 
