@@ -1,8 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {PageHome,Publication,Profile,Notifications, Messaging, PostDetails, EditProfile , ProfileConnection,Register, Login, Forgetpassword , Resetpassword} from './components/index'
+import { UserProvider } from './context/UserContext';
 function App() {
     return (
+        <UserProvider>
+
         <Router>
             <Routes>
                 <Route path="/" element={<PageHome />} />
@@ -21,6 +24,8 @@ function App() {
  
             </Routes>
         </Router>
+        </UserProvider>
+
     );
 }
 

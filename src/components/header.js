@@ -1,23 +1,22 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link ,useNavigate} from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 function Header() {
   const navigate=useNavigate();
-  const Logout=(e)=>{
-  //   e.preventDefault();
-  //   const token = localStorage.getItem('token');
-  //   axios.post("http://127.0.0.1:8000/api/logout", null, {
-  //       headers: {
-  //           'Authorization': `Bearer ${token}` 
-  //       }
-  //   })
-  //   .then(() => {
-  //     localStorage.removeItem('token');
-  //     delete axios.defaults.headers.common['Authorization'];
-  //     navigate('/login');
-  //  })
-  //   .catch((err)=>{console.log(err)})
+  const { user, logout } = useContext(UserContext);
+
+
+  const handleLogout=async (e)=>{
+    try {
+      e.preventDefault();
+      await logout();
+      navigate('/');
+    }  catch (error) {
+      console.error("Erreur de déconnexion :", error);
+    }
+
 
   }
   return (
@@ -125,14 +124,19 @@ function Header() {
                   <img className="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar" />
                 </div>
                 <div>
-                  <Link className="h6 stretched-link" to="/profile">Lori Ferguson</Link>
-
-                  <p className="small m-0">type</p>
+                {user ? (
+        <div>
+          <Link className="h6 stretched-link" to="/profile">{user.name}</Link>
+          <p className="small m-0">{user.email}</p>
+        </div>
+      ) : (
+        <p>Connectez-vous pour voir les informations de l'utilisateur</p>
+      )}
                 </div>
               </div>
             </li>
             <li className="dropdown-divider" />
-            <li><Link className="dropdown-item bg-danger-soft-hover" onClick={Logout}><i className="bi bi-power fa-fw me-2" />Sign Out</Link></li>
+            <li><Link className="dropdown-item bg-danger-soft-hover" onClick={handleLogout}><i className="bi bi-power fa-fw me-2" />Sign Out</Link></li>
            
           </ul>
         </li>
