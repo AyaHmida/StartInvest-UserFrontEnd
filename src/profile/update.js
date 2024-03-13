@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
 import Header from "../components/header";
 import { SidebarLeft } from "../components";
-
 const allSectors = [
   "Technologie",
   "Finance",
@@ -17,140 +14,41 @@ const allSectors = [
   "Tourisme",
 ];
 
-const PageDeMiseAJourProfil = (props) => {
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    numero: "",
-    type: "",
-    startupName: "",
-    startupSector: "",
-    startupDescription: "",
-    sectorsOfInterest: [],
-    facebookLink: "",
-  });
-  const [type, setTypePerson] = useState("");
-  const [sectors, setSectors] = useState([]);
-  const [startupSector, setstartupSector] = useState("");
-  const [csrfToken, setCsrfToken] = useState("");
-  const sectorsOfInterest = allSectors;
+export default function UpdateProfile() {
+  const [typePerson, setTypePerson] = useState("");
+  const [sectorsOfInterest, setSectorsOfInterest] = useState([]);
   const [currentSector, setCurrentSector] = useState("");
   const [suggestedSectors, setSuggestedSectors] = useState([]);
-  const location = useLocation();
-
-  useEffect(() => {
-    const fetchCsrfToken = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/csrf-token");
-        const csrfToken = response.data.csrf_token;
-        setCsrfToken(csrfToken);
-        axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
-      } catch (error) {
-        console.error("Erreur lors de la récupération du jeton CSRF:", error);
-      }
-    };
-
-    fetchCsrfToken();
-  }, []);
-
-  useEffect(() => {
-    const fetchSectors = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/secteurs");
-        setSectors(response.data.secteurs);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des secteurs:", error);
-      }
-    };
-
-    fetchSectors();
-  }, []);
-  const fetchUserData = async (userId) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/showProfile/${userId}`
-      );
-      setUserData(response.data.users);
-    } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des données utilisateur:",
-        error
-      );
-    }
-  };
-  useEffect(() => {
-    const userId = new URLSearchParams(location.search).get("userId");
-    if (userId) {
-      fetchUserData(userId);
-    }
-  }, [location.search]);
 
   const handleSectorChange = () => {
-    if (currentSector && !userData.sectorsOfInterest.includes(currentSector)) {
-      setUserData({
-        ...userData,
-        sectorsOfInterest: [...userData.sectorsOfInterest, currentSector],
-      });
+    if (currentSector && !sectorsOfInterest.includes(currentSector)) {
+      setSectorsOfInterest([...sectorsOfInterest, currentSector]);
       setCurrentSector("");
     }
-    setSuggestedSectors([]);
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const userId = new URLSearchParams(location.search).get("userId");
-      if (!userId) {
-        console.error("ID utilisateur non trouvé");
-        return;
-      }
-
-      const token = localStorage.getItem("token");
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        "X-CSRF-TOKEN": csrfToken,
-      };
-
-      await axios.put(`http://localhost:8000/profile/${userId}`, userData, {
-        headers,
-      });
-      alert("Profil mis à jour avec succès !");
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour du profil:", error);
-    }
+    setSuggestedSectors([]); // Clear suggestions when a sector is added
   };
 
   const handleSectorDelete = (sectorToDelete) => {
-    setUserData({
-      ...userData,
-      sectorsOfInterest: userData.sectorsOfInterest.filter(
-        (sector) => sector !== sectorToDelete
-      ),
-    });
+    setSectorsOfInterest(
+      sectorsOfInterest.filter((sector) => sector !== sectorToDelete)
+    );
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-    if (name === "type") {
-      setTypePerson(value);
-    }
-    if (name === "startupSector") {
-      setTypePerson(value);
-    }
+    const input = e.target.value;
+    setCurrentSector(input);
 
-    if (name === "currentSector") {
-      const filteredSectors = allSectors.filter((sector) =>
-        sector.toLowerCase().includes(value.toLowerCase())
-      );
-      setSuggestedSectors(filteredSectors);
-    }
+    // Filter suggested sectors based on the input
+    const filteredSectors = allSectors.filter((sector) =>
+      sector.toLowerCase().includes(input.toLowerCase())
+    );
+
+    setSuggestedSectors(filteredSectors);
   };
 
   const handleSuggestionClick = (suggestedSector) => {
     setCurrentSector(suggestedSector);
-    setSuggestedSectors([]);
+    setSuggestedSectors([]); // Clear suggestions when a suggestion is clicked
   };
   return (
     <div>
@@ -174,16 +72,16 @@ const PageDeMiseAJourProfil = (props) => {
                 {/* Titre END */}
                 {/* Formulaire de mise à jour du profil START */}
                 <div className="card-body">
-                  <form className="row g-3" onSubmit={handleFormSubmit}>
+                  <form className="row g-3">
                     {/* Informations sur la page */}
                     <div className="col-sm-6 col-lg-4">
                       <label className="form-label">Nom</label>
                       <input
                         type="text"
                         className="form-control"
+                        placeholder="Nom "
+                        defaultValue
                         name="name"
-                        value={userData.name}
-                        onChange={handleInputChange}
                       />
                     </div>
                     {/* Nom d'affichage */}
@@ -193,10 +91,9 @@ const PageDeMiseAJourProfil = (props) => {
                       <input
                         type="email"
                         className="form-control"
+                        placeholder="Email "
                         defaultValue
                         name="email"
-                        value={userData.email}
-                        onChange={handleInputChange}
                       />
                     </div>
                     {/* Catégorie */}
@@ -205,9 +102,8 @@ const PageDeMiseAJourProfil = (props) => {
                       <select
                         className="form-select js-choice"
                         data-search-enabled="true"
-                        onChange={handleInputChange}
-                        value={type}
-                        name="type"
+                        onChange={(e) => setTypePerson(e.target.value)}
+                        value={typePerson}
                         required
                       >
                         <option value="">Sélectionnez le type</option>
@@ -224,13 +120,10 @@ const PageDeMiseAJourProfil = (props) => {
                       <input
                         type="text"
                         className="form-control"
-                        name="numero"
-                        value={userData.numero}
-                        onChange={handleInputChange}
                         placeholder="Numéro de téléphone "
                       />
                     </div>
-                    {type === "fondateur" && (
+                    {typePerson === "fondateur" && (
                       <>
                         <div className="col-12">
                           <label className="form-label">
@@ -240,25 +133,23 @@ const PageDeMiseAJourProfil = (props) => {
                             type="text"
                             className="form-control"
                             placeholder="Nom "
-                            value={userData.nom}
-                            onChange={handleInputChange}
+                            defaultValue
                             name="startupName"
                           />
+                          <small className="text-muted">
+                            Nom de la startup.
+                          </small>
                         </div>
-                        <select
-                          className="form-select js-choice"
-                          data-search-enabled="true"
-                          value={userData.startupSector}
-                          name="startupSector"
-                        >
-                          <option value="">Sélectionnez un secteur</option>
-                          {sectors.map((sector, index) => (
-                            <option key={index} value={sector.nom}>
-                              {sector.nom}
-                            </option>
-                          ))}
-                        </select>
-
+                        <div className="col-sm-6 col-lg-4">
+                          <label className="form-label">Secteur</label>
+                          <select
+                            className="form-select js-choice"
+                            data-search-enabled="true"
+                          >
+                            <option value="technologie">Technologie</option>
+                            <option value="mathématiques">Mathématiques</option>
+                          </select>
+                        </div>
                         <div className="col-12">
                           <label className="form-label">
                             Description de la startup
@@ -267,9 +158,6 @@ const PageDeMiseAJourProfil = (props) => {
                             className="form-control"
                             rows={3}
                             placeholder="Description "
-                            name="description"
-                            value={userData.startupDescription}
-                            onChange={handleInputChange}
                             defaultValue={""}
                           />
                           <small className="text-muted">
@@ -296,7 +184,7 @@ const PageDeMiseAJourProfil = (props) => {
                         </div>
                       </>
                     )}
-                    {type === "investisseur" && (
+                    {typePerson === "investisseur" && (
                       <div className="col-sm-6 col-lg-8">
                         <label className="form-label">Secteurs d'intérêt</label>
                         <div className="input-group mb-3">
@@ -387,10 +275,8 @@ const PageDeMiseAJourProfil = (props) => {
           </div>{" "}
           {/* Row END */}
         </div>
-
         {/* Container END */}
       </main>
     </div>
   );
-};
-export default PageDeMiseAJourProfil;
+}
