@@ -1,51 +1,33 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { callApi } from "../api";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [numero, setNumero] = useState("");
-  const [type, setType] = useState("");
-  const [message, setMessage] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const navigate = useNavigate();
 
-  const uploadPublication = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("numero", numero);
-      formData.append("type", type);
+      formData.append("password_confirmation", confirmPassword);
 
-      console.log("Name:", name);
-      console.log("Email:", email);
-      console.log("Password:", password);
-      console.log("Type:", type);
-      console.log("Numero:", numero);
+      const { data } = await callApi("auth/register", "POST", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/register",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-
-      setMessage(response.data.message);
-      setTimeout(() => {
-        navigate("/editProfile");
-      }, 2000);
+      navigate("/login");
     } catch (error) {
-      console.error("Error uploading publication:", error);
+      console.error("Error registering user:", error);
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await uploadPublication();
   };
 
   const handleGoogle = (e) => {
@@ -89,7 +71,7 @@ function Register() {
                     </small>
                   </div>
                   <div className="mb-3">
-                    <select
+                    {/* <select
                       className="form-select form-select-lg"
                       onChange={(e) => setType(e.target.value)}
                       id="signupModalFormSignupType"
@@ -99,7 +81,7 @@ function Register() {
                       <option value="">Sélectionnez un type</option>
                       <option value="investisseur">Investisseur</option>
                       <option value="fondateur">Fondateur</option>
-                    </select>
+                    </select> */}
                     <span className="invalid-feedback">
                       Veuillez sélectionner un type.
                     </span>
@@ -119,7 +101,7 @@ function Register() {
                       soit.
                     </small>
                   </div>
-                  <div className="mb-3 input-group-lg">
+                  {/* <div className="mb-3 input-group-lg">
                     <input
                       type="number"
                       className="form-control"
@@ -132,7 +114,7 @@ function Register() {
                       Nous ne partagerons jamais votre numéro de téléphone avec
                       qui que ce soit.
                     </small>
-                  </div>
+                  </div> */}
                   {/* New password */}
                   <div className="mb-3 position-relative">
                     <div className="input-group input-group-lg">
@@ -172,6 +154,8 @@ function Register() {
                       className="form-control"
                       type="password"
                       placeholder="Confirmez votre mot de passe"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                   </div>
                   {/* Keep me signed in */}
