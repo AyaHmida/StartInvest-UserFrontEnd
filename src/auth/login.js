@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { callApi } from "../api";
 
 function Login() {
   const { search } = useLocation();
@@ -23,10 +24,9 @@ function Login() {
     e.preventDefault();
     setError("");
     console.log(email, password);
-    axios
-      .post("http://127.0.0.1:8000/api/login", { email, password })
-      .then((res) => {
-        console.log(res.data);
+    callApi("auth/login", "POST", { email, password })
+      .then((data) => {
+        localStorage.setItem("token", data.access_token);
         navigate("/publication");
       })
       .catch((err) => {

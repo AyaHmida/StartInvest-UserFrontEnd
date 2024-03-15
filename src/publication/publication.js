@@ -1,16 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import Header from "../components/header";
 import { SidebarLeft } from "../components";
-import { UserContext } from "../context/UserContext";
+import AuthUser from "../auth/AuthUser";
+import { callApi } from "../api";
 
 export default function Publication() {
   const [publications, setPublications] = useState([]);
   const [description, setDescription] = useState("");
   const [file, setFile] = useState("");
-  // const {user}=useContext(UserContext);
-  const [user, setUser] = useState("");
+  const { http, user } = AuthUser();
+  const [userdetail, setUserdetail] = useState();
+  const getUser = () => {
+    callApi("auth/user").then((data) => {
+      setUserdetail(data);
+    });
+  };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -45,29 +51,8 @@ export default function Publication() {
       console.error("Erreur:", error);
     }
   };
-  const getUser = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/api/getUser");
-      console.log(response);
-      console.log(response.data);
-      setUser(response.data);
-    } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des données utilisateur :",
-        error
-      );
-    }
-  };
-  useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/publications")
-      .then((response) => {
-        setPublications(response.data.publications);
-      })
-      .catch((error) => {
-        console.error("Error fetching publications:", error);
-      });
 
+  useEffect(() => {
     getUser();
   }, []);
   const formatDate = (dateString) => {
@@ -94,7 +79,146 @@ export default function Publication() {
       <main>
         <div className="container">
           <div className="row g-4">
-            <SidebarLeft />
+            <div className="col-lg-3">
+              <div className="d-flex align-items-center d-lg-none">
+                <button
+                  className="border-0 bg-transparent"
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasSideNavbar"
+                  aria-controls="offcanvasSideNavbar"
+                >
+                  <span className="btn btn-primary">
+                    <i className="fa-solid fa-sliders-h"></i>
+                  </span>
+                  <span className="h6 mb-0 fw-bold d-lg-none ms-2">
+                    My profile
+                  </span>
+                </button>
+              </div>
+
+              <nav className="navbar navbar-expand-lg mx-0">
+                <div
+                  className="offcanvas offcanvas-start"
+                  tabindex="-1"
+                  id="offcanvasSideNavbar"
+                >
+                  <div className="offcanvas-header">
+                    <button
+                      type="button"
+                      className="btn-close text-reset ms-auto"
+                      data-bs-dismiss="offcanvas"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+
+                  <div className="offcanvas-body d-block px-2 px-lg-0">
+                    <div className="card overflow-hidden">
+                      <div
+                        className="h-50px "
+                        style={{
+                          backgroundImage: "url(assets/images/bg/01.jpg)",
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      ></div>
+                      <div className="card-body pt-0">
+                        <div className="text-center">
+                          <div className="avatar avatar-lg mt-n5 mb-3">
+                            <a href="#!">
+                              <img
+                                className="avatar-img rounded border border-white border-3"
+                                src="assets/images/avatar/07.jpg"
+                                alt=""
+                              />
+                            </a>
+                          </div>
+                          <h5 className="mb-0">
+                            {" "}
+                            <a href="#!">Sam Lanson </a>{" "}
+                          </h5>
+                          <small>Web Developer at Webestica</small>
+                          <p className="mt-3">
+                            Description for startup if exist
+                          </p>
+
+                          <div className="hstack gap-2 gap-xl-3 justify-content-center">
+                            <div>
+                              <h6 className="mb-0">256</h6>
+                              <small>Post</small>
+                            </div>
+                          </div>
+                        </div>
+
+                        <hr />
+
+                        <ul className="nav nav-link-secondary flex-column fw-bold gap-2">
+                          <li className="nav-item">
+                            <a className="nav-link" href="my-profile.html">
+                              {" "}
+                              <img
+                                className="me-2 h-20px fa-fw"
+                                src="assets/images/icon/home-outline-filled.svg"
+                                alt=""
+                              />
+                              <span>Feed </span>
+                            </a>
+                          </li>
+                          <li className="nav-item">
+                            <a
+                              className="nav-link"
+                              href="my-profile-connections.html"
+                            >
+                              {" "}
+                              <img
+                                className="me-2 h-20px fa-fw"
+                                src="assets/images/icon/person-outline-filled.svg"
+                                alt=""
+                              />
+                              <span>Connections </span>
+                            </a>
+                          </li>
+
+                          <li className="nav-item">
+                            <a className="nav-link" href="notifications.html">
+                              {" "}
+                              <img
+                                className="me-2 h-20px fa-fw"
+                                src="assets/images/icon/notification-outlined-filled.svg"
+                                alt=""
+                              />
+                              <span>Notifications </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="card-footer text-center py-2">
+                        <a
+                          className="btn btn-link btn-sm"
+                          href="my-profile.html"
+                        >
+                          View Profile{" "}
+                        </a>
+                      </div>
+                    </div>
+
+                    <p className="small text-center mt-1">
+                      ©2024{" "}
+                      <a
+                        className="text-reset"
+                        target="_blank"
+                        href="https://www.webestica.com/"
+                      >
+                        {" "}
+                        Webestica{" "}
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </nav>
+            </div>
 
             <div className="col-md-8 col-lg-6 vstack gap-4">
               <div className="card card-body">
@@ -114,7 +238,7 @@ export default function Publication() {
                       className="form-control pe-4 border-0"
                       rows="2"
                       data-autoresize
-                      placeholder="Partage tes pensées..."
+                      placeholder="Share your thoughts..."
                       data-bs-toggle="modal"
                       data-bs-target="#feedActionPhoto"
                     ></textarea>
@@ -133,11 +257,23 @@ export default function Publication() {
                       Photo
                     </a>
                   </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link bg-light py-1 px-2 mb-0"
+                      href="#!"
+                      data-bs-toggle="modal"
+                      data-bs-target="#feedActionVideo"
+                    >
+                      {" "}
+                      <i className="bi bi-camera-reels-fill text-info pe-2"></i>
+                      Video
+                    </a>
+                  </li>
                 </ul>
               </div>
 
-              {publications.map((item, index) => (
-                <div className="card" key={index}>
+              {publications.map((publication) => (
+                <div className="card" key={publication.id}>
                   <div className="card-header border-0 pb-0">
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="d-flex align-items-center">
@@ -146,7 +282,7 @@ export default function Publication() {
                             {" "}
                             <img
                               className="avatar-img rounded-circle"
-                              src={item.user.image}
+                              src="assets/images/avatar/04.jpg"
                               alt=""
                             />{" "}
                           </a>
@@ -154,66 +290,72 @@ export default function Publication() {
                         <div>
                           <h6 className="card-title mb-0">
                             {" "}
-                            <a href="#!"> {item.user.name} </a>
+                            <a href="#"> Judy Nguyen </a>
                           </h6>
-                          <p className="mb-0 small">
-                            {formatDate(item.created_at)}
-                          </p>
-                        </div>
-                      </div>
-                      <a
-                        href="#"
-                        className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
-                        id="cardShareAction5"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <i className="bi bi-three-dots"></i>
-                      </a>
-                      <ul
-                        className="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="cardShareAction5"
-                      >
-                        <li>
-                          <a
-                            className="dropdown-item"
-                            href="#"
-                            onClick={() => excludePublication(index)}
-                          >
-                            {" "}
-                            <i className="bi bi-slash-circle fa-fw pe-2"></i>
-                            Efface post
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="card-body pb-0">
-                    <p>{item.description}</p>
-                    {item.file ? (
-                      <div className="d-flex justify-content-between">
-                        <div className="row g-3">
-                          <div className="col-6">
-                            <a
-                              className="h-100"
-                              href={`http://127.0.0.1:8000/uploads/${item.file}`}
-                              data-glightbox
-                              data-gallery="image-popup"
+                          <div className="nav nav-divider">
+                            <p className="nav-item mb-0 small">
+                              Web Developer at Webestica
+                            </p>
+                            <span
+                              className="nav-item small"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="Public"
                             >
-                              <img
-                                className="rounded img-fluid"
-                                src={`http://127.0.0.1:8000/uploads/${item.file}`}
-                                alt="image"
-                              />
-                            </a>
+                              {" "}
+                              <i className="bi bi-globe"></i>{" "}
+                            </span>
                           </div>
                         </div>
                       </div>
-                    ) : (
-                      <div></div>
-                    )}
+                      <div className="dropdown">
+                        <a
+                          href="#"
+                          className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
+                          id="cardShareAction3"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="bi bi-three-dots"></i>
+                        </a>
+                        <ul
+                          className="dropdown-menu dropdown-menu-end"
+                          aria-labelledby="cardShareAction3"
+                        >
+                          <li>
+                            <a className="dropdown-item" href="#" onClick="">
+                              {" "}
+                              <i className="bi bi-slash-circle fa-fw pe-2"></i>
+                              Efface post
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
 
-                    <ul className="nav nav-stack pb-2 small">
+                  <div className="card-body">
+                    <p> {publication.description} </p>
+                    <div className="d-flex justify-content-between">
+                      <div className="row g-3">
+                        <div className="col-6">
+                          <a
+                            className="h-100"
+                            href=""
+                            data-glightbox
+                            data-gallery="image-popup"
+                          >
+                            <img
+                              className="rounded img-fluid"
+                              src=""
+                              alt="image"
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <ul className="nav nav-stack py-3 small">
                       <li className="nav-item">
                         <a className="nav-link active text-secondary" href="#!">
                           {" "}
@@ -221,65 +363,208 @@ export default function Publication() {
                           Louis, Billy and 126 others{" "}
                         </a>
                       </li>
-                    </ul>
-                  </div>
-                  <div className="card-footer py-3">
-                    <ul className="nav nav-fill nav-stack small">
-                      <li className="nav-item">
-                        <a className="nav-link mb-0 active" href="#!">
+                      <li className="nav-item ms-sm-auto">
+                        <a className="nav-link" href="#!">
                           {" "}
-                          <i className="bi bi-heart pe-1"></i>Liked (56)
+                          <i className="bi bi-chat-fill pe-1"></i>Comments (12)
                         </a>
                       </li>
-                      <li className="nav-item dropdown">
-                        <ul
-                          className="dropdown-menu dropdown-menu-end"
-                          aria-labelledby="cardShareAction6"
-                        >
-                          <li>
-                            <a className="dropdown-item" href="#">
+                    </ul>
+
+                    <ul className="nav nav-pills nav-pills-light nav-fill nav-stack small border-top border-bottom py-1 mb-3">
+                      <li className="nav-item">
+                        <a className="nav-link active" href="#!">
+                          {" "}
+                          <i className="bi bi-hand-thumbs-up-fill pe-1"></i>
+                          Liked (56)
+                        </a>
+                      </li>
+                    </ul>
+
+                    <ul className="comment-wrap list-unstyled">
+                      <li className="comment-item">
+                        <div className="d-flex">
+                          <div className="avatar avatar-xs">
+                            <a href="#">
                               {" "}
-                              <i className="bi bi-envelope fa-fw pe-2"></i>Send
-                              via Direct Message
+                              <img
+                                className="avatar-img rounded-circle"
+                                src="assets/images/avatar/05.jpg"
+                                alt=""
+                              />{" "}
                             </a>
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              {" "}
-                              <i className="bi bi-bookmark-check fa-fw pe-2"></i>
-                              Bookmark{" "}
-                            </a>
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              {" "}
-                              <i className="bi bi-link fa-fw pe-2"></i>Copy link
-                              to post
-                            </a>
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              {" "}
-                              <i className="bi bi-share fa-fw pe-2"></i>Share
-                              post via …
-                            </a>
-                          </li>
-                          <li>
-                            <hr className="dropdown-divider" />
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              {" "}
-                              <i className="bi bi-pencil-square fa-fw pe-2"></i>
-                              Share to News Feed
-                            </a>
-                          </li>
-                        </ul>
+                          </div>
+                          <div className="ms-2">
+                            <div className="bg-light rounded-start-top-0 p-3 rounded">
+                              <div className="d-flex justify-content-between">
+                                <h6 className="mb-1">
+                                  {" "}
+                                  <a href="#!"> Frances Guerrero </a>
+                                </h6>
+                                <small className="ms-2">5hr</small>
+                              </div>
+                              <p className="small mb-0">
+                                Remod tedious ed projection.
+                              </p>
+                            </div>
+                            <ul className="nav nav-divider py-2 small">
+                              <li className="nav-item">
+                                <a className="nav-link" href="#!">
+                                  {" "}
+                                  Like (3)
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="card-footer border-0 pt-0">
+                    <a
+                      href="#!"
+                      role="button"
+                      className="btn btn-link btn-link-loader btn-sm text-secondary d-flex align-items-center"
+                      data-bs-toggle="button"
+                      aria-pressed="true"
+                    >
+                      <div className="spinner-dots me-2">
+                        <span className="spinner-dot"></span>
+                        <span className="spinner-dot"></span>
+                        <span className="spinner-dot"></span>
+                      </div>
+                      Load more comments
+                    </a>
+                  </div>
+                </div>
+              ))}
+
+              <div className="card">
+                <div className="card-header border-0 pb-0">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center">
+                      <div className="avatar me-2">
+                        <a href="#">
+                          {" "}
+                          <img
+                            className="avatar-img rounded-circle"
+                            src="assets/images/logo/13.svg"
+                            alt=""
+                          />{" "}
+                        </a>
+                      </div>
+                      <div>
+                        <h6 className="card-title mb-0">
+                          {" "}
+                          <a href="#!"> Apple Education </a>
+                        </h6>
+                        <p className="mb-0 small">9 November at 23:29</p>
+                      </div>
+                    </div>
+                    <a
+                      href="#"
+                      className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
+                      id="cardShareAction5"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i className="bi bi-three-dots"></i>
+                    </a>
+                    <ul
+                      className="dropdown-menu dropdown-menu-end"
+                      aria-labelledby="cardShareAction5"
+                    >
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          {" "}
+                          <i className="bi bi-slash-circle fa-fw pe-2"></i>
+                          Efface post
+                        </a>
                       </li>
                     </ul>
                   </div>
                 </div>
-              ))}
+
+                <div className="card-body pb-0">
+                  <p>
+                    Find out how you can save time in the classroom this year.
+                    Earn recognition while you learn new skills on iPad and Mac.
+                    Start recognition your first Apple Teacher badge today!
+                  </p>
+                  <ul className="nav nav-stack pb-2 small">
+                    <li className="nav-item">
+                      <a className="nav-link active text-secondary" href="#!">
+                        {" "}
+                        <i className="bi bi-heart-fill me-1 icon-xs bg-danger text-white rounded-circle"></i>{" "}
+                        Louis, Billy and 126 others{" "}
+                      </a>
+                    </li>
+                    <li className="nav-item ms-sm-auto">
+                      <a className="nav-link" href="#!">
+                        {" "}
+                        <i className="bi bi-chat-fill pe-1"></i>Comments (12)
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="card-footer py-3">
+                  <ul className="nav nav-fill nav-stack small">
+                    <li className="nav-item">
+                      <a className="nav-link mb-0 active" href="#!">
+                        {" "}
+                        <i className="bi bi-heart pe-1"></i>Liked (56)
+                      </a>
+                    </li>
+                    <li className="nav-item dropdown">
+                      <ul
+                        className="dropdown-menu dropdown-menu-end"
+                        aria-labelledby="cardShareAction6"
+                      >
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            {" "}
+                            <i className="bi bi-envelope fa-fw pe-2"></i>Send
+                            via Direct Message
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            {" "}
+                            <i className="bi bi-bookmark-check fa-fw pe-2"></i>
+                            Bookmark{" "}
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            {" "}
+                            <i className="bi bi-link fa-fw pe-2"></i>Copy link
+                            to post
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            {" "}
+                            <i className="bi bi-share fa-fw pe-2"></i>Share post
+                            via …
+                          </a>
+                        </li>
+                        <li>
+                          <hr className="dropdown-divider" />
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            {" "}
+                            <i className="bi bi-pencil-square fa-fw pe-2"></i>
+                            Share to News Feed
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
               <div className="card">
                 <div className="card-header border-0 pb-0">
@@ -1260,18 +1545,18 @@ export default function Publication() {
         aria-labelledby="feedActionPhotoLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="modalLabelCreateFeed">
-                Create post
+              <h5 className="modal-title" id="feedActionPhotoLabel">
+                Add post photo
               </h5>
               <button
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-              />
+              ></button>
             </div>
 
             <div className="modal-body">
@@ -1280,54 +1565,114 @@ export default function Publication() {
                   <img
                     className="avatar-img rounded-circle"
                     src="assets/images/avatar/03.jpg"
-                    alt
+                    alt=""
                   />
                 </div>
-
-                <form className="w-100" onSubmit={handleSubmit}>
+                <form className="w-100">
                   <textarea
                     className="form-control pe-4 fs-3 lh-1 border-0"
-                    rows={4}
-                    placeholder="Partage tes pensées..."
-                    value={description}
-                    onChange={(e) => {
-                      setDescription(e.target.value);
-                    }}
-                    autofocus
-                    defaultValue={""}
-                  />
-                  <div className="hstack gap-2">
-                    <label
-                      htmlFor="uploadImage"
-                      className="icon-md bg-success bg-opacity-10 text-success rounded-circle"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="Upload Image"
-                    >
-                      <input
-                        type="file"
-                        id="uploadImage"
-                        value={file}
-                        onChange={handleFileChange}
-                        style={{ display: "none" }}
-                      />
-                      <i className="bi bi-image-fill" />
-                    </label>
-                  </div>
-
-                  <div className="modal-footer row justify-content-between">
-                    <div className="col-lg-8 text-sm-end">
-                      <button
-                        type="submit"
-                        className="btn btn-success-soft"
-                        data-bs-dismiss="modal"
-                      >
-                        Post
-                      </button>
-                    </div>
-                  </div>
+                    rows="2"
+                    placeholder="Share your thoughts..."
+                  ></textarea>
                 </form>
               </div>
+
+              <div>
+                <label className="form-label">Upload attachment</label>
+                <div
+                  className="dropzone dropzone-default card shadow-none"
+                  data-dropzone='{"maxFiles":2}'
+                >
+                  <div className="dz-message">
+                    <label htmlFor="fileInput">
+                      <i className="bi bi-images display-3"></i>
+                      <p>Drag here or click to upload photo.</p>
+                    </label>
+                    <input
+                      type="file"
+                      id="fileInput"
+                      style={{ display: "none" }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="modal-footer ">
+              <button
+                type="button"
+                className="btn btn-danger-soft me-2"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button type="button" className="btn btn-success-soft">
+                Post
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade"
+        id="feedActionVideo"
+        tabindex="-1"
+        aria-labelledby="feedActionVideoLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="feedActionVideoLabel">
+                Add post video
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div className="modal-body">
+              <div className="d-flex mb-3">
+                <div className="avatar avatar-xs me-2">
+                  <img
+                    className="avatar-img rounded-circle"
+                    src="assets/images/avatar/03.jpg"
+                    alt=""
+                  />
+                </div>
+                <form className="w-100">
+                  <textarea
+                    className="form-control pe-4 fs-3 lh-1 border-0"
+                    rows="2"
+                    placeholder="Share your thoughts..."
+                  ></textarea>
+                </form>
+              </div>
+
+              <div>
+                <label className="form-label">Upload attachment</label>
+                <div
+                  className="dropzone dropzone-default card shadow-none"
+                  data-dropzone='{"maxFiles":2}'
+                >
+                  <div className="dz-message">
+                    <i className="bi bi-camera-reels display-3"></i>
+                    <p>Drag here or click to upload video.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger-soft me-2">
+                <i className="bi bi-camera-video-fill pe-1"></i> Live video
+              </button>
+              <button type="button" className="btn btn-success-soft">
+                Post
+              </button>
             </div>
           </div>
         </div>

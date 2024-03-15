@@ -1,21 +1,23 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { callApi } from "../api";
 
 function Header() {
   const navigate = useNavigate();
-  const { user, logout } = useContext(UserContext);
+  // const { user, logout } = useContext(UserContext);
+  const [userdetail, setUserdetail] = useState();
 
-  const handleLogout = async (e) => {
-    try {
-      e.preventDefault();
-      await logout();
-      navigate("/");
-    } catch (error) {
-      console.error("Erreur de déconnexion :", error);
-    }
+  const getUser = () => {
+    callApi("auth/user").then((data) => {
+      setUserdetail(data);
+      console.log(data.name);
+    });
   };
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <>
       <header className="navbar-light fixed-top header-static bg-mode">
@@ -167,9 +169,13 @@ function Header() {
                       <div>
                         <div>
                           <Link className="h6 stretched-link" to="/profile">
-                            rami
+                            {userdetail && (
+                              <>
+                                <p>{userdetail.name}</p>
+                                <p className="small m-0">{userdetail.email}</p>
+                              </>
+                            )}
                           </Link>
-                          <p className="small m-0">rami@gmail.com</p>
                         </div>
                       </div>
                     </div>
@@ -187,7 +193,7 @@ function Header() {
                   <li>
                     <Link
                       className="dropdown-item bg-danger-soft-hover"
-                      onClick={handleLogout}
+                      onClick=""
                     >
                       <i className="bi bi-power fa-fw me-2" />
                       Sign Out
