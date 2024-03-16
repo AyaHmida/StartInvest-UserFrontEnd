@@ -1,15 +1,16 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { callApi } from "../api";
 
 function Login() {
   const { search } = useLocation();
   const errorMessage = new URLSearchParams(search).get("message");
+
   const handleGoogle = (e) => {
     e.preventDefault();
     window.location.href = "http://127.0.0.1:8000/auth/google/redirect";
   };
+
   const handleFacebook = (e) => {
     e.preventDefault();
     window.location.href = "http://localhost:8000/auth/facebook/redirect";
@@ -18,26 +19,33 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
-  const handleSumit = (e) => {
+
+  const handleSumit = async (e) => {
     e.preventDefault();
     setError("");
     console.log(email, password);
-    callApi("auth/login", "POST", { email, password })
-      .then((data) => {
-        localStorage.setItem("token", data.access_token);
+    try {
+      const data = await callApi("auth/login", "POST", { email, password });
+      localStorage.setItem("token", data.access_token);
+      const userTypeFromSession = sessionStorage.getItem("type"); // Récupérer le type d'utilisateur de la session
+      if (userTypeFromSession === "fondateur") {
         navigate("/publication");
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.response && err.response.data && err.response.data.message) {
-          setError(err.response.data.message);
-        } else {
-          setError("Une erreur s'est produite. Veuillez réessayer.");
-        }
-      });
+      } else if (userTypeFromSession === "investisseur") {
+        navigate("/publication");
+      } else {
+        navigate("/updateProfile");
+      }
+    } catch (err) {
+      console.error(err);
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Une erreur s'est produite. Veuillez réessayer.");
+      }
+    }
   };
+
   return (
     <>
       <main>
