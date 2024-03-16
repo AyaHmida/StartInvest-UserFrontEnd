@@ -23,6 +23,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<PageHome />} />
+          <Route path="/updateProfile" element={<UpdateProfile />} />
           <Route path="/publication" element={<Publication />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/notifications" element={<Notifications />} />
@@ -35,7 +36,6 @@ function App() {
           <Route path="/forgot-password" element={<Forgetpassword />} />
           <Route path="/password-reset/:token" element={<Resetpassword />} />
           <Route path="/reclamation" element={<Reclamation />} />
-          <Route path="/modifier-profile" element={<UpdateProfile />} />
         </Routes>
       </Router>
     </UserProvider>
