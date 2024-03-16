@@ -11,6 +11,9 @@ export { default as Login } from "../auth/login";
 export { default as Forgetpassword } from "../auth/forgetpassword";
 export { default as Resetpassword } from "../auth/resetpassword";
 export { default as SidebarLeft } from "../components/sidebarLeft";
+export { default as SidebarRight } from "../components/sidebarRight";
+
+export { default as Messages } from "../publication/messages";
 
 export { default as Reclamation } from "../profile/reclamation";
 export { default as UpdateProfile } from "../profile/update";

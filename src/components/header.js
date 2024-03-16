@@ -15,6 +15,16 @@ function Header() {
       console.log(data.name);
     });
   };
+  const handleLogout = () => {
+    callApi("auth/logout", "POST")
+      .then((res) => {
+        console.log(res);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error logging out:", error);
+      });
+  };
   useEffect(() => {
     getUser();
   }, []);
@@ -193,7 +203,7 @@ function Header() {
                   <li>
                     <Link
                       className="dropdown-item bg-danger-soft-hover"
-                      onClick=""
+                      onClick={handleLogout}
                     >
                       <i className="bi bi-power fa-fw me-2" />
                       Sign Out
