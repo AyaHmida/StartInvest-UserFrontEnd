@@ -6,7 +6,8 @@ export const callApi = async (
   endpoint,
   method = "GET",
   body = null,
-  isFormaDataAPI = false
+  isFormaDataAPI = false,
+  queryParams = {}
 ) => {
   const token = localStorage.getItem("token");
 
@@ -18,6 +19,7 @@ export const callApi = async (
         isFormaDataAPI === true ? "multipart/form-data" : "application/json",
     },
     data: body,
+    params: queryParams,
   };
 
   if (token) {

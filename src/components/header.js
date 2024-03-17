@@ -6,15 +6,27 @@ import { callApi } from "../api";
 
 function Header() {
   const navigate = useNavigate();
-  // const { user, logout } = useContext(UserContext);
   const [userdetail, setUserdetail] = useState();
+  const [query, setQuery] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+
+  const handleSearch = async () => {
+    try {
+      const response = await callApi("auth/search", "GET", null, false, {
+        query: query,
+      });
+      setSearchResult(response);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
 
   const getUser = () => {
     callApi("auth/user").then((data) => {
       setUserdetail(data);
-      console.log(data.name);
     });
   };
+
   const handleLogout = () => {
     callApi("auth/logout", "POST")
       .then((res) => {
@@ -27,7 +39,8 @@ function Header() {
   };
   useEffect(() => {
     getUser();
-  }, []);
+    handleSearch();
+  }, [query]);
   return (
     <>
       <header className="navbar-light fixed-top header-static bg-mode">
@@ -49,20 +62,20 @@ function Header() {
             <div className="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0">
               <div className="nav-item w-100">
                 <form className="rounded position-relative">
-                  <Link to="/profileConnection">
-                    <input
-                      className="form-control ps-5 bg-light"
-                      type="search"
-                      placeholder="Search..."
-                      aria-label="Search"
-                    />
-                    <button
-                      className="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y"
-                      type="submit"
-                    >
-                      <i className="bi bi-search fs-5"> </i>
-                    </button>
-                  </Link>
+                  <input
+                    className="form-control ps-5 bg-light"
+                    type="search"
+                    placeholder="Search..."
+                    aria-label="Search"
+                    data-bs-toggle="modal"
+                    data-bs-target="#search"
+                  />
+                  <button
+                    className="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y"
+                    type="submit"
+                  >
+                    <i className="bi bi-search fs-5"> </i>
+                  </button>
                 </form>
               </div>
             </div>
@@ -215,6 +228,89 @@ function Header() {
           </div>
         </nav>
       </header>
+      <div
+        className="modal fade"
+        id="search"
+        tabindex="-1"
+        aria-labelledby="feedActionPhotoLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <div className="nav-item w-100">
+                <div className="rounded position-relative">
+                  <input
+                    className="form-control ps-5 bg-light"
+                    type="search"
+                    value={query}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                    }}
+                    placeholder="Search..."
+                    aria-label="Search"
+                  />
+                  <button
+                    className="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y"
+                    type="submit"
+                  >
+                    <i className="bi bi-search fs-5"> </i>
+                  </button>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+
+            <div className="modal-body">
+              {Array.isArray(searchResult) && searchResult.length > 0 ? (
+                searchResult.map((user, index) => (
+                  <div className="d-flex mb-3">
+                    <div className="hstack gap-2">
+                      <div className="d-md-flex align-items-center mb-4">
+                        <div key={index} className="mb-3">
+                          <div className="d-flex align-items-center">
+                            <div className="avatar me-3">
+                              <a href="#!">
+                                {" "}
+                                <img
+                                  className="avatar-img rounded-circle"
+                                  src=""
+                                  alt=""
+                                />{" "}
+                              </a>
+                            </div>
+                            <div className="w-100">
+                              <div className="d-sm-flex align-items-start">
+                                <h6 className="mb-0">
+                                  <a href="">{user.name}</a>
+                                  {/* <p>{user.type}</p> */}
+                                </h6>
+                              </div>
+                            </div>
+                            <div className="ms-md-auto">
+                              <button className="btn btn-primary-soft btn-sm mb-0">
+                                {" "}
+                                Message{" "}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No results found</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

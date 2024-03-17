@@ -1,6 +1,19 @@
-  import React from 'react'
+  import React, { useState } from 'react'
   import Header from '../components/header';
-  export default function profileConnection(){
+import { callApi } from '../api';
+const  ProfileConnection=()=>{
+  const [query, setQuery] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
+  const handleSearch= async()=>{
+    try {
+    const response = await callApi('auth/search')
+    setSearchResult(response.data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+  }
+
+
+  }
   return (
   <div>
     <Header/>
@@ -76,3 +89,4 @@
   </div>
   );
 };
+export default ProfileConnection;
