@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
 import { callApi } from "../api";
+import { Button, Modal } from "react-bootstrap";
+
 const Profile = () => {
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
@@ -13,19 +15,15 @@ const Profile = () => {
   const getUser = () => {
     callApi("auth/user").then((data) => {
       setUserdetail(data);
+      setPreviewURL(data.image);
       console.log(data.name);
     });
   };
+
   const getStartup = async () => {
     await callApi("auth/startup", "GET").then((response) => {
       setStartup(response);
     });
-  };
-
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setFile(selectedFile);
-    setPreviewURL(URL.createObjectURL(selectedFile));
   };
 
   const handleSubmit = async (e) => {
@@ -77,13 +75,48 @@ const Profile = () => {
     };
     return new Date(dateString).toLocaleDateString("en-US", options);
   };
+  const [showModal, setShowModal] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
 
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    setUploadedImage(URL.createObjectURL(selectedFile));
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setUploadedImage(null);
+  };
+  const handleImageUpload = async () => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await callApi(
+        "auth/uploadAvatar",
+        "POST",
+        formData,
+        true
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+  const handleSaveImage = () => {
+    handleImageUpload();
+    handleCloseModal();
+  };
   return (
     <div>
       <Header />
       <br></br>
       <div className="container">
         <div className="row g-4">
+          <br></br>
+          <br></br>
           <div className="col-lg-8 vstack gap-4">
             <div className="card">
               <div
@@ -97,16 +130,43 @@ const Profile = () => {
               />
               <div className="card-body py-0">
                 <div className="d-sm-flex align-items-start text-center text-sm-start">
-                  <div>
-                    <div className="avatar avatar-xxl mt-n5 mb-3">
+                  <div className="position-relative d-inline-block">
+                    <div className="avatar avatar-xxl mt-n5 mb-3 position-relative">
                       <img
                         className="avatar-img rounded-circle border border-white border-3"
-                        src="assets/images/avatar/07.jpg"
-                        alt
+                        src={
+                          userdetail && userdetail.image
+                            ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                            : "assets/images/avatar/no-image-male.jpg"
+                        }
+                        alt=""
                       />
                     </div>
-                  </div>
 
+                    {/* Bouton pour uploader l'image */}
+                    <label
+                      htmlFor="uploadAvatar"
+                      className="btn btn-primary position-absolute bottom-0 end-0 p-0 d-flex align-items-center justify-content-center"
+                      style={{
+                        zIndex: "1",
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <i className="bi bi-camera"></i>
+                    </label>
+                    {/* Input pour sélectionner l'image */}
+                    <input
+                      id="uploadAvatar"
+                      type="file"
+                      name="image"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
+                  </div>
                   {userdetail && (
                     <div className="ms-sm-4 mt-sm-3">
                       {/* Info */}
@@ -126,6 +186,30 @@ const Profile = () => {
                     </Link>
                   </div>
                 </div>
+                <Modal show={showModal} onHide={handleCloseModal} centered>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Image téléchargée</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body className="text-center">
+                    {/* Afficher l'image téléchargée */}
+                    {uploadedImage && (
+                      <img
+                        src={uploadedImage}
+                        alt="Uploaded"
+                        className="img-fluid"
+                      />
+                    )}
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                      Fermer
+                    </Button>
+                    <Button variant="primary" onClick={handleSaveImage}>
+                      Enregistrer
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+
                 {userdetail && (
                   <ul className="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
                     <li className="list-inline-item">
@@ -364,7 +448,7 @@ const Profile = () => {
                       <input
                         type="file"
                         id="uploadImage"
-                        name="file"
+                        name="avatar"
                         onChange={handleFileChange}
                         style={{ display: "none" }}
                       />
