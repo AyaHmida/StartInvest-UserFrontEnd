@@ -15,7 +15,7 @@ const PageDeMiseAJourProfil = () => {
     description: "",
   });
   const [secteurs, setSecteurs] = useState([]);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +47,7 @@ const PageDeMiseAJourProfil = () => {
     try {
       const response = await callApi("auth/updateprofile", "put", userData);
       console.log(response);
-      navigate('/publication')
+      navigate("/publication");
     } catch (error) {
       console.error("Erreur lors de la mise à jour du profil:", error);
       // Afficher un message d'erreur à l'utilisateur
