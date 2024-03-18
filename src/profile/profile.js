@@ -12,6 +12,27 @@ const Profile = () => {
   const [userdetail, setUserdetail] = useState();
   const [startup, setStartup] = useState();
 
+  const handleDelete = (publicationId) => {
+    callApi(`auth/publications/${publicationId}`, "DELETE")
+      .then((response) => {
+        console.log("Publication supprimée avec succès");
+        setPublications((prevPublications) =>
+          prevPublications.filter((pub) => pub.id !== publicationId)
+        );
+      })
+      .catch((error) => {
+        console.error(
+          "Erreur lors de la suppression de la publication :",
+          error
+        );
+      });
+  };
+
+  const handleFileChangeImage = (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    setPreviewURL(URL.createObjectURL(selectedFile));
+  };
   const getUser = () => {
     callApi("auth/user").then((data) => {
       setUserdetail(data);
@@ -305,8 +326,13 @@ const Profile = () => {
                       className="dropdown-menu dropdown-menu-end"
                       aria-labelledby="cardShareAction5"
                     >
-                      <li>
-                        <a className="dropdown-item" href="#" onClick="">
+                      <li key={item.id}>
+                        <a
+                          className="dropdown-item"
+                          onClick={() => {
+                            handleDelete(item.id);
+                          }}
+                        >
                           {" "}
                           <i className="bi bi-slash-circle fa-fw pe-2"></i>
                           Efface post
@@ -448,8 +474,8 @@ const Profile = () => {
                       <input
                         type="file"
                         id="uploadImage"
-                        name="avatar"
-                        onChange={handleFileChange}
+                        name="file"
+                        onChange={handleFileChangeImage}
                         style={{ display: "none" }}
                       />
                       <i className="bi bi-image-fill" />
