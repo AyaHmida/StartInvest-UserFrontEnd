@@ -301,8 +301,12 @@ const Profile = () => {
                         <a href="#">
                           {" "}
                           <img
-                            className="avatar-img rounded-circle"
-                            src={item.user.image}
+                            className="avatar-img rounded-circle border border-white border-3"
+                            src={
+                              userdetail && userdetail.image
+                                ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                                : "assets/images/avatar/no-image-male.jpg"
+                            }
                             alt=""
                           />{" "}
                         </a>
