@@ -169,9 +169,13 @@ function Header() {
                   aria-expanded="false"
                 >
                   <img
-                    className="avatar-img rounded-2"
-                    src="assets/images/avatar/07.jpg"
-                    alt
+                    className="avatar-img rounded-circle border border-white border-3"
+                    src={
+                      userdetail && userdetail.image
+                        ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                        : "assets/images/avatar/no-image-male.jpg"
+                    }
+                    alt=""
                   />
                 </a>
                 <ul
@@ -184,9 +188,13 @@ function Header() {
                       {/* Avatar */}
                       <div className="avatar me-3">
                         <img
-                          className="avatar-img rounded-circle"
-                          src="assets/images/avatar/07.jpg"
-                          alt="avatar"
+                          className="avatar-img rounded-circle border border-white border-3"
+                          src={
+                            userdetail && userdetail.image
+                              ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                              : "assets/images/avatar/no-image-male.jpg"
+                          }
+                          alt=""
                         />
                       </div>
                       <div>

@@ -72,8 +72,12 @@ const SidebarLeft = () => {
                     <div className="avatar avatar-lg mt-n5 mb-3">
                       <a href="#!">
                         <img
-                          className="avatar-img rounded border border-white border-3"
-                          src="assets/images/avatar/07.jpg"
+                          className="avatar-img rounded-circle border border-white border-3"
+                          src={
+                            userdetail && userdetail.image
+                              ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                              : "assets/images/avatar/no-image-male.jpg"
+                          }
                           alt=""
                         />
                       </a>
