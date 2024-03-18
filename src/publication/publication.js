@@ -10,15 +10,25 @@ export default function Publication() {
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
-  const [userdetail, setUserdetail] = useState();
+  const [likes, setLikes] = useState(publications.map(() => false));
 
-  const getUser = () => {
-    callApi("auth/user").then((data) => {
-      setUserdetail(data);
-      setPreviewURL(data.image);
-      console.log(data.name);
+  const Like = (publicationId, index) => {
+    const updatedLikes = [...likes];
+
+    updatedLikes[index] = !updatedLikes[index];
+
+    setLikes(updatedLikes);
+
+    const action = updatedLikes[index] ? "POST" : "PUT";
+
+    callApi(
+      `auth/${updatedLikes[index] ? "liked" : "disliked"}/${publicationId}`,
+      action
+    ).then((response) => {
+      console.log(response.data);
     });
   };
+
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -60,7 +70,6 @@ export default function Publication() {
     };
 
     fetchPublications();
-    getUser();
   }, []);
   const formatDate = (dateString) => {
     const options = {
@@ -95,12 +104,8 @@ export default function Publication() {
                     <a href="#">
                       {" "}
                       <img
-                        className="avatar-img rounded-circle border border-white border-3"
-                        src={
-                          userdetail && userdetail.image
-                            ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
-                            : "assets/images/avatar/no-image-male.jpg"
-                        }
+                        className="avatar-img rounded-circle"
+                        src="assets/images/avatar/03.jpg"
                         alt=""
                       />{" "}
                     </a>
@@ -142,7 +147,7 @@ export default function Publication() {
                             {" "}
                             <img
                               className="avatar-img rounded-circle"
-                              src={item.user.image}
+                              src={`http://127.0.0.1:8000/uploads/${item.user.image}`}
                               alt=""
                             />{" "}
                           </a>
@@ -222,9 +227,19 @@ export default function Publication() {
                   <div className="card-footer py-3">
                     <ul className="nav nav-fill nav-stack small">
                       <li className="nav-item">
-                        <a className="nav-link mb-0 active" href="#!">
+                        <a
+                          className="nav-link mb-0 active"
+                          onClick={() => Like(item.id, index)}
+                        >
                           {" "}
-                          <i className="bi bi-heart pe-1"></i>Liked (56)
+                          <i
+                            className={
+                              likes[index]
+                                ? "bi bi-heart-fill pe-1"
+                                : "bi bi-heart pe-1"
+                            }
+                          ></i>
+                          j'aime
                         </a>
                       </li>
                     </ul>
