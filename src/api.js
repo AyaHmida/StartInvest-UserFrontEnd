@@ -24,6 +24,11 @@ export const callApi = async (
 
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
+    const tokenExpiration = localStorage.getItem("tokenExpiration");
+    if (tokenExpiration && Date.now() >= parseInt(tokenExpiration, 10)) {
+      window.location.href = "/";
+      return;
+    }
   }
 
   try {
