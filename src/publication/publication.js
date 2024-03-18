@@ -8,10 +8,18 @@ import { callApi } from "../api";
 export default function Publication() {
   const [publications, setPublications] = useState([]);
   const [description, setDescription] = useState("");
+  const [userdetail, setUserdetail] = useState();
+
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [likes, setLikes] = useState(publications.map(() => false));
-
+  const getUser = () => {
+    callApi("auth/user").then((data) => {
+      setUserdetail(data);
+      setPreviewURL(data.image);
+      console.log(data.name);
+    });
+  };
   const Like = (publicationId, index) => {
     const updatedLikes = [...likes];
 
@@ -104,8 +112,12 @@ export default function Publication() {
                     <a href="#">
                       {" "}
                       <img
-                        className="avatar-img rounded-circle"
-                        src="assets/images/avatar/03.jpg"
+                        className="avatar-img rounded-circle border border-white border-3"
+                        src={
+                          userdetail && userdetail.image
+                            ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                            : "assets/images/avatar/no-image-male.jpg"
+                        }
                         alt=""
                       />{" "}
                     </a>
@@ -146,8 +158,12 @@ export default function Publication() {
                           <a href="#">
                             {" "}
                             <img
-                              className="avatar-img rounded-circle"
-                              src={`http://127.0.0.1:8000/uploads/${item.user.image}`}
+                              className="avatar-img rounded-circle border border-white border-3"
+                              src={
+                                userdetail && userdetail.image
+                                  ? `http://127.0.0.1:8000/uploads/${item.user.image}`
+                                  : "assets/images/avatar/no-image-male.jpg"
+                              }
                               alt=""
                             />{" "}
                           </a>
