@@ -256,9 +256,13 @@ const Profile = () => {
                   <a href="#">
                     {" "}
                     <img
-                      className="avatar-img rounded-circle"
-                      src="assets/images/avatar/07.jpg"
-                      alt
+                      className="avatar-img rounded-circle border border-white border-3"
+                      src={
+                        userdetail && userdetail.image
+                          ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                          : "assets/images/avatar/no-image-male.jpg"
+                      }
+                      alt=""
                     />{" "}
                   </a>
                 </div>
@@ -448,9 +452,13 @@ const Profile = () => {
                 <form className="w-100" onSubmit={handleSubmit}>
                   <div className="avatar avatar-xs me-2">
                     <img
-                      className="avatar-img rounded-circle"
-                      src="assets/images/avatar/03.jpg"
-                      alt
+                      className="avatar-img rounded-circle border border-white border-3"
+                      src={
+                        userdetail && userdetail.image
+                          ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                          : "assets/images/avatar/no-image-male.jpg"
+                      }
+                      alt=""
                     />
                   </div>
                   <textarea
