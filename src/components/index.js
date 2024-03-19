@@ -1,5 +1,5 @@
 export { default as PageHome } from "./pageHome";
-export { default as Publication } from "../publication/publication";
+export { default as Publication } from "../publication";
 export { default as Profile } from "../profile/profile";
 export { default as Notifications } from "../notification/notifications";
 export { default as Messaging } from "../message/messaging";
@@ -12,6 +12,7 @@ export { default as Forgetpassword } from "../auth/forgetpassword";
 export { default as Resetpassword } from "../auth/resetpassword";
 export { default as SidebarLeft } from "../components/sidebarLeft";
 export { default as SidebarRight } from "../components/sidebarRight";
+export { default as Publications } from "../publication/publications";
 
 export { default as Messages } from "../publication/messages";
 

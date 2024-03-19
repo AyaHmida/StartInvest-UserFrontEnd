@@ -2,17 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 import Header from "../components/header";
-import { Messages, SidebarLeft, SidebarRight } from "../components";
+import {
+  Messages,
+  Publications,
+  SidebarLeft,
+  SidebarRight,
+} from "../components";
 import { callApi } from "../api";
 
 export default function Publication() {
-  const [publications, setPublications] = useState([]);
   const [description, setDescription] = useState("");
-  const [userdetail, setUserdetail] = useState();
-
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
-  const [likes, setLikes] = useState(publications.map(() => false));
+  const [userdetail, setUserdetail] = useState();
   const getUser = () => {
     callApi("auth/user").then((data) => {
       setUserdetail(data);
@@ -20,22 +22,7 @@ export default function Publication() {
       console.log(data.name);
     });
   };
-  const Like = (publicationId, index) => {
-    const updatedLikes = [...likes];
 
-    updatedLikes[index] = !updatedLikes[index];
-
-    setLikes(updatedLikes);
-
-    const action = updatedLikes[index] ? "POST" : "PUT";
-
-    callApi(
-      `auth/${updatedLikes[index] ? "liked" : "disliked"}/${publicationId}`,
-      action
-    ).then((response) => {
-      console.log(response.data);
-    });
-  };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -65,34 +52,9 @@ export default function Publication() {
     }
   };
   useEffect(() => {
-    const fetchPublications = async () => {
-      try {
-        const data = await callApi("auth/publications");
-        setPublications(data.publications);
-      } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des publications:",
-          error
-        );
-      }
-    };
-
-    fetchPublications();
+   
   }, []);
-  const formatDate = (dateString) => {
-    const options = {
-      day: "numeric",
-      month: "long",
-      hour: "numeric",
-      minute: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString("en-US", options);
-  };
-
-  const excludePublication = (index) => {
-    const updatedPublications = publications.filter((_, i) => i !== index);
-    setPublications(updatedPublications);
-  };
+  
 
   return (
     <div>
@@ -149,119 +111,7 @@ export default function Publication() {
                 </ul>
               </div>
 
-              {publications.map((item, index) => (
-                <div className="card" key={index}>
-                  <div className="card-header border-0 pb-0">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="d-flex align-items-center">
-                        <div className="avatar me-2">
-                          <a href="#">
-                            {" "}
-                            <img
-                              className="avatar-img rounded-circle border border-white border-3"
-                              src={
-                                userdetail && userdetail.image
-                                  ? `http://127.0.0.1:8000/uploads/${item.user.image}`
-                                  : "assets/images/avatar/no-image-male.jpg"
-                              }
-                              alt=""
-                            />{" "}
-                          </a>
-                        </div>
-                        <div>
-                          <h6 className="card-title mb-0">
-                            {" "}
-                            <a href="#!"> {item.user.name} </a>
-                          </h6>
-                          <p className="mb-0 small">
-                            {formatDate(item.created_at)}
-                          </p>
-                        </div>
-                      </div>
-                      <a
-                        href="#"
-                        className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
-                        id="cardShareAction5"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <i className="bi bi-three-dots"></i>
-                      </a>
-                      <ul
-                        className="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="cardShareAction5"
-                      >
-                        <li>
-                          <a
-                            className="dropdown-item"
-                            href="#"
-                            onClick={() => excludePublication(index)}
-                          >
-                            {" "}
-                            <i className="bi bi-slash-circle fa-fw pe-2"></i>
-                            Efface post
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="card-body pb-0">
-                    <p>{item.description}</p>
-                    {item.file ? (
-                      <div className="d-flex justify-content-between">
-                        <div className="row g-3">
-                          <div className="col-6">
-                            <a
-                              className="h-100"
-                              href={`http://127.0.0.1:8000/uploads/${item.file}`}
-                              data-glightbox
-                              data-gallery="image-popup"
-                            >
-                              <img
-                                className="rounded img-fluid"
-                                src={`http://127.0.0.1:8000/uploads/${item.file}`}
-                                alt="image"
-                              />
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div></div>
-                    )}
-
-                    <ul className="nav nav-stack pb-2 small">
-                      <li className="nav-item">
-                        <a className="nav-link active text-secondary" href="#!">
-                          {" "}
-                          <i className="bi bi-heart-fill me-1 icon-xs bg-danger text-white rounded-circle"></i>{" "}
-                          Louis, Billy and 126 others{" "}
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="card-footer py-3">
-                    <ul className="nav nav-fill nav-stack small">
-                      <li className="nav-item">
-                        <a
-                          className="nav-link mb-0 active"
-                          onClick={() => Like(item.id, index)}
-                        >
-                          {" "}
-                          <i
-                            className={
-                              likes[index]
-                                ? "bi bi-heart-fill pe-1"
-                                : "bi bi-heart pe-1"
-                            }
-                          ></i>
-                          j'aime
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              ))}
+              <Publications />
 
               <a
                 href="#!"
@@ -311,7 +161,11 @@ export default function Publication() {
                 <div className="avatar avatar-xs me-2">
                   <img
                     className="avatar-img rounded-circle"
-                    src="assets/images/avatar/03.jpg"
+                    src={
+                      userdetail && userdetail.image
+                        ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                        : "assets/images/avatar/no-image-male.jpg"
+                    }
                     alt
                   />
                 </div>

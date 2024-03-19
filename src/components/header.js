@@ -287,7 +287,11 @@ function Header() {
                                 {" "}
                                 <img
                                   className="avatar-img rounded-circle"
-                                  src=""
+                                  src={
+                                    user.image
+                                      ? `http://127.0.0.1:8000/uploads/${user.image}`
+                                      : "assets/images/avatar/no-image-male.jpg"
+                                  }
                                   alt=""
                                 />{" "}
                               </a>
@@ -295,7 +299,7 @@ function Header() {
                             <div className="w-100">
                               <div className="d-sm-flex align-items-start">
                                 <h6 className="mb-0">
-                                  <a href="">{user.name}</a>
+                                  <a>{user.name}</a>
                                   {/* <p>{user.type}</p> */}
                                 </h6>
                               </div>
