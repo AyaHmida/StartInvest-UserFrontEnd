@@ -23,7 +23,6 @@ export default function Publication() {
     });
   };
 
-
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -44,17 +43,13 @@ export default function Publication() {
         formData,
         true
       );
-      console.log(response);
       setDescription("");
       setFile("");
     } catch (error) {
       console.error("Erreur lors de la soumission du formulaire:", error);
     }
   };
-  useEffect(() => {
-   
-  }, []);
-  
+  useEffect(() => {}, []);
 
   return (
     <div>
