@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { callApi } from "../api";
 
-const Publications = () => {
+const PublicationsProfile = () => {
   const [publications, setPublications] = useState([]);
+  const [userdetail, setUserdetail] = useState();
+  const [previewURL, setPreviewURL] = useState(null);
   const [likes, setLikes] = useState(publications.map(() => false));
+
   const Like = (publicationId, index) => {
     const updatedLikes = [...likes];
 
@@ -18,18 +21,46 @@ const Publications = () => {
       action
     );
   };
-  const fetchPublications = async () => {
-    try {
-      const data = await callApi("auth/publications");
-      setPublications(data.publications);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des publications:", error);
-    }
+  const getUser = () => {
+    callApi("auth/user").then((data) => {
+      setUserdetail(data);
+      setPreviewURL(data.image);
+      console.log(data.name);
+    });
   };
-  useEffect(() => {
-    fetchPublications();
-  }, []);
 
+  const handleDelete = (publicationId) => {
+    callApi(`auth/publications/${publicationId}`, "DELETE")
+      .then((response) => {
+        console.log("Publication supprimée avec succès");
+        setPublications((prevPublications) =>
+          prevPublications.filter((pub) => pub.id !== publicationId)
+        );
+      })
+      .catch((error) => {
+        console.error(
+          "Erreur lors de la suppression de la publication :",
+          error
+        );
+      });
+  };
+
+  useEffect(() => {
+    const fetchPublications = async () => {
+      try {
+        const data = await callApi("auth/publicationsUser");
+        setPublications(data.publications);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des publications:",
+          error
+        );
+      }
+    };
+
+    fetchPublications();
+    getUser();
+  }, []);
   const formatDate = (dateString) => {
     const options = {
       day: "numeric",
@@ -39,12 +70,6 @@ const Publications = () => {
     };
     return new Date(dateString).toLocaleDateString("en-US", options);
   };
-
-  const excludePublication = (index) => {
-    const updatedPublications = publications.filter((_, i) => i !== index);
-    setPublications(updatedPublications);
-  };
-
   return (
     <>
       {publications.map((item, index) => (
@@ -57,8 +82,12 @@ const Publications = () => {
                     <a href="#">
                       {" "}
                       <img
-                        className="avatar-img rounded-circle"
-                        src={`http://127.0.0.1:8000/uploads/${item.user.image}`}
+                        className="avatar-img rounded-circle border border-white border-3"
+                        src={
+                          userdetail && userdetail.image
+                            ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                            : "assets/images/avatar/no-image-male.jpg"
+                        }
                         alt=""
                       />{" "}
                     </a>
@@ -84,11 +113,12 @@ const Publications = () => {
                   className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="cardShareAction5"
                 >
-                  <li>
+                  <li key={item.id}>
                     <a
                       className="dropdown-item"
-                      href="#"
-                      onClick={() => excludePublication(index)}
+                      onClick={() => {
+                        handleDelete(item.id);
+                      }}
                     >
                       {" "}
                       <i className="bi bi-slash-circle fa-fw pe-2"></i>
@@ -122,6 +152,7 @@ const Publications = () => {
               ) : (
                 <div></div>
               )}
+
               <ul className="nav nav-stack pb-2 small">
                 <li className="nav-item">
                   <a
@@ -136,7 +167,6 @@ const Publications = () => {
                   </a>
                 </li>
               </ul>
-              
             </div>
             <div className="card-footer py-3">
               <ul className="nav nav-fill nav-stack small">
@@ -169,7 +199,6 @@ const Publications = () => {
               </ul>
             </div>
           </div>
-
           <div
             className="modal fade"
             id={`likes-${index}`}
@@ -240,4 +269,4 @@ const Publications = () => {
   );
 };
 
-export default Publications;
+export default PublicationsProfile;

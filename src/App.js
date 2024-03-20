@@ -8,7 +8,6 @@ import {
   Messaging,
   PostDetails,
   EditProfile,
-  ProfileConnection,
   Register,
   Login,
   Forgetpassword,
@@ -30,7 +29,6 @@ function App() {
           <Route path="/messaging" element={<Messaging />} />
           <Route path="/postDetails" element={<PostDetails />} />
           <Route path="/editProfile" element={<EditProfile />} />
-          <Route path="/profileConnection" element={<ProfileConnection />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<Forgetpassword />} />
