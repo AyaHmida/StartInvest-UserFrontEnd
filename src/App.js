@@ -14,6 +14,7 @@ import {
   Resetpassword,
   Reclamation,
   ListReclamation,
+  Calendar,
   UpdateProfile,
 } from "./components/index";
 import { UserProvider } from "./context/UserContext";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/forgot-password" element={<Forgetpassword />} />
           <Route path="/password-reset/:token" element={<Resetpassword />} />
           <Route path="/reclamation" element={<Reclamation />} />
