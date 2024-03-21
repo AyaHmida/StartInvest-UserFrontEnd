@@ -13,8 +13,7 @@ export { default as SidebarLeft } from "../components/sidebarLeft";
 export { default as SidebarRight } from "../components/sidebarRight";
 export { default as Publications } from "../publication/publications";
 export { default as PublicationsProfile } from "../profile/publicationsProfile";
-
 export { default as Messages } from "../publication/messages";
-
 export { default as Reclamation } from "../profile/reclamation";
+export { default as ListReclamation } from "../profile/listReclamation";
 export { default as UpdateProfile } from "../profile/update";
