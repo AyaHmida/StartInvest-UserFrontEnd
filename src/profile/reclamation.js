@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/header";
 import { SidebarLeft } from "../components";
 import { callApi } from "../api";
+import { Link } from "react-router-dom"; // Importer le composant Link
 
 export default function Reclamation() {
   const [formData, setFormData] = useState({
@@ -99,6 +100,12 @@ export default function Reclamation() {
                       >
                         {isSubmitting ? "Envoi en cours..." : "Envoyer"}
                       </button>
+                      <Link
+                        to="/listReclamation"
+                        className="btn btn-secondary ms-2"
+                      >
+                        Liste des Réclamations
+                      </Link>{" "}
                     </div>
                   </form>
                 </div>
