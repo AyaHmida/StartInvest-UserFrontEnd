@@ -10,8 +10,9 @@ function Header() {
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const markAllRead = () => {
-    callApi("auth/markAllRead");
+  const markAllRead = async () => {
+    const response = await callApi("auth/markAllRead");
+    console.log(response);
   };
   const markAsRead = (notificationId) => {
     try {
@@ -29,7 +30,6 @@ function Header() {
         })
       );
 
-      // Filtrer les notifications pour n'afficher qu'une seule instance de chaque type
       const uniqueNotifications = [];
       const seenData = new Set();
 
@@ -42,7 +42,7 @@ function Header() {
       });
 
       setNotifications(uniqueNotifications);
-      console.log(uniqueNotifications);
+      // console.log(uniqueNotifications);
     });
   };
 
@@ -66,7 +66,6 @@ function Header() {
   const handleLogout = () => {
     callApi("auth/logout", "POST")
       .then((res) => {
-        console.log(res);
         navigate("/");
       })
       .catch((error) => {
@@ -153,7 +152,7 @@ function Header() {
                       </h6>
                       <a
                         className="small"
-                        href=""
+                        href="#"
                         onClick={() => markAllRead()}
                       >
                         Tout Marquer comme lu
@@ -163,7 +162,7 @@ function Header() {
                       <ul className="list-group list-group-flush list-unstyled p-2">
                         {notifications.map(
                           (notification) =>
-                            !notification.read_at && (
+                            notification.read_at && (
                               <li key={notification.id}>
                                 <a
                                   href="#"
