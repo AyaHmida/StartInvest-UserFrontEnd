@@ -9,6 +9,42 @@ function Header() {
   const [userdetail, setUserdetail] = useState();
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const markAllRead = () => {
+    callApi("auth/markAllRead");
+  };
+  const markAsRead = (notificationId) => {
+    try {
+      callApi(`auth/markAsRead/${notificationId}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getNotifications = () => {
+    callApi("auth/notifications").then((data) => {
+      const parsedNotifications = data.likedNotifications.map(
+        (notification) => ({
+          ...notification,
+          data: JSON.parse(notification.data),
+        })
+      );
+
+      // Filtrer les notifications pour n'afficher qu'une seule instance de chaque type
+      const uniqueNotifications = [];
+      const seenData = new Set();
+
+      parsedNotifications.forEach((notification) => {
+        const notificationData = JSON.stringify(notification.data);
+        if (!seenData.has(notificationData)) {
+          uniqueNotifications.push(notification);
+          seenData.add(notificationData);
+        }
+      });
+
+      setNotifications(uniqueNotifications);
+      console.log(uniqueNotifications);
+    });
+  };
 
   const handleSearch = async () => {
     try {
@@ -40,6 +76,7 @@ function Header() {
   useEffect(() => {
     getUser();
     handleSearch();
+    getNotifications();
   }, [query]);
   return (
     <>
@@ -114,34 +151,54 @@ function Header() {
                           4 new
                         </span>
                       </h6>
-                      <a className="small" href="#">
-                        Clear all
+                      <a
+                        className="small"
+                        href=""
+                        onClick={() => markAllRead()}
+                      >
+                        Tout Marquer comme lu
                       </a>
                     </div>
                     <div className="card-body p-0">
                       <ul className="list-group list-group-flush list-unstyled p-2">
-                        <li>
-                          <a
-                            href="#"
-                            className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
-                          >
-                            <div className="avatar text-center d-none d-sm-inline-block">
-                              <div className="avatar-img rounded-circle bg-success">
-                                <span className="text-white position-absolute top-50 start-50 translate-middle fw-bold">
-                                  WB
-                                </span>
-                              </div>
-                            </div>
-                            <div className="ms-sm-3">
-                              <div className="d-flex">
-                                <p className="small mb-2">
-                                  Webestica has 15 like and 1 new activity
-                                </p>
-                                <p className="small ms-3">1hr</p>
-                              </div>
-                            </div>
-                          </a>
-                        </li>
+                        {notifications.map(
+                          (notification) =>
+                            !notification.read_at && (
+                              <li key={notification.id}>
+                                <a
+                                  href="#"
+                                  className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
+                                >
+                                  <div className="avatar text-center d-none d-sm-inline-block">
+                                    <div className="avatar-img rounded-circle ">
+                                      <img
+                                        src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
+                                        alt="Image"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="ms-sm-3">
+                                    <div className="d-flex">
+                                      <p className="small mb-2">
+                                        {notification.data.user} est{" "}
+                                        {notification.data.title}
+                                      </p>
+                                      <p className="small ms-3">
+                                        {notification.created_at}
+                                      </p>
+                                    </div>
+                                    <a
+                                      onClick={() =>
+                                        markAsRead(notification.id)
+                                      }
+                                    >
+                                      Marquer comme lu
+                                    </a>
+                                  </div>
+                                </a>
+                              </li>
+                            )
+                        )}
                       </ul>
                     </div>
                     <div className="card-footer text-center">
@@ -156,7 +213,6 @@ function Header() {
                 </div>
               </li>
 
-              {/* Notification dropdown END */}
               <li className="nav-item ms-2 dropdown">
                 <a
                   className="nav-link btn icon-md p-0"
@@ -175,7 +231,6 @@ function Header() {
                         ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
                         : "assets/images/avatar/no-image-male.jpg"
                     }
-                    alt=""
                   />
                 </a>
                 <ul
@@ -194,7 +249,6 @@ function Header() {
                               ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
                               : "assets/images/avatar/no-image-male.jpg"
                           }
-                          alt=""
                         />
                       </div>
                       <div>
@@ -217,7 +271,7 @@ function Header() {
                       className="dropdown-item bg-danger-soft-hover"
                       to="/reclamation"
                     >
-                      <i class="bi bi-envelope-exclamation-fill" />
+                      <i className="bi bi-envelope-exclamation-fill" />
                       &nbsp;&nbsp; Reclamation
                     </Link>
                   </li>
@@ -236,10 +290,11 @@ function Header() {
           </div>
         </nav>
       </header>
+
       <div
         className="modal fade"
         id="search"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="feedActionPhotoLabel"
         aria-hidden="true"
       >
@@ -292,7 +347,6 @@ function Header() {
                                       ? `http://127.0.0.1:8000/uploads/${user.image}`
                                       : "assets/images/avatar/no-image-male.jpg"
                                   }
-                                  alt=""
                                 />{" "}
                               </a>
                             </div>
