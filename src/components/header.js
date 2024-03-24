@@ -10,9 +10,23 @@ function Header() {
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [notifications, setNotifications] = useState([]);
+
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  const countNotify = async () => {
+    try {
+      const response = await callApi("auth/countNotifications");
+      if (response && response.countNotifications !== undefined) {
+        setNotificationCount(response.countNotifications);
+      } else {
+        console.error("Invalid response format:", response);
+      }
+    } catch (error) {
+      console.error("Error fetching count notifications:", error);
+    }
+  };
   const markAllRead = async () => {
     const response = await callApi("auth/markAllRead");
-    console.log(response);
   };
   const markAsRead = (notificationId) => {
     try {
@@ -76,6 +90,7 @@ function Header() {
     getUser();
     handleSearch();
     getNotifications();
+    countNotify();
   }, [query]);
   return (
     <>
@@ -147,7 +162,7 @@ function Header() {
                       <h6 className="m-0">
                         Notifications{" "}
                         <span className="badge bg-danger bg-opacity-10 text-danger ms-2">
-                          4 new
+                          {notificationCount} new
                         </span>
                       </h6>
                       <a
@@ -374,4 +389,3 @@ function Header() {
 }
 
 export default Header;
-

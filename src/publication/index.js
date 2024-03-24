@@ -130,7 +130,7 @@ export default function Publication() {
       <div
         className="modal fade"
         id="feedActionPhoto"
-        tabIndex="-1"
+        tabindex="-1"
         aria-labelledby="feedActionPhotoLabel"
         aria-hidden="true"
       >
@@ -158,6 +158,7 @@ export default function Publication() {
                         ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
                         : "assets/images/avatar/no-image-male.jpg"
                     }
+                    alt
                   />
                 </div>
 
