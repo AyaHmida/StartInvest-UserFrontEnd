@@ -70,7 +70,6 @@ const Profile = () => {
     return new Date(dateString).toLocaleDateString("en-US", options);
   };
 
-
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -364,7 +363,6 @@ const Profile = () => {
                     {previewURL && (
                       <img
                         src={previewURL}
-                        alt="Preview"
                         style={{ maxWidth: "100px", maxHeight: "100px" }}
                       />
                     )}
