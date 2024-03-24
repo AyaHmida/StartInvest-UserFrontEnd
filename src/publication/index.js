@@ -66,18 +66,15 @@ export default function Publication() {
               <div className="card card-body">
                 <div className="d-flex mb-3">
                   <div className="avatar avatar-xs me-2">
-                    <a href="#">
-                      {" "}
-                      <img
-                        className="avatar-img rounded-circle border border-white border-3"
-                        src={
-                          userdetail && userdetail.image
-                            ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
-                            : "assets/images/avatar/no-image-male.jpg"
-                        }
-                        alt=""
-                      />{" "}
-                    </a>
+                    <img
+                      className="avatar-img rounded-circle border border-white border-3"
+                      src={
+                        userdetail && userdetail.image
+                          ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                          : "assets/images/avatar/no-image-male.jpg"
+                      }
+                      alt=""
+                    />
                   </div>
                   <form className="w-100">
                     <textarea
