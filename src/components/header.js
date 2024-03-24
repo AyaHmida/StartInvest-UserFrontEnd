@@ -160,44 +160,37 @@ function Header() {
                     </div>
                     <div className="card-body p-0">
                       <ul className="list-group list-group-flush list-unstyled p-2">
-                        {notifications.map(
-                          (notification) =>
-                            notification.read_at && (
-                              <li key={notification.id}>
-                                <a
-                                  href="#"
-                                  className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
-                                >
-                                  <div className="avatar text-center d-none d-sm-inline-block">
-                                    <div className="avatar-img rounded-circle ">
-                                      <img
-                                        src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
-                                        alt="Image"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="ms-sm-3">
-                                    <div className="d-flex">
-                                      <p className="small mb-2">
-                                        {notification.data.user} est{" "}
-                                        {notification.data.title}
-                                      </p>
-                                      <p className="small ms-3">
-                                        {notification.created_at}
-                                      </p>
-                                    </div>
-                                    <a
-                                      onClick={() =>
-                                        markAsRead(notification.id)
-                                      }
-                                    >
-                                      Marquer comme lu
-                                    </a>
-                                  </div>
+                        {notifications.map((notification) => (
+                          <li key={notification.id}>
+                            <a
+                              href="#"
+                              className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
+                            >
+                              <div className="avatar text-center d-none d-sm-inline-block">
+                                <div className="avatar-img rounded-circle ">
+                                  <img
+                                    src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
+                                    alt="Image"
+                                  />
+                                </div>
+                              </div>
+                              <div className="ms-sm-3">
+                                <div className="d-flex">
+                                  <p className="small mb-2">
+                                    {notification.data.user} est{" "}
+                                    {notification.data.title}
+                                  </p>
+                                  <p className="small ms-3">
+                                    {notification.created_at}
+                                  </p>
+                                </div>
+                                <a onClick={() => markAsRead(notification.id)}>
+                                  Marquer comme lu
                                 </a>
-                              </li>
-                            )
-                        )}
+                              </div>
+                            </a>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                     <div className="card-footer text-center">
