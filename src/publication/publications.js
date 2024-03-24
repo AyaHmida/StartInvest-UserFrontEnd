@@ -59,7 +59,6 @@ const Publications = () => {
                       <img
                         className="avatar-img rounded-circle"
                         src={`http://127.0.0.1:8000/uploads/${item.user.image}`}
-                        alt=""
                       />{" "}
                     </a>
                   </div>
@@ -136,7 +135,6 @@ const Publications = () => {
                   </a>
                 </li>
               </ul>
-              
             </div>
             <div className="card-footer py-3">
               <ul className="nav nav-fill nav-stack small">
@@ -206,7 +204,6 @@ const Publications = () => {
                                             ? `http://127.0.0.1:8000/uploads/${like.user.image}`
                                             : "assets/images/avatar/no-image-male.jpg"
                                         }
-                                        alt=""
                                       />
                                     </a>
                                   </div>

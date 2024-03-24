@@ -44,7 +44,7 @@ const SidebarLeft = () => {
         <nav className="navbar navbar-expand-lg mx-0">
           <div
             className="offcanvas offcanvas-start"
-            tabindex="-1"
+            tabIndex="-1"
             id="offcanvasSideNavbar"
           >
             <div className="offcanvas-header">
