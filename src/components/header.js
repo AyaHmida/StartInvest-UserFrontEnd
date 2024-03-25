@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
 import { callApi } from "../api";
 
 function Header() {
@@ -82,7 +81,7 @@ function Header() {
       .then((res) => {
         localStorage.removeItem("token");
 
-        navigate("/");
+        window.location.href = "/login";
       })
       .catch((error) => {
         console.error("Error logging out:", error);

@@ -24,17 +24,17 @@ export const callApi = async (
 
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
-    const tokenExpiration = localStorage.getItem("tokenExpiration");
-    if (tokenExpiration && Date.now() >= parseInt(tokenExpiration, 10)) {
-      window.location.href = "/";
-      return;
-    }
   }
 
   try {
     const response = await axios(config);
     return response.data;
   } catch (error) {
+    console.log(error);
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/";
+    }
     throw error.response ? error.response.data : error.message;
   }
 };
