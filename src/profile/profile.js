@@ -54,6 +54,7 @@ const Profile = () => {
     } catch (error) {
       console.error("Erreur lors de la soumission du formulaire:", error);
     }
+    
   };
 
   useEffect(() => {
@@ -363,6 +364,7 @@ const Profile = () => {
                     {previewURL && (
                       <img
                         src={previewURL}
+                        alt="Preview"
                         style={{ maxWidth: "100px", maxHeight: "100px" }}
                       />
                     )}
