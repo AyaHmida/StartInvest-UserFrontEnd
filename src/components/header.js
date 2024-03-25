@@ -80,6 +80,8 @@ function Header() {
   const handleLogout = () => {
     callApi("auth/logout", "POST")
       .then((res) => {
+                localStorage.removeItem("token");
+
         navigate("/");
       })
       .catch((error) => {
