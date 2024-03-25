@@ -80,7 +80,7 @@ function Header() {
   const handleLogout = () => {
     callApi("auth/logout", "POST")
       .then((res) => {
-                localStorage.removeItem("token");
+        localStorage.removeItem("token");
 
         navigate("/");
       })
@@ -221,7 +221,14 @@ function Header() {
                   </div>
                 </div>
               </li>
-
+              <li className="nav-item ms-2">
+                <Link
+                  className="nav-link bg-light icon-md btn btn-light p-0"
+                  to="/calendar"
+                >
+                  <i className="bi bi-calendar-fill fs-6"></i>
+                </Link>
+              </li>
               <li className="nav-item ms-2 dropdown">
                 <a
                   className="nav-link btn icon-md p-0"

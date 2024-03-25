@@ -44,21 +44,20 @@ const PublicationsProfile = () => {
         );
       });
   };
-
+  const fetchPublications = async () => {
+    try {
+      const data = await callApi("auth/publicationsUser");
+      setPublications(data.publications);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des publications:", error);
+    }
+  };
   useEffect(() => {
-    const fetchPublications = async () => {
-      try {
-        const data = await callApi("auth/publicationsUser");
-        setPublications(data.publications);
-      } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des publications:",
-          error
-        );
-      }
-    };
-
     fetchPublications();
+    const interval = setInterval(fetchPublications, 1000);
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
     getUser();
   }, []);
   const formatDate = (dateString) => {
