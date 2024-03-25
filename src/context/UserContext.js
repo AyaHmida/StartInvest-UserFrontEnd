@@ -1,26 +1,20 @@
-import React, {  useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
 
 const UserContext = React.createContext(null);
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
+  const login = (user) => {
+    setUser(user);
+  };
+  const logout = () => {
+    setUser(null);
+  };
 
-    const logout = async (token) => {
-        try {
-            await axios.post("http://127.0.0.1:8000/api/logout", null, { headers: {'Authorization': `Bearer ${token}`  }});
-            setUser(null);
-
-        } catch (error) {
-            console.error("Erreur de déconnexion :", error);
-        }
-    };
-
-    return (
-        <UserContext.Provider value={{ user, logout }}>
-            {children}
-        </UserContext.Provider>
-    );
+  return (
+    <UserContext.Provider value={{ user, login, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export { UserProvider, UserContext };

@@ -27,7 +27,7 @@ function Login() {
 
       const userType = await getUserType();
       if (userType === "fondateur" || userType === "investisseur") {
-        navigate("/publication");
+        window.location.href = "/publication";
       } else {
         navigate("/updateProfile");
       }
