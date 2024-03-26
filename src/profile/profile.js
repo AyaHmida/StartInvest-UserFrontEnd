@@ -195,7 +195,6 @@ const Profile = () => {
               <div className="d-flex mb-3">
                 <div className="avatar avatar-xs me-2">
                   <a href="#">
-                    {" "}
                     <img
                       className="avatar-img rounded-circle border border-white border-3"
                       src={
@@ -204,7 +203,7 @@ const Profile = () => {
                           : "assets/images/avatar/no-image-male.jpg"
                       }
                       alt=""
-                    />{" "}
+                    />
                   </a>
                 </div>
                 <form className="w-100">
@@ -212,7 +211,7 @@ const Profile = () => {
                     className="form-control pe-4 border-0"
                     placeholder="Share your thoughts..."
                     data-bs-toggle="modal"
-                    data-bs-target="#modalCreateFeed"
+                    data-bs-target="#feedActionPhoto"
                   />
                 </form>
               </div>
