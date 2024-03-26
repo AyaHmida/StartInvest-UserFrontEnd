@@ -29,7 +29,7 @@ function Login() {
       if (userType === "fondateur" || userType === "investisseur") {
         window.location.href = "/publication";
       } else {
-        navigate("/updateProfile");
+        window.location.href = "/updateProfile";
       }
     } catch (err) {
       console.error(err);
