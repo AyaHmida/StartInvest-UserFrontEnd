@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { callApi } from "../api";
-
+import { navigate } from "@reach/router";
 const Publications = () => {
   const [publications, setPublications] = useState([]);
   const [likes, setLikes] = useState(publications.map(() => false));
@@ -27,9 +27,13 @@ const Publications = () => {
     }
   };
   useEffect(() => {
-    fetchPublications();
-    const interval = setInterval(fetchPublications, 1000);
-    return () => clearInterval(interval);
+    const fetchData = async () => {
+      await fetchPublications();
+      const intervalId = setInterval(fetchPublications, 1000);
+      return () => clearInterval(intervalId);
+    };
+
+    fetchData();
   }, []);
 
   const formatDate = (dateString) => {
@@ -47,6 +51,11 @@ const Publications = () => {
     setPublications(updatedPublications);
   };
 
+  const redirectToProfile = (userId) => {
+    console.log("User ID:", userId);
+    navigate(`/profileAutre/${userId}`, { replace: true });
+  };
+
   return (
     <>
       {publications.map((item, index) => (
@@ -55,7 +64,10 @@ const Publications = () => {
             <div className="card-header border-0 pb-0">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
-                  <div className="avatar me-2">
+                  <div
+                    className="avatar me-2"
+                    onClick={() => redirectToProfile(item.user.id)}
+                  >
                     <a href="#">
                       {" "}
                       <img
