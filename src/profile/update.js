@@ -15,7 +15,8 @@ export default function UpdateProfile() {
         typePerson: type,
       });
       console.log("Données enregistrées avec succès :", response);
-      navigate("/editProfile");
+            window.location.href = "/editProfile";
+
     } catch (error) {
       console.error("Erreur lors de l'enregistrement des données :", error);
     }
