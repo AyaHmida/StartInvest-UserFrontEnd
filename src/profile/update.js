@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/header";
+import { Header } from "../components";
 import { callApi } from "../api";
 
 export default function UpdateProfile() {

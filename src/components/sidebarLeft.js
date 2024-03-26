@@ -9,7 +9,6 @@ const SidebarLeft = () => {
   const getUser = () => {
     callApi("auth/user").then((data) => {
       setUserdetail(data);
-      console.log(data.name);
     });
   };
   const getStartup = async () => {
