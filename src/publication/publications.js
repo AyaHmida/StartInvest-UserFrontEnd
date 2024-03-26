@@ -72,30 +72,13 @@ const Publications = () => {
                     <p className="mb-0 small">{formatDate(item.created_at)}</p>
                   </div>
                 </div>
-                <a
-                  href="#"
-                  className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
-                  id="cardShareAction5"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="bi bi-three-dots"></i>
-                </a>
-                <ul
-                  className="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="cardShareAction5"
-                >
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      href="#"
-                      onClick={() => excludePublication(index)}
-                    >
-                      {" "}
-                      <i className="bi bi-slash-circle fa-fw pe-2"></i>
-                      Efface post
-                    </a>
-                  </li>
+                <ul aria-labelledby="cardShareAction5">
+                  <button
+                    className="dropdown-item"
+                    onClick={() => excludePublication(index)}
+                  >
+                    <i className="bi bi-x-circle fa-fw pe-2 fs-3"></i>
+                  </button>
                 </ul>
               </div>
             </div>
