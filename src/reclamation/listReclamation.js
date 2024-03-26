@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { callApi } from "../api";
-import Header from "../components/header";
-import { SidebarLeft } from "../components";
+import { Header, SidebarLeft } from "../components";
 
 const ListReclamation = () => {
   const [reclamations, setReclamations] = useState([]);
@@ -35,7 +33,7 @@ const ListReclamation = () => {
 
   return (
     <div>
-      <Header />
+      <Header/>
       <br />
       <main>
         <div className="container mt-5">

@@ -11,10 +11,14 @@ export { default as Calendar } from "../calendar/calendar";
 export { default as Forgetpassword } from "../auth/forgetpassword";
 export { default as Resetpassword } from "../auth/resetpassword";
 export { default as SidebarLeft } from "../components/sidebarLeft";
+export { default as Header } from "../components/header";
+
 export { default as SidebarRight } from "../components/sidebarRight";
 export { default as Publications } from "../publication/publications";
 export { default as PublicationsProfile } from "../profile/publicationsProfile";
 export { default as Messages } from "../publication/messages";
-export { default as Reclamation } from "../profile/reclamation";
-export { default as ListReclamation } from "../profile/listReclamation";
+export { default as Reclamation } from "../reclamation/reclamation";
+export { default as ListReclamation } from "../reclamation/listReclamation";
 export { default as UpdateProfile } from "../profile/update";
+export { default as ModelPublication } from "./ModalPublication";
+export { default as About } from "../profile/About";

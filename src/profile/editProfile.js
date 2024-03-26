@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/header";
-import { SidebarLeft } from "../components";
+import { Header,SidebarLeft } from "../components";
 import { callApi } from "../api";
 import { useNavigate } from "react-router-dom/dist";
 

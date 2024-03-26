@@ -1,10 +1,8 @@
-import axios from "axios";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { callApi } from "../api";
 
 function Header() {
-  const navigate = useNavigate();
   const [userdetail, setUserdetail] = useState();
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -15,11 +13,7 @@ function Header() {
   const countNotify = async () => {
     try {
       const response = await callApi("auth/countNotifications");
-      if (response && response.countNotifications !== undefined) {
-        setNotificationCount(response.countNotifications);
-      } else {
-        console.error("Invalid response format:", response);
-      }
+      setNotificationCount(response.countNotifications);
     } catch (error) {
       console.error("Error fetching count notifications:", error);
     }
@@ -55,7 +49,6 @@ function Header() {
       });
 
       setNotifications(uniqueNotifications);
-      // console.log(uniqueNotifications);
     });
   };
 
