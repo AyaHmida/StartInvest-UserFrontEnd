@@ -28,6 +28,8 @@ const Publications = () => {
   };
   useEffect(() => {
     fetchPublications();
+    const interval = setInterval(fetchPublications, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const formatDate = (dateString) => {
