@@ -1,6 +1,7 @@
 export { default as PageHome } from "./pageHome";
 export { default as Publication } from "../publication";
 export { default as Profile } from "../profile/profile";
+export { default as ProfileAutre } from "../profile/profileAutre";
 export { default as Notifications } from "../notification/notifications";
 export { default as Messaging } from "../message/messaging";
 export { default as PostDetails } from "../publication/postDetails";
@@ -16,6 +17,7 @@ export { default as Header } from "../components/header";
 export { default as SidebarRight } from "../components/sidebarRight";
 export { default as Publications } from "../publication/publications";
 export { default as PublicationsProfile } from "../profile/publicationsProfile";
+export { default as PublicationsAutrePub } from "../profile/profileAutrepub";
 export { default as Messages } from "../publication/messages";
 export { default as Reclamation } from "../reclamation/reclamation";
 export { default as ListReclamation } from "../reclamation/listReclamation";

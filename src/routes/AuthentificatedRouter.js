@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 import {
   Publication,
   Profile,
+  ProfileAutre,
   Notifications,
   Messaging,
   PostDetails,
@@ -25,6 +26,10 @@ const AuthentificatedRouter = () => {
     {
       path: "/profile",
       element: <Profile />,
+    },
+    {
+      path: "/profileAutre/:userId",
+      element: <ProfileAutre />,
     },
     {
       path: "/notifications",

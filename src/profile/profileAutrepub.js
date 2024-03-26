@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { callApi } from "../api";
-
+import { useParams } from "react-router-dom";
 const PublicationsProfile = () => {
   const [publications, setPublications] = useState([]);
   const [userdetail, setUserdetail] = useState();
   const [previewURL, setPreviewURL] = useState(null);
   const [likes, setLikes] = useState(publications.map(() => false));
-
+  const { userId } = useParams();
   const Like = (publicationId, index) => {
     const updatedLikes = [...likes];
 
@@ -22,53 +22,35 @@ const PublicationsProfile = () => {
     );
   };
 
-  const getUser = () => {
-    callApi("auth/user").then((data) => {
+  const getUser = (userId) => {
+    callApi(`auth/userById/${userId}`).then((data) => {
       setUserdetail(data);
       setPreviewURL(data.image);
-      console.log(data.name);
     });
   };
 
-  const handleDelete = (publicationId) => {
-    callApi(`auth/publications/${publicationId}`, "DELETE")
-      .then((response) => {
-        console.log("Publication supprimée avec succès");
-        setPublications((prevPublications) =>
-          prevPublications.filter((pub) => pub.id !== publicationId)
-        );
-      })
-      .catch((error) => {
-        console.error(
-          "Erreur lors de la suppression de la publication :",
-          error
-        );
-      });
-  };
-
-  const fetchPublications = async () => {
+  const fetchPublications = async (userId) => {
     try {
-      const data = await callApi("auth/publicationsUser");
+      const data = await callApi(`auth/userProfilePublicationsId/${userId}`);
       setPublications(data.publications);
     } catch (error) {
-      console.error("Erreur lors de la récupération des publications:", error);
+      console.error("Erreur lors de la récupération des publications :", error);
     }
   };
 
   useEffect(() => {
+    getUser(userId);
+  }, [userId]);
+
+  useEffect(() => {
     const fetchData = async () => {
-      await fetchPublications();
+      await fetchPublications(userId);
       const intervalId = setInterval(fetchPublications, 1000);
       return () => clearInterval(intervalId);
     };
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
   const formatDate = (dateString) => {
     const options = {
       day: "numeric",
@@ -82,13 +64,14 @@ const PublicationsProfile = () => {
   return (
     <>
       {publications.map((item, index) => (
-        <div key={index}>
-          <div className="card">
+        <div>
+          <div className="card" key={index}>
             <div className="card-header border-0 pb-0">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
                   <div className="avatar me-2">
-                    <a href="#!">
+                    <a href="#">
+                      {" "}
                       <img
                         className="avatar-img rounded-circle border border-white border-3"
                         src={
@@ -97,7 +80,7 @@ const PublicationsProfile = () => {
                             : "assets/images/avatar/no-image-male.jpg"
                         }
                         alt=""
-                      />
+                      />{" "}
                     </a>
                   </div>
                   <div>
@@ -117,23 +100,6 @@ const PublicationsProfile = () => {
                 >
                   <i className="bi bi-three-dots"></i>
                 </a>
-                <ul
-                  className="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="cardShareAction5"
-                >
-                  <li key={item.id}>
-                    <a
-                      className="dropdown-item"
-                      onClick={() => {
-                        handleDelete(item.id);
-                      }}
-                    >
-                      {" "}
-                      <i className="bi bi-slash-circle fa-fw pe-2"></i>
-                      Efface post
-                    </a>
-                  </li>
-                </ul>
               </div>
             </div>
             <div className="card-body pb-0">
@@ -158,7 +124,7 @@ const PublicationsProfile = () => {
                   </div>
                 </div>
               ) : (
-                <p>Aucune photo disponible</p>
+                <div></div>
               )}
 
               <ul className="nav nav-stack pb-2 small">
