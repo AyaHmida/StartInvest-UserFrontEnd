@@ -45,8 +45,6 @@ const PublicationsProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       await fetchPublications(userId);
-      const intervalId = setInterval(fetchPublications, 1000);
-      return () => clearInterval(intervalId);
     };
 
     fetchData();

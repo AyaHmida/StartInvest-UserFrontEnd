@@ -26,14 +26,23 @@ const Publications = () => {
       console.error("Erreur lors de la récupération des publications:", error);
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchPublications();
-      const intervalId = setInterval(fetchPublications, 1000);
-      return () => clearInterval(intervalId);
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
     };
+  }
+  const debouncedFetchPublications = debounce(fetchPublications, 1000); // Débouncing de 1 seconde
 
-    fetchData();
+  useEffect(() => {
+    fetchPublications(); // Appel initial pour récupérer les publications
+
+    const intervalId = setInterval(debouncedFetchPublications, 60000); // Rafraîchir les données toutes les 60 secondes
+
+    return () => clearInterval(intervalId); // Nettoyage de l'intervalle lors du démontage du composant
   }, []);
 
   const formatDate = (dateString) => {
