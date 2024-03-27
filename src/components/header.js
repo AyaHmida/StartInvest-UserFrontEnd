@@ -86,6 +86,44 @@ function Header() {
     getNotifications();
     countNotify();
   }, [query]);
+
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
+
+  const debouncedFetchNotification = debounce(getNotifications, 1000);
+  const debouncedFetchMarkAllRead = debounce(markAllRead, 1000);
+  const debouncedCountNotify = debounce(countNotify, 1000);
+
+  useEffect(() => {
+    getNotifications();
+    const notificationIntervalId = setInterval(
+      debouncedFetchNotification,
+      1000
+    );
+
+    return () => clearInterval(notificationIntervalId);
+  }, []);
+
+  useEffect(() => {
+    markAllRead();
+    const markAllReadIntervalId = setInterval(debouncedFetchMarkAllRead, 1000);
+
+    return () => clearInterval(markAllReadIntervalId);
+  }, []);
+
+  useEffect(() => {
+    const countIntervalId = setInterval(debouncedCountNotify, 1000);
+
+    return () => clearInterval(countIntervalId);
+  }, []);
+
   return (
     <>
       <header className="navbar-light fixed-top header-static bg-mode">
