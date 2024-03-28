@@ -40,6 +40,9 @@ const ModelPublication = () => {
       console.error("Erreur lors de la soumission du formulaire:", error);
     }
   };
+    useEffect(() => {
+    getUser();
+  });
   return (
     <>
       <div
