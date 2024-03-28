@@ -3,6 +3,7 @@ import { callApi } from "../api";
 import { navigate } from "@reach/router";
 const Publications = () => {
   const [publications, setPublications] = useState([]);
+
   const [likes, setLikes] = useState(publications.map(() => false));
   const Like = (publicationId, index) => {
     const updatedLikes = [...likes];
@@ -17,6 +18,7 @@ const Publications = () => {
       `auth/${updatedLikes[index] ? "liked" : "disliked"}/${publicationId}`,
       action
     );
+    fetchPublications();
   };
   const fetchPublications = async () => {
     try {
@@ -26,23 +28,9 @@ const Publications = () => {
       console.error("Erreur lors de la récupération des publications:", error);
     }
   };
-  function debounce(func, delay) {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func.apply(this, args);
-      }, delay);
-    };
-  }
-  const debouncedFetchPublications = debounce(fetchPublications, 1000); // Débouncing de 1 seconde
 
   useEffect(() => {
-    fetchPublications(); // Appel initial pour récupérer les publications
-
-    // const intervalId = setInterval(debouncedFetchPublications, 60000); // Rafraîchir les données toutes les 60 secondes
-
-    // return () => clearInterval(intervalId); // Nettoyage de l'intervalle lors du démontage du composant
+    fetchPublications();
   }, []);
 
   const formatDate = (dateString) => {
@@ -60,7 +48,7 @@ const Publications = () => {
     setPublications(updatedPublications);
   };
 
-   const redirectToProfile = (userId) => {
+  const redirectToProfile = (userId) => {
     navigate(`/${userId}`);
   };
 
@@ -80,11 +68,12 @@ const Publications = () => {
                       {" "}
                       <img
                         className="avatar-img rounded-circle"
-src={
+                        src={
                           item.user.image
                             ? `http://127.0.0.1:8000/uploads/${item.user.image}`
                             : "assets/images/avatar/no-image-male.jpg"
-                        }                      />{" "}
+                        }
+                      />{" "}
                     </a>
                   </div>
                   <div>

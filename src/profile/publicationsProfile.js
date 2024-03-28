@@ -20,6 +20,7 @@ const PublicationsProfile = () => {
       `auth/${updatedLikes[index] ? "liked" : "disliked"}/${publicationId}`,
       action
     );
+    fetchPublications();
   };
 
   const getUser = () => {
@@ -28,6 +29,7 @@ const PublicationsProfile = () => {
       setPreviewURL(data.image);
       console.log(data.name);
     });
+    fetchPublications();
   };
 
   const handleDelete = (publicationId) => {
@@ -56,17 +58,8 @@ const PublicationsProfile = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchPublications();
-      const intervalId = setInterval(fetchPublications, 1000);
-      return () => clearInterval(intervalId);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     getUser();
+    fetchPublications();
   }, []);
 
   const formatDate = (dateString) => {

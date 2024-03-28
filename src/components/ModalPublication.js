@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { callApi } from "../api";
 
 const ModelPublication = () => {
@@ -6,6 +6,7 @@ const ModelPublication = () => {
   const [previewURL, setPreviewURL] = useState(null);
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
+  const [publications, setPublications] = useState([]);
 
   const getUser = () => {
     callApi("auth/user").then((data) => {
@@ -18,6 +19,14 @@ const ModelPublication = () => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
     setPreviewURL(URL.createObjectURL(selectedFile));
+  };
+  const fetchPublications = async () => {
+    try {
+      const data = await callApi("auth/publicationsUser");
+      setPublications(data.publications);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des publications:", error);
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +45,7 @@ const ModelPublication = () => {
       );
       setDescription("");
       setFile("");
+      fetchPublications();
     } catch (error) {
       console.error("Erreur lors de la soumission du formulaire:", error);
     }

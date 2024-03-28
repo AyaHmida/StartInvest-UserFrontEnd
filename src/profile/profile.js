@@ -62,6 +62,7 @@ const Profile = () => {
         formData,
         true
       );
+      getUser();
       console.log(response);
     } catch (error) {
       console.error("Error uploading image:", error);
