@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { callApi } from "../api";
 
 const ModelPublication = () => {
@@ -40,9 +40,7 @@ const ModelPublication = () => {
       console.error("Erreur lors de la soumission du formulaire:", error);
     }
   };
-    useEffect(() => {
-    getUser();
-  });
+
   return (
     <>
       <div
