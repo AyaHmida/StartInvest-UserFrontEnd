@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { callApi } from "../api";
 
 function Header() {
@@ -19,8 +19,14 @@ function Header() {
     }
   };
   const markAllRead = async () => {
-    const response = await callApi("auth/markAllRead");
+    try {
+      const response = await callApi("auth/markAllRead", "GET"); // Appelez la route avec la méthode GET
+      console.log(response);
+    } catch (error) {
+      console.error("Error marking all as read:", error);
+    }
   };
+
   const markAsRead = (notificationId) => {
     try {
       callApi(`auth/markAsRead/${notificationId}`);
@@ -85,60 +91,35 @@ function Header() {
     handleSearch();
     getNotifications();
     countNotify();
+    // eslint-disable-next-line
   }, [query]);
-
-  function debounce(func, delay) {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func.apply(this, args);
-      }, delay);
-    };
-  }
-
-  const debouncedFetchNotification = debounce(getNotifications, 1000);
-  const debouncedFetchMarkAllRead = debounce(markAllRead, 1000);
-  const debouncedCountNotify = debounce(countNotify, 1000);
 
   useEffect(() => {
     getNotifications();
-    const notificationIntervalId = setInterval(
-      debouncedFetchNotification,
-      1000
-    );
-
-    return () => clearInterval(notificationIntervalId);
   }, []);
 
   useEffect(() => {
     markAllRead();
-    const markAllReadIntervalId = setInterval(debouncedFetchMarkAllRead, 1000);
-
-    return () => clearInterval(markAllReadIntervalId);
-  }, []);
-
-  useEffect(() => {
-    const countIntervalId = setInterval(debouncedCountNotify, 1000);
-
-    return () => clearInterval(countIntervalId);
   }, []);
 
   return (
     <>
       <header className="navbar-light fixed-top header-static bg-mode">
+        <br></br>
         <nav className="navbar">
           <div className="container">
             <Link className="navbar-brand" to="/publication">
               <img
                 className="light-mode-item navbar-brand-item"
-                src="assets/images/logo.svg"
+                src="assets/images/logo.png"
                 alt="logo"
+                style={{ width: "150px", height: "auto" }} // Ajoutez cette ligne pour spécifier la taille du logo
               />
               <img
                 className="dark-mode-item navbar-brand-item"
-                src="assets/images/logo.svg"
+                src="assets/images/logo.png"
                 alt="logo"
+                style={{ width: "150px", height: "auto" }} // Ajoutez cette ligne pour spécifier la taille du logo
               />
             </Link>
 
@@ -208,16 +189,16 @@ function Header() {
                     <div className="card-body p-0">
                       <ul className="list-group list-group-flush list-unstyled p-2">
                         {notifications.map((notification) => (
-                          <li key={notification.id}>
-                            <a
-                              href="#"
+                          <li key={notification && notification.id}>
+                            <button
                               className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
+                              onClick={() => markAsRead(notification.id)}
                             >
                               <div className="avatar text-center d-none d-sm-inline-block">
                                 <div className="avatar-img rounded-circle ">
                                   <img
                                     src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
-                                    alt="Image"
+                                    alt={notification.data.authorName}
                                   />
                                 </div>
                               </div>
@@ -231,11 +212,9 @@ function Header() {
                                     {notification.created_at}
                                   </p>
                                 </div>
-                                <a onClick={() => markAsRead(notification.id)}>
-                                  Marquer comme lu
-                                </a>
                               </div>
-                            </a>
+                              Marquer comme lu
+                            </button>
                           </li>
                         ))}
                       </ul>
@@ -260,11 +239,9 @@ function Header() {
                 </Link>
               </li>
               <li className="nav-item ms-2 dropdown">
-                <a
+                <button
                   className="nav-link btn icon-md p-0"
-                  href="#"
                   id="profileDropdown"
-                  role="button"
                   data-bs-auto-close="outside"
                   data-bs-display="static"
                   data-bs-toggle="dropdown"
@@ -277,8 +254,9 @@ function Header() {
                         ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
                         : "assets/images/avatar/no-image-male.jpg"
                     }
+                    alt={(userdetail && userdetail.name) || "Profile Picture"}
                   />
-                </a>
+                </button>
                 <ul
                   className="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3"
                   aria-labelledby="profileDropdown"
@@ -294,6 +272,10 @@ function Header() {
                             userdetail && userdetail.image
                               ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
                               : "assets/images/avatar/no-image-male.jpg"
+                          }
+                          alt={
+                            (userdetail && userdetail.name) ||
+                            "Default user avatar"
                           }
                         />
                       </div>
@@ -336,7 +318,9 @@ function Header() {
           </div>
         </nav>
       </header>
-
+      <br></br>
+      <br></br> <br></br>
+      <br></br>
       <div
         className="modal fade"
         id="search"
@@ -385,7 +369,6 @@ function Header() {
                           <div className="d-flex align-items-center">
                             <div className="avatar me-3">
                               <a href="#!">
-                                {" "}
                                 <img
                                   className="avatar-img rounded-circle"
                                   src={
@@ -393,13 +376,14 @@ function Header() {
                                       ? `http://127.0.0.1:8000/uploads/${user.image}`
                                       : "assets/images/avatar/no-image-male.jpg"
                                   }
-                                />{" "}
+                                  alt="User avatar"
+                                />
                               </a>
                             </div>
                             <div className="w-100">
                               <div className="d-sm-flex align-items-start">
                                 <h6 className="mb-0">
-                                  <a>{user.name}</a>
+                                  <p>{user.name}</p>
                                   {/* <p>{user.type}</p> */}
                                 </h6>
                               </div>
