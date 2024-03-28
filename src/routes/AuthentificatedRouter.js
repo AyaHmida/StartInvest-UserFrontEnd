@@ -27,8 +27,8 @@ const AuthentificatedRouter = () => {
       path: "/profile",
       element: <Profile />,
     },
-    {
-      path: "/profileAutre/:userId",
+     {
+      path: "/:userId",
       element: <ProfileAutre />,
     },
     {
