@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Messages,
@@ -17,6 +17,9 @@ export default function Publication() {
       setUserdetail(data);
     });
   };
+    useEffect(() => {
+    getUser();
+  });
 
   return (
     <div>
