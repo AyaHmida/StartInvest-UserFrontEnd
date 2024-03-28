@@ -81,8 +81,11 @@ const Publications = () => {
                       {" "}
                       <img
                         className="avatar-img rounded-circle"
-                        src={`http://127.0.0.1:8000/uploads/${item.user.image}`}
-                      />{" "}
+src={
+                          item.user.image
+                            ? `http://127.0.0.1:8000/uploads/${item.user.image}`
+                            : "assets/images/avatar/no-image-male.jpg"
+                        }                      />{" "}
                     </a>
                   </div>
                   <div>
