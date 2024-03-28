@@ -40,9 +40,9 @@ const Publications = () => {
   useEffect(() => {
     fetchPublications(); // Appel initial pour récupérer les publications
 
-    const intervalId = setInterval(debouncedFetchPublications, 60000); // Rafraîchir les données toutes les 60 secondes
+    // const intervalId = setInterval(debouncedFetchPublications, 60000); // Rafraîchir les données toutes les 60 secondes
 
-    return () => clearInterval(intervalId); // Nettoyage de l'intervalle lors du démontage du composant
+    // return () => clearInterval(intervalId); // Nettoyage de l'intervalle lors du démontage du composant
   }, []);
 
   const formatDate = (dateString) => {
@@ -60,9 +60,8 @@ const Publications = () => {
     setPublications(updatedPublications);
   };
 
-  const redirectToProfile = (userId) => {
-    console.log("User ID:", userId);
-    navigate(`/profileAutre/${userId}`, { replace: true });
+   const redirectToProfile = (userId) => {
+    navigate(`/${userId}`);
   };
 
   return (
