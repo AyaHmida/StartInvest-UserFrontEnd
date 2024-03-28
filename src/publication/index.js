@@ -17,7 +17,9 @@ export default function Publication() {
       setUserdetail(data);
     });
   };
-
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <div>
       <Header />

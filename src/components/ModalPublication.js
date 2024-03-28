@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { callApi } from "../api";
 
 const ModelPublication = () => {
@@ -15,6 +15,9 @@ const ModelPublication = () => {
       console.log(data.name);
     });
   };
+  useEffect(() => {
+    getUser();
+  }, []);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -84,7 +87,7 @@ const ModelPublication = () => {
                         ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
                         : "assets/images/avatar/no-image-male.jpg"
                     }
-                    alt
+                    alt="User Avatar"
                   />
                 </div>
 
