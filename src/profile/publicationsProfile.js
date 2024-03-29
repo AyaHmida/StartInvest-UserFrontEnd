@@ -134,7 +134,7 @@ const PublicationsProfile = () => {
               {item.file ? (
                 <div className="d-flex justify-content-between">
                   <div className="row g-3">
-                    <div className="col-6">
+                    <div className="col">
                       <a
                         className="h-100"
                         href={`http://127.0.0.1:8000/uploads/${item.file}`}
@@ -142,7 +142,7 @@ const PublicationsProfile = () => {
                         data-gallery="image-popup"
                       >
                         <img
-                          className="rounded img-fluid"
+                          className="img-fluid"
                           src={`http://127.0.0.1:8000/uploads/${item.file}`}
                           alt="image"
                         />
