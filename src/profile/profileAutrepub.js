@@ -89,30 +89,39 @@ const PublicationsProfile = () => {
                     <p className="mb-0 small">{formatDate(item.created_at)}</p>
                   </div>
                 </div>
-                <a
-                  href="#"
-                  className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
-                  id="cardShareAction5"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="bi bi-three-dots"></i>
-                </a>
               </div>
             </div>
             <div className="card-body pb-0">
               <p>{item.description}</p>
-              {item.file ? (
+              {item.file && item.file.endsWith(".mp4") ? (
                 <div className="d-flex justify-content-between">
                   <div className="row g-3">
-                    <div className="col
-                ">
-                      
+                    <div className="col">
+                      <video className="video-fluid" controls>
+                        <source
+                          src={`http://127.0.0.1:8000/uploads/${item.file}`}
+                          type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                      </video>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div>
+                  <a
+                    className="h-100"
+                    href={`http://127.0.0.1:8000/uploads/${item.file}`}
+                    data-glightbox
+                    data-gallery="image-popup"
+                  >
+                    <img
+                      className="img-fluid"
+                      src={`http://127.0.0.1:8000/uploads/${item.file}`}
+                      alt="image"
+                    />
+                  </a>
+                </div>
               )}
 
               <ul className="nav nav-stack pb-2 small">
