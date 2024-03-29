@@ -364,7 +364,7 @@ function Header() {
                               <div className="d-sm-flex align-items-start">
                                 <h6 className="mb-0">
                                   <a>{user.name}</a>
-                                  {/* <p>{user.type}</p> */}
+                                   <p>{user.type}</p> 
                                 </h6>
                               </div>
                             </div>
