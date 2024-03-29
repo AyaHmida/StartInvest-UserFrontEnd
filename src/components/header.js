@@ -76,8 +76,9 @@ function Header() {
   const handleLogout = () => {
     callApi("auth/logout", "POST")
       .then((res) => {
-        console.log(res);
-        navigate("/");
+        localStorage.removeItem("token");
+
+        window.location.href = "/login";
       })
       .catch((error) => {
         console.error("Error logging out:", error);
