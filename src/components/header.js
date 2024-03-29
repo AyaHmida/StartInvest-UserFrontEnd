@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 import { callApi } from "../api";
 
 function Header() {
+  const navigate = useNavigate();
   const [userdetail, setUserdetail] = useState();
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [notifications, setNotifications] = useState([]);
-
   const [notificationCount, setNotificationCount] = useState(0);
 
   const countNotify = async () => {
@@ -18,15 +20,9 @@ function Header() {
       console.error("Error fetching count notifications:", error);
     }
   };
-  const markAllRead = async () => {
-    try {
-      const response = await callApi("auth/markAllRead", "GET"); // Appelez la route avec la méthode GET
-      console.log(response);
-    } catch (error) {
-      console.error("Error marking all as read:", error);
-    }
+  const markAllRead = () => {
+    callApi("auth/markAllRead");
   };
-
   const markAsRead = (notificationId) => {
     try {
       callApi(`auth/markAsRead/${notificationId}`);
@@ -43,6 +39,7 @@ function Header() {
         })
       );
 
+      // Filtrer les notifications pour n'afficher qu'une seule instance de chaque type
       const uniqueNotifications = [];
       const seenData = new Set();
 
@@ -55,6 +52,7 @@ function Header() {
       });
 
       setNotifications(uniqueNotifications);
+      console.log(uniqueNotifications);
     });
   };
 
@@ -78,9 +76,8 @@ function Header() {
   const handleLogout = () => {
     callApi("auth/logout", "POST")
       .then((res) => {
-        localStorage.removeItem("token");
-
-        window.location.href = "/login";
+        console.log(res);
+        navigate("/");
       })
       .catch((error) => {
         console.error("Error logging out:", error);
@@ -91,21 +88,10 @@ function Header() {
     handleSearch();
     getNotifications();
     countNotify();
-    // eslint-disable-next-line
   }, [query]);
-
-  useEffect(() => {
-    getNotifications();
-  }, []);
-
-  useEffect(() => {
-    markAllRead();
-  }, []);
-
   return (
     <>
       <header className="navbar-light fixed-top header-static bg-mode">
-        <br></br>
         <nav className="navbar">
           <div className="container">
             <Link className="navbar-brand" to="/publication">
@@ -178,45 +164,51 @@ function Header() {
                           {notificationCount} new
                         </span>
                       </h6>
-                      <a
-                        className="small"
-                        href="#"
-                        onClick={() => markAllRead()}
-                      >
+                      <a className="small" onClick={() => markAllRead()}>
                         Tout Marquer comme lu
                       </a>
                     </div>
                     <div className="card-body p-0">
                       <ul className="list-group list-group-flush list-unstyled p-2">
-                        {notifications.map((notification) => (
-                          <li key={notification && notification.id}>
-                            <button
-                              className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
-                              onClick={() => markAsRead(notification.id)}
-                            >
-                              <div className="avatar text-center d-none d-sm-inline-block">
-                                <div className="avatar-img rounded-circle ">
-                                  <img
-                                    src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
-                                    alt={notification.data.authorName}
-                                  />
-                                </div>
-                              </div>
-                              <div className="ms-sm-3">
-                                <div className="d-flex">
-                                  <p className="small mb-2">
-                                    {notification.data.user} est{" "}
-                                    {notification.data.title}
-                                  </p>
-                                  <p className="small ms-3">
-                                    {notification.created_at}
-                                  </p>
-                                </div>
-                              </div>
-                              Marquer comme lu
-                            </button>
-                          </li>
-                        ))}
+                        {notifications.map(
+                          (notification) =>
+                            !notification.read_at && (
+                              <li key={notification.id}>
+                                <a
+                                  href="#"
+                                  className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
+                                >
+                                  <div className="avatar text-center d-none d-sm-inline-block">
+                                    <div className="avatar-img rounded-circle ">
+                                      <img
+                                        src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
+                                        alt="Image"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="ms-sm-3">
+                                    <div className="d-flex">
+                                      <p className="small mb-2">
+                                        {notification.data.user} est{" "}
+                                        {notification.data.title}:
+                                        <p>{notification.data.description}</p>
+                                      </p>
+                                      <p className="small ms-3">
+                                        {notification.created_at}
+                                      </p>
+                                    </div>
+                                    <a
+                                      onClick={() =>
+                                        markAsRead(notification.id)
+                                      }
+                                    >
+                                      Marquer comme lu
+                                    </a>
+                                  </div>
+                                </a>
+                              </li>
+                            )
+                        )}
                       </ul>
                     </div>
                     <div className="card-footer text-center">
@@ -230,18 +222,13 @@ function Header() {
                   </div>
                 </div>
               </li>
-              <li className="nav-item ms-2">
-                <Link
-                  className="nav-link bg-light icon-md btn btn-light p-0"
-                  to="/calendar"
-                >
-                  <i className="bi bi-calendar-fill fs-6"></i>
-                </Link>
-              </li>
+
               <li className="nav-item ms-2 dropdown">
-                <button
+                <a
                   className="nav-link btn icon-md p-0"
+                  href="#"
                   id="profileDropdown"
+                  role="button"
                   data-bs-auto-close="outside"
                   data-bs-display="static"
                   data-bs-toggle="dropdown"
@@ -254,9 +241,8 @@ function Header() {
                         ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
                         : "assets/images/avatar/no-image-male.jpg"
                     }
-                    alt={(userdetail && userdetail.name) || "Profile Picture"}
                   />
-                </button>
+                </a>
                 <ul
                   className="dropdown-menu dropdown-animation dropdown-menu-end pt-3 small me-md-n3"
                   aria-labelledby="profileDropdown"
@@ -272,10 +258,6 @@ function Header() {
                             userdetail && userdetail.image
                               ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
                               : "assets/images/avatar/no-image-male.jpg"
-                          }
-                          alt={
-                            (userdetail && userdetail.name) ||
-                            "Default user avatar"
                           }
                         />
                       </div>
@@ -318,9 +300,7 @@ function Header() {
           </div>
         </nav>
       </header>
-      <br></br>
-      <br></br> <br></br>
-      <br></br>
+
       <div
         className="modal fade"
         id="search"
@@ -369,6 +349,7 @@ function Header() {
                           <div className="d-flex align-items-center">
                             <div className="avatar me-3">
                               <a href="#!">
+                                {" "}
                                 <img
                                   className="avatar-img rounded-circle"
                                   src={
@@ -376,14 +357,13 @@ function Header() {
                                       ? `http://127.0.0.1:8000/uploads/${user.image}`
                                       : "assets/images/avatar/no-image-male.jpg"
                                   }
-                                  alt="User avatar"
-                                />
+                                />{" "}
                               </a>
                             </div>
                             <div className="w-100">
                               <div className="d-sm-flex align-items-start">
                                 <h6 className="mb-0">
-                                  <p>{user.name}</p>
+                                  <a>{user.name}</a>
                                   {/* <p>{user.type}</p> */}
                                 </h6>
                               </div>
