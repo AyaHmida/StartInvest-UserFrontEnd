@@ -99,13 +99,13 @@ function Header() {
                 className="light-mode-item navbar-brand-item"
                 src="assets/images/logo.png"
                 alt="logo"
-                style={{ width: "150px", height: "auto" }} // Ajoutez cette ligne pour spécifier la taille du logo
+                style={{ width: "100px", height: "auto" }} // Ajoutez cette ligne pour spécifier la taille du logo
               />
               <img
                 className="dark-mode-item navbar-brand-item"
                 src="assets/images/logo.png"
                 alt="logo"
-                style={{ width: "150px", height: "auto" }} // Ajoutez cette ligne pour spécifier la taille du logo
+                style={{ width: "100px", height: "auto" }} // Ajoutez cette ligne pour spécifier la taille du logo
               />
             </Link>
 
