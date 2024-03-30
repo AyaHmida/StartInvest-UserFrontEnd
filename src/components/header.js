@@ -52,7 +52,7 @@ function Header() {
       });
 
       setNotifications(uniqueNotifications);
-      // console.log(uniqueNotifications);
+      console.log(uniqueNotifications);
     });
   };
 
@@ -76,8 +76,9 @@ function Header() {
   const handleLogout = () => {
     callApi("auth/logout", "POST")
       .then((res) => {
-        console.log(res);
-        navigate("/");
+        localStorage.removeItem("token");
+
+        window.location.href = "/login";
       })
       .catch((error) => {
         console.error("Error logging out:", error);
@@ -105,7 +106,7 @@ function Header() {
                 className="dark-mode-item navbar-brand-item"
                 src="assets/images/logo.png"
                 alt="logo"
-                style={{ width: "150px", height: "auto" }} // Ajoutez cette ligne pour spécifier la taille du logo
+                style={{ width: "100px", height: "auto" }} // Ajoutez cette ligne pour spécifier la taille du logo
               />
             </Link>
 
@@ -153,70 +154,111 @@ function Header() {
                   <i className="bi bi-bell-fill fs-6"> </i>
                 </a>
                 <div
-                  className="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0"
+                  className="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md p-0 shadow-lg border-0 "
                   aria-labelledby="notifDropdown"
                 >
                   <div className="card">
-                    <div className="card-header d-flex justify-content-between align-items-center">
-                      <h6 className="m-0">
-                        Notifications{" "}
-                        <span className="badge bg-danger bg-opacity-10 text-danger ms-2">
-                          {notificationCount} new
-                        </span>
-                      </h6>
-                      <a className="small" onClick={() => markAllRead()}>
-                        Tout Marquer comme lu
-                      </a>
-                    </div>
-                    <div className="card-body p-0">
-                      <ul className="list-group list-group-flush list-unstyled p-2">
-                        {notifications.map(
-                          (notification) =>
-                            !notification.read_at && (
-                              <li key={notification.id}>
-                                <a
-                                  href="#"
-                                  className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
-                                >
-                                  <div className="avatar text-center d-none d-sm-inline-block">
-                                    <div className="avatar-img rounded-circle ">
-                                      <img
-                                        src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
-                                        alt="Image"
-                                      />
+                    {notificationCount > 0 && (
+                      <div className="card-header d-flex justify-content-between align-items-center">
+                        <h6 className="m-0">
+                          Notifications{" "}
+                          {notificationCount > 0 && (
+                            <span className="badge bg-danger bg-opacity-10 text-danger ms-2">
+                              {notificationCount} nouvelle
+                            </span>
+                          )}
+                        </h6>
+
+                        <a className="small" onClick={() => markAllRead()}>
+                          {" "}
+                          <i className="bi bi-check-lg fa-fw pe-2"></i>
+                          Tout Marquer comme lu
+                        </a>
+                      </div>
+                    )}
+                    {notificationCount > 0 ? (
+                      <div className="card-body p-0">
+                        <ul className="list-group list-group-flush list-unstyled p-2">
+                          {notifications.map(
+                            (notification) =>
+                              !notification.read_at && (
+                                <li key={notification.id}>
+                                  <a
+                                    href="#"
+                                    className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
+                                  >
+                                    <div className="avatar text-center d-none d-sm-inline-block me-3">
+                                      <div className="avatar-img rounded-circle">
+                                        <img
+                                          src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
+                                          alt="Image"
+                                          className="rounded-circle"
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className="ms-sm-3">
-                                    <div className="d-flex">
-                                      <p className="small mb-2">
-                                        {notification.data.user} est{" "}
-                                        {notification.data.title}:
-                                        <p>{notification.data.description}</p>
-                                      </p>
-                                      <p className="small ms-3">
-                                        {notification.created_at}
-                                      </p>
-                                    </div>
-                                    <a
-                                      onClick={() =>
-                                        markAsRead(notification.id)
-                                      }
+                                    <div
+                                      className="flex-grow-1"
+                                      style={{ minWidth: "300px" }}
                                     >
-                                      Marquer comme lu
-                                    </a>
-                                  </div>
-                                </a>
-                              </li>
-                            )
-                        )}
-                      </ul>
-                    </div>
+                                      <div className="d-flex justify-content-between align-items-center">
+                                        <div>
+                                          <p className="small mb-0">
+                                            <b>{notification.data.user}</b> est{" "}
+                                            {notification.data.title}:{" "}
+                                            {notification.data.description}{" "}
+                                            {notification.created_at}
+                                          </p>
+                                        </div>
+                                        <div className="dropdown">
+                                          <a
+                                            className="btn btn-sm btn-light"
+                                            href="#"
+                                            role="button"
+                                            id={`dropdownMenuLink${notification.id}`}
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                          >
+                                            <i className="bi bi-three-dots"></i>
+                                          </a>
+                                          <ul
+                                            className="dropdown-menu dropdown-menu-end"
+                                            aria-labelledby={`dropdownMenuLink${notification.id}`}
+                                          >
+                                            <li>
+                                              <a
+                                                className="dropdown-item"
+                                                href="#"
+                                                onClick={() =>
+                                                  markAsRead(notification.id)
+                                                }
+                                              >
+                                                {" "}
+                                                <i className="bi bi-check-lg fa-fw pe-2"></i>
+                                                Marquer comme lu
+                                              </a>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </a>
+                                </li>
+                              )
+                          )}
+                        </ul>
+                      </div>
+                    ) : (
+                      <div className="card-body text-center">
+                        <p>Aucune notification</p>
+                      </div>
+                    )}
+
                     <div className="card-footer text-center">
                       <Link
                         to="/notifications"
                         className="btn btn-sm btn-primary-soft"
                       >
-                        See all incoming activity
+                        Voir tous
                       </Link>
                     </div>
                   </div>
@@ -364,7 +406,7 @@ function Header() {
                               <div className="d-sm-flex align-items-start">
                                 <h6 className="mb-0">
                                   <a>{user.name}</a>
-                                  {/* <p>{user.type}</p> */}
+                                  <p>{user.type}</p>
                                 </h6>
                               </div>
                             </div>
