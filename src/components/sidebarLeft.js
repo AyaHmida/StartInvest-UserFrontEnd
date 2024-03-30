@@ -130,17 +130,6 @@ const SidebarLeft = () => {
                         <span>Notifications </span>
                       </Link>
                     </li>
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/calendar">
-                        {" "}
-                        <img
-                          className="me-2 h-20px fa-fw"
-                          src="assets/images/icon/calendar-outline-filled.svg"
-                          alt=""
-                        />
-                        <span>Calendrier </span>
-                      </Link>
-                    </li>
                   </ul>
                 </div>
               </div>
