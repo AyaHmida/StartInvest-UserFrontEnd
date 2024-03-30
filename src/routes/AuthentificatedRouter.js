@@ -12,6 +12,8 @@ import {
   ListReclamation,
   Calendar,
   UpdateProfile,
+  Forgetpassword,
+  Resetpassword,
 } from "../components/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
@@ -27,7 +29,7 @@ const AuthentificatedRouter = () => {
       path: "/profile",
       element: <Profile />,
     },
-     {
+    {
       path: "/:userId",
       element: <ProfileAutre />,
     },
@@ -59,6 +61,7 @@ const AuthentificatedRouter = () => {
       path: "/listReclamation",
       element: <ListReclamation />,
     },
+
     {
       path: "/*",
       element: <Navigate to="/publication" replace />,

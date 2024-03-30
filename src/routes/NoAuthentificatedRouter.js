@@ -27,8 +27,9 @@ const NoAuthentificatedRouter = () => {
       path: "/forgot-password",
       element: <Forgetpassword />,
     },
+
     {
-      path: "/password-reset/:token",
+      path: "/:token",
       element: <Resetpassword />,
     },
     {

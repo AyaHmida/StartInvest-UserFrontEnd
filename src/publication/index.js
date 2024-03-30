@@ -24,7 +24,7 @@ export default function Publication() {
     <div>
       <Header />
       <br />
-      <br />
+      <br /><br/>
 
       <main>
         <div className="container">

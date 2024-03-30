@@ -11,7 +11,6 @@ const ModelPublication = () => {
     callApi("auth/user").then((data) => {
       setUserdetail(data);
       setPreviewURL(data.image);
-      console.log(data.name);
     });
   };
   useEffect(() => {
