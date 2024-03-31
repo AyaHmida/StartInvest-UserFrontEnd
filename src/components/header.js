@@ -16,16 +16,19 @@ function Header() {
     try {
       const response = await callApi("auth/countNotifications");
       setNotificationCount(response.countNotifications);
+      getNotifications();
     } catch (error) {
       console.error("Error fetching count notifications:", error);
     }
   };
   const markAllRead = () => {
     callApi("auth/markAllRead");
+    getNotifications();
   };
   const markAsRead = (notificationId) => {
     try {
       callApi(`auth/markAsRead/${notificationId}`);
+      getNotifications();
     } catch (error) {
       console.error(error);
     }
