@@ -9,6 +9,7 @@ const Profile = () => {
   const [userdetail, setUserdetail] = useState();
   const [startup, setStartup] = useState();
   const { userId } = useParams();
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const getStartup = async (userId) => {
     await callApi(`auth/startup/${userId}`, "GET").then((response) => {
@@ -19,8 +20,9 @@ const Profile = () => {
   useEffect(() => {
     getStartup(userId);
     getUser(userId);
+    handleCheckFollow(); // Appel de handleCheckFollow au chargement du composant
   }, []);
-  
+
   const formatDate = (dateString) => {
     const options = {
       day: "numeric",
@@ -38,14 +40,60 @@ const Profile = () => {
     });
   };
 
+  const handleFollow = () => {
+    if (!userId) {
+      return;
+    }
+
+    callApi(`auth/follow`, "POST", {
+      follower_id: userId,
+    })
+      .then((response) => {
+        console.log("User followed successfully");
+        setIsFollowing(true); // Mettre à jour l'état du suivi
+      })
+      .catch((error) => {
+        console.error("Error following user:", error);
+      });
+  };
+
+  const handleUnfollow = () => {
+    if (!userId) {
+      return;
+    }
+
+    callApi(`auth/unfollow/${userId}`, "DELETE") // Assurez-vous d'envoyer l'ID de l'utilisateur dans l'URL
+      .then((response) => {
+        console.log("User unfollowed successfully");
+        setIsFollowing(false);
+      })
+      .catch((error) => {
+        console.error("Error unfollowing user:", error);
+      });
+  };
+
+  const handleCheckFollow = () => {
+    if (!userId) {
+      return;
+    }
+
+    callApi(`auth/checkFollow/${userId}`, "GET")
+      .then((response) => {
+        setIsFollowing(response.isFollowing);
+      })
+      .catch((error) => {
+        console.error("Error checking follow status:", error);
+      });
+  };
+
   return (
     <div>
       <Header />
-      <br></br>
+      <br />
       <div className="container">
         <div className="row g-4">
-          <br></br>
-          <br></br>
+          <br />
+          <br />
           <div className="col-lg-8 vstack gap-4">
             <div className="card">
               <div
@@ -87,8 +135,23 @@ const Profile = () => {
                 {userdetail && (
                   <ul className="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
                     <li className="list-inline-item">
-                      <i className="bi bi-calendar2-plus me-1" /> account
-                      created on {formatDate(userdetail.created_at)}
+                      <i className="bi bi-calendar2-plus me-1" />
+                      account created on {formatDate(userdetail.created_at)}
+                      <button
+                        className="btn btn-link"
+                        title={isFollowing ? "Se désabonner" : "S'abonner"}
+                        onClick={isFollowing ? handleUnfollow : handleFollow}
+                      >
+                        <i
+                          className={`bi ${
+                            isFollowing
+                              ? "bi-person-x-fill"
+                              : "bi-person-plus-fill"
+                          }`}
+                          style={{ fontSize: "24px", marginLeft: "287px" }}
+                          alt={isFollowing ? "Se désabonner" : "S'abonner"}
+                        ></i>
+                      </button>
                     </li>
                   </ul>
                 )}
