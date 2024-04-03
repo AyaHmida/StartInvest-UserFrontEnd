@@ -50,7 +50,7 @@ const Profile = () => {
     })
       .then((response) => {
         console.log("User followed successfully");
-        setIsFollowing(true); // Mettre à jour l'état du suivi
+        setIsFollowing(true);
       })
       .catch((error) => {
         console.error("Error following user:", error);
