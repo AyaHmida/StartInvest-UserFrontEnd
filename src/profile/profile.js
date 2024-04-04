@@ -192,6 +192,7 @@ const Profile = () => {
                   <li
                     className="nav-item"
                     onClick={() => setActiveTab("posts")}
+                    style={{ cursor: "pointer" }}
                   >
                     <a
                       className={`nav-link ${
@@ -204,6 +205,7 @@ const Profile = () => {
                   <li
                     className="nav-item"
                     onClick={() => setActiveTab("connections")}
+                    style={{ cursor: "pointer" }}
                   >
                     <a
                       className={`nav-link ${

@@ -11,9 +11,9 @@ import {
   Reclamation,
   ListReclamation,
   Calendar,
-  Connections,
   UpdateProfile,
   Abonnes,
+  Connections,
 } from "../components/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
@@ -69,7 +69,7 @@ const AuthentificatedRouter = () => {
       path: "/connection",
       element: <Connections />,
     },
-    
+
     {
       path: "/abonnes",
       element: <Abonnes />,

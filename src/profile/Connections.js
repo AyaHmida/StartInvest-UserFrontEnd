@@ -58,25 +58,24 @@ const Connections = () => {
                   </button>
                 </div>
               </div>
-              <div className="d-grid">
-                <a
-                  href="#!"
-                  role="button"
-                  className="btn btn-sm btn-loader btn-primary-soft"
-                  data-bs-toggle="button"
-                  aria-pressed="true"
-                >
-                  <span className="load-text">Load more connections</span>
-                  <div className="load-icon">
-                    <div className="spinner-grow spinner-grow-sm" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
-                </a>
-                {/* Load more button END */}
-              </div>
             </div>
           ))}
+        <div className="d-grid">
+          <a
+            href="#!"
+            role="button"
+            className="btn btn-sm btn-loader btn-primary-soft"
+            data-bs-toggle="button"
+            aria-pressed="true"
+          >
+            <span className="load-text">Load more connections</span>
+            <div className="load-icon">
+              <div className="spinner-grow spinner-grow-sm" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
     </>
   );

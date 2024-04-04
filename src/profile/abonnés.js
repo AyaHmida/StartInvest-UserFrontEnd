@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { callApi } from "../api";
 import { SidebarLeft, Header } from "../components";
+import { Link } from "react-router-dom";
 
 export default function Abonnes() {
   const [utilisateurs, setUtilisateurs] = useState([]);
@@ -116,7 +117,15 @@ export default function Abonnes() {
                               </div>
                               <div class="mx-sm-3 my-2 my-sm-0">
                                 <p class="small mb-2">
-                                  <b>{user.name}</b>
+                                  <Link
+                                    to={`/${user.id}`}
+                                    style={{
+                                      textDecoration: "none",
+                                      color: "inherit",
+                                    }}
+                                  >
+                                    <b>{user.name}</b>
+                                  </Link>
                                 </p>
                               </div>
                               <div class="d-flex ms-auto">
