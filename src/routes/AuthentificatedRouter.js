@@ -11,6 +11,7 @@ import {
   Reclamation,
   ListReclamation,
   Calendar,
+  Connections,
   UpdateProfile,
   Abonnes,
 } from "../components/index";
@@ -63,6 +64,10 @@ const AuthentificatedRouter = () => {
     {
       path: "/listReclamation",
       element: <ListReclamation />,
+    },
+    {
+      path: "/connection",
+      element: <Connections />,
     },
     
     {
