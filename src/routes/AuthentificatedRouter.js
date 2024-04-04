@@ -12,7 +12,6 @@ import {
   ListReclamation,
   Calendar,
   UpdateProfile,
-  Connections,
   Abonnes,
 } from "../components/index";
 const AuthentificatedRouter = () => {
@@ -61,10 +60,7 @@ const AuthentificatedRouter = () => {
       path: "/listReclamation",
       element: <ListReclamation />,
     },
-    {
-      path: "/connection",
-      element: <Connections />,
-    },
+    
     {
       path: "/abonnes",
       element: <Abonnes />,
