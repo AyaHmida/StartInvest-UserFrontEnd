@@ -3,7 +3,11 @@ import Header from "../components/header";
 import { Link } from "react-router-dom";
 import { callApi } from "../api";
 import { Button, Modal } from "react-bootstrap";
-import { PublicationsProfile, ModelPublication } from "../components";
+import {
+  PublicationsProfile,
+  ModelPublication,
+  Connections,
+} from "../components";
 
 const Profile = () => {
   const [file, setFile] = useState(null);
@@ -12,6 +16,7 @@ const Profile = () => {
   const [startup, setStartup] = useState();
   const [showModal, setShowModal] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [activeTab, setActiveTab] = useState("posts");
 
   const getUser = () => {
     callApi("auth/user").then((data) => {
@@ -184,56 +189,35 @@ const Profile = () => {
               </div>
               <div className="card-footer mt-3 pt-2 pb-0">
                 <ul className="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
-                  <li className="nav-item">
-                    {" "}
-                    <a className="nav-link active"> Posts </a>{" "}
+                  <li
+                    className="nav-item"
+                    onClick={() => setActiveTab("posts")}
+                  >
+                    <a
+                      className={`nav-link ${
+                        activeTab === "posts" ? "active" : ""
+                      }`}
+                    >
+                      Posts
+                    </a>
+                  </li>
+                  <li
+                    className="nav-item"
+                    onClick={() => setActiveTab("connections")}
+                  >
+                    <a
+                      className={`nav-link ${
+                        activeTab === "connections" ? "active" : ""
+                      }`}
+                    >
+                      Connections
+                    </a>
                   </li>
                 </ul>
               </div>
             </div>
-
-            <div className="card card-body">
-              <div className="d-flex mb-3">
-                <div className="avatar avatar-xs me-2">
-                  <a href="#">
-                    <img
-                      className="avatar-img rounded-circle border border-white border-3"
-                      src={
-                        userdetail && userdetail.image
-                          ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
-                          : "assets/images/avatar/no-image-male.jpg"
-                      }
-                      alt=""
-                    />
-                  </a>
-                </div>
-                <form className="w-100">
-                  <input
-                    className="form-control pe-4 border-0"
-                    placeholder="Share your thoughts..."
-                    data-bs-toggle="modal"
-                    data-bs-target="#feedActionPhoto"
-                  />
-                </form>
-              </div>
-              {/* Share feed toolbar START */}
-              <ul className="nav nav-pills nav-stack small fw-normal">
-                <li className="nav-item">
-                  <a
-                    className="nav-link bg-light py-1 px-2 mb-0"
-                    href="#!"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalCreateFeed"
-                  >
-                    {" "}
-                    <i className="bi bi-image-fill text-success pe-2" />
-                    Photo
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <PublicationsProfile />
+            {activeTab === "posts" && <PublicationsProfile />}
+            {activeTab === "connections" && <Connections />}
           </div>
 
           <div className="col-lg-4">

@@ -14,6 +14,8 @@ import {
   UpdateProfile,
   Forgetpassword,
   Resetpassword,
+  Connections,
+  Abonnes,
 } from "../components/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
@@ -60,6 +62,14 @@ const AuthentificatedRouter = () => {
     {
       path: "/listReclamation",
       element: <ListReclamation />,
+    },
+    {
+      path: "/connection",
+      element: <Connections />,
+    },
+    {
+      path: "/abonnes",
+      element: <Abonnes />,
     },
 
     {
