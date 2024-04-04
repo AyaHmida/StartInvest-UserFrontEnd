@@ -12,8 +12,6 @@ import {
   ListReclamation,
   Calendar,
   UpdateProfile,
-  Forgetpassword,
-  Resetpassword,
   Connections,
   Abonnes,
 } from "../components/index";
