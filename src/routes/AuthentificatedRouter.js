@@ -64,6 +64,11 @@ const AuthentificatedRouter = () => {
       path: "/listReclamation",
       element: <ListReclamation />,
     },
+    
+    {
+      path: "/abonnes",
+      element: <Abonnes />,
+    },
 
     {
       path: "/*",

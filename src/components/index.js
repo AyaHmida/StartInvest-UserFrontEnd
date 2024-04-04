@@ -25,3 +25,6 @@ export { default as ListReclamation } from "../reclamation/listReclamation";
 export { default as UpdateProfile } from "../profile/update";
 export { default as ModelPublication } from "./ModalPublication";
 export { default as About } from "../profile/About";
+export { default as Connections } from "../profile/Connections";
+export { default as Abonnes } from "../profile/abonnés";
+

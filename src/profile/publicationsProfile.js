@@ -74,6 +74,46 @@ const PublicationsProfile = () => {
 
   return (
     <>
+      <div className="card card-body">
+        <div className="d-flex mb-3">
+          <div className="avatar avatar-xs me-2">
+            <a href="#">
+              <img
+                className="avatar-img rounded-circle border border-white border-3"
+                src={
+                  userdetail && userdetail.image
+                    ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                    : "assets/images/avatar/no-image-male.jpg"
+                }
+                alt=""
+              />
+            </a>
+          </div>
+          <form className="w-100">
+            <input
+              className="form-control pe-4 border-0"
+              placeholder="Share your thoughts..."
+              data-bs-toggle="modal"
+              data-bs-target="#feedActionPhoto"
+            />
+          </form>
+        </div>
+        {/* Share feed toolbar START */}
+        <ul className="nav nav-pills nav-stack small fw-normal">
+          <li className="nav-item">
+            <a
+              className="nav-link bg-light py-1 px-2 mb-0"
+              href="#!"
+              data-bs-toggle="modal"
+              data-bs-target="#modalCreateFeed"
+            >
+              {" "}
+              <i className="bi bi-image-fill text-success pe-2" />
+              Photo
+            </a>
+          </li>
+        </ul>
+      </div>
       {publications.map((item, index) => (
         <div key={index}>
           <div className="card">

@@ -149,6 +149,16 @@ const SidebarLeft = () => {
                         <span>Réseaux </span>
                       </Link>
                     </li>
+                    <li className="nav-item">
+                      <Link class="nav-link" to="/abonnes">
+                        <img
+                          class="me-2 h-20px fa-fw"
+                          src="assets/images/icon/person-outline-filled.svg"
+                          alt=""
+                        />
+                        <span>Réseaux </span>
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
