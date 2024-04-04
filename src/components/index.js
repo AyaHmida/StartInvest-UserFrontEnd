@@ -6,7 +6,6 @@ export { default as Notifications } from "../notification/notifications";
 export { default as Messaging } from "../message/messaging";
 export { default as PostDetails } from "../publication/postDetails";
 export { default as EditProfile } from "../profile/editProfile";
-export { default as Abonnes } from "../profile/abonnés";
 export { default as Register } from "../auth/register";
 export { default as Login } from "../auth/login";
 export { default as Calendar } from "../calendar/calendar";
@@ -27,4 +26,3 @@ export { default as ModelPublication } from "./ModalPublication";
 export { default as About } from "../profile/About";
 export { default as Connections } from "../profile/Connections";
 export { default as Abonnes } from "../profile/abonnés";
-
