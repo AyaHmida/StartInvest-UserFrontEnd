@@ -26,3 +26,5 @@ export { default as ModelPublication } from "./ModalPublication";
 export { default as About } from "../profile/About";
 export { default as Connections } from "../profile/Connections";
 export { default as Abonnes } from "../profile/abonnés";
+export { default as ModalSearch } from "./ModalSearch";
+export { default as ModalNotification } from "../notification/ModalNotification";
