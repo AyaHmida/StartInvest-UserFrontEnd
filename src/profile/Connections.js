@@ -4,19 +4,34 @@ import { callApi } from "../api";
 const Connections = () => {
   const [followers, setFollowers] = useState([]);
 
-  useEffect(() => {
-    const fetchFollowers = async () => {
-      try {
-        const response = await callApi("auth/followerPersonns");
-        console.log(response);
-        setFollowers(response);
-      } catch (error) {
-        console.error("Error fetching followers:", error);
-      }
-    };
+  const fetchFollowers = async () => {
+    try {
+      const response = await callApi("auth/followerPersonns");
+      console.log(response);
+      setFollowers(response);
+    } catch (error) {
+      console.error("Error fetching followers:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchFollowers();
   }, []);
+
+  const handleUnfollow = (userId) => {
+    if (!userId) {
+      return;
+    }
+
+    callApi(`auth/unfollow/${userId}`, "DELETE")
+      .then((response) => {
+        console.log("User unfollowed successfully");
+        fetchFollowers();
+      })
+      .catch((error) => {
+        console.error("Error unfollowing user:", error);
+      });
+  };
 
   return (
     <>
@@ -57,6 +72,34 @@ const Connections = () => {
                     Message
                   </button>
                 </div>
+                <div className="dropdown">
+                  <a
+                    href="#"
+                    className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
+                    id="cardNotiAction"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i className="bi bi-three-dots" />
+                  </a>
+                  {/* Card share action dropdown menu */}
+                  <ul
+                    className="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="cardNotiAction"
+                  >
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={() => handleUnfollow(item.id)}
+                      >
+                        {" "}
+                        <i className="bi bi-check-lg fa-fw pe-2" />
+                        désabonner
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           ))}
@@ -68,10 +111,10 @@ const Connections = () => {
             data-bs-toggle="button"
             aria-pressed="true"
           >
-            <span className="load-text">Load more connections</span>
+            <span className="load-text">Charger plus de connexions</span>
             <div className="load-icon">
               <div className="spinner-grow spinner-grow-sm" role="status">
-                <span className="visually-hidden">Loading...</span>
+                <span className="visually-hidden">Chargement...</span>
               </div>
             </div>
           </a>
