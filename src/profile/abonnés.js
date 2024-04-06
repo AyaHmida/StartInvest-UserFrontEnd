@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 export default function Abonnes() {
   const [utilisateurs, setUtilisateurs] = useState([]);
-  const [utilisateursAAfficher, setUtilisateursAAfficher] = useState(10);
-  const [nombreTotalUtilisateurs, setNombreTotalUtilisateurs] = useState(0);
+  const [totalUtilisateursChargees, setTotalUtilisateursChargees] = useState(0);
+  const [utilisateursParPage] = useState(6);
   const [followingStatus, setFollowingStatus] = useState({});
 
   const handleFollow = (userId) => {
@@ -46,13 +46,19 @@ export default function Abonnes() {
         console.error("Error unfollowing user:", error);
       });
   };
+  const chargerPlusUtilisateurs = () => {
+    const nouveauTotalUtilisateursChargees =
+      totalUtilisateursChargees + utilisateursParPage;
+    if (nouveauTotalUtilisateursChargees <= utilisateurs.length) {
+      setTotalUtilisateursChargees(nouveauTotalUtilisateursChargees);
+    }
+  };
 
-  const getUtilisateurs = (limit) => {
-    callApi(`auth/getUtilisateurs?limit=${limit}`, "GET")
+  useEffect(() => {
+    callApi(`auth/getUtilisateurs?limit=${utilisateursParPage}`, "GET")
       .then((response) => {
         console.log("Utilisateurs récupérés avec succès :", response);
         setUtilisateurs(response);
-        setNombreTotalUtilisateurs(response.total);
         const initialFollowingStatus = {};
         response.forEach((user) => {
           initialFollowingStatus[user.id] = user.is_following;
@@ -65,18 +71,6 @@ export default function Abonnes() {
           error
         );
       });
-  };
-
-  const chargerPlusUtilisateurs = () => {
-    const nouveauNombreUtilisateursAAfficher = utilisateursAAfficher + 10;
-    if (nouveauNombreUtilisateursAAfficher <= nombreTotalUtilisateurs) {
-      setUtilisateursAAfficher(nouveauNombreUtilisateursAAfficher);
-      getUtilisateurs(nouveauNombreUtilisateursAAfficher);
-    }
-  };
-
-  useEffect(() => {
-    getUtilisateurs(utilisateursAAfficher);
   }, []);
 
   return (
@@ -93,20 +87,20 @@ export default function Abonnes() {
 
             <div className="col-md-8 col-lg-6 vstack gap-4">
               <div className="card card-body">
-                <div class="col-lg-12 mx-auto">
-                  <div class="card-header py-3 border-0 d-flex align-items-center justify-content-between">
-                    <h1 class="h5 mb-0">Relations </h1>
+                <div className="col-lg-12 mx-auto">
+                  <div className="card-header py-3 border-0 d-flex align-items-center justify-content-between">
+                    <h1 className="h5 mb-0">Relations </h1>
                   </div>
-                  <div class="card-body p-2">
-                    <ul class="list-unstyled">
+                  <div className="card-body p-2">
+                    <ul className="list-unstyled">
                       {utilisateurs
-                        .slice(0, utilisateursAAfficher)
+                        .slice(0, totalUtilisateursChargees)
                         .map((user, index) => (
                           <li key={index}>
-                            <div class="rounded d-sm-flex border-0 mb-1 p-3 position-relative">
-                              <div class="avatar text-center">
+                            <div className="rounded d-sm-flex border-0 mb-1 p-3 position-relative">
+                              <div className="avatar text-center">
                                 <img
-                                  class="avatar-img rounded-circle"
+                                  className="avatar-img rounded-circle"
                                   src={
                                     user && user.image
                                       ? `http://127.0.0.1:8000/uploads/${user.image}`
@@ -115,8 +109,8 @@ export default function Abonnes() {
                                   alt={user.name}
                                 />
                               </div>
-                              <div class="mx-sm-3 my-2 my-sm-0">
-                                <p class="small mb-2">
+                              <div className="mx-sm-3 my-2 my-sm-0">
+                                <p className="small mb-2">
                                   <Link
                                     to={`/${user.id}`}
                                     style={{
@@ -128,9 +122,9 @@ export default function Abonnes() {
                                   </Link>
                                 </p>
                               </div>
-                              <div class="d-flex ms-auto">
+                              <div className="d-flex ms-auto">
                                 <a
-                                  class="btn btn-primary-soft rounded-circle icon-md d-flex justify-content-center align-items-center"
+                                  className="btn btn-primary-soft rounded-circle icon-md d-flex justify-content-center align-items-center"
                                   href="#"
                                   title={
                                     followingStatus[user.id]
@@ -163,24 +157,15 @@ export default function Abonnes() {
                         ))}
                     </ul>
                   </div>
-                  <div class="card-footer border-0 py-3 text-center position-relative d-grid pt-0">
-                    <a
-                      href="#!"
-                      role="button"
-                      class="btn btn-loader btn-primary-soft"
-                      data-bs-toggle="button"
-                      aria-pressed="true"
-                      onClick={chargerPlusUtilisateurs}
-                    >
-                      <span class="load-text"> Charger plus d'amis </span>
-                      <div class="load-icon">
-                        <div class="spinner-grow spinner-grow-sm" role="status">
-                          <span class="visually-hidden">
-                            Chargement en cours...
-                          </span>
-                        </div>
-                      </div>
-                    </a>
+                  <div className="card-footer border-0 py-3 text-center position-relative d-grid pt-0">
+                    {totalUtilisateursChargees < utilisateurs.length && (
+                      <button
+                        className="btn btn-loader btn-primary-soft"
+                        onClick={chargerPlusUtilisateurs}
+                      >
+                        Charger plus d'amis
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
