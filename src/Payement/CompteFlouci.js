@@ -1,14 +1,36 @@
-import React, { useState } from "react";
-import { Header, SidebarLeft } from "../components";
+import React, { useEffect, useState } from "react";
 import { callApi } from "../api";
+
+import { SidebarLeft, Header } from "../components";
 
 const CompteFlouci = () => {
   const [app_secret, setAppSecret] = useState("");
   const [app_public, setAppPublic] = useState("");
   const [amount, setAmount] = useState(0);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const getCompteCorrdonnées = async () => {
+    try {
+      const response = await callApi("auth/getCompteCorrdonnees");
+      setAppSecret(response.app_secret);
+      setAppPublic(response.app_public);
+      setAmount(response.amount);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données:", error);
+    }
+  };
+
+  useEffect(() => {
+    getCompteCorrdonnées();
+  }, []);
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setSuccessMessage("");
+      setShowSuccess(false);
+
       const formData = new FormData();
       formData.append("app_public", app_public);
       formData.append("app_secret", app_secret);
@@ -21,11 +43,14 @@ const CompteFlouci = () => {
       );
       setAppSecret("");
       setAppPublic("");
-      setAmount();
+      setAmount(0);
+      setSuccessMessage("Coordonnées du compte ajoutées avec succès !");
+      setShowSuccess(true);
     } catch (error) {
       console.error("Erreur lors de la soumission du formulaire:", error);
     }
   };
+
   return (
     <>
       <div>
@@ -49,57 +74,68 @@ const CompteFlouci = () => {
                       Si vous n'avez pas de compte en Flouci, voici le lien :{" "}
                       <a href="https://fr.flouci.com/">flouci.com</a>
                     </p>
-                    <form className="row g-3" onSubmit={handleSubmit}>
-                      <div className="col-sm-6 col-lg-4">
-                        <label className="form-label">App secrète</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="app_secret"
-                          value={app_secret}
-                          onChange={(e) => {
-                            setAppSecret(e.target.value);
-                          }}
-                          required
-                        />
+                    {showSuccess && (
+                      <div className="alert alert-success">
+                        {successMessage}
                       </div>
-                      <div className="col-sm-6 col-lg-4">
-                        <label className="form-label">App publique</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="app_public"
-                          value={app_public}
-                          onChange={(e) => {
-                            setAppPublic(e.target.value);
-                          }}
-                          required
-                        />
-                      </div>
-                      <div className="col-lg-6">
-                        <label className="form-label">
-                          Montant à investir (en pourcentage du capital social)
-                        </label>
-                        <div className="input-group">
+                    )}
+                    {!showSuccess && ( // Condition pour afficher le formulaire seulement si showSuccess est false
+                      <form className="row g-3" onSubmit={handleSubmit}>
+                        <div className="col-sm-6 col-lg-4">
+                          <label className="form-label">App secrète</label>
                           <input
                             type="text"
                             className="form-control"
-                            name="amount"
-                            placeholder="Montant à investir"
-                            value={amount}
+                            name="app_secret"
+                            value={app_secret}
                             onChange={(e) => {
-                              setAmount(e.target.value);
+                              setAppSecret(e.target.value);
                             }}
+                            required
                           />
-                          <span className="input-group-text">%</span>
                         </div>
-                      </div>
-                      <div className="col-12 text-end">
-                        <button type="submit" className="btn btn-primary mb-0">
-                          Ajouter
-                        </button>
-                      </div>
-                    </form>
+                        <div className="col-sm-6 col-lg-4">
+                          <label className="form-label">App publique</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="app_public"
+                            value={app_public}
+                            onChange={(e) => {
+                              setAppPublic(e.target.value);
+                            }}
+                            required
+                          />
+                        </div>
+                        <div className="col-lg-6">
+                          <label className="form-label">
+                            Montant à investir (en pourcentage du capital
+                            social)
+                          </label>
+                          <div className="input-group">
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="amount"
+                              placeholder="Montant à investir"
+                              value={amount}
+                              onChange={(e) => {
+                                setAmount(e.target.value);
+                              }}
+                            />
+                            <span className="input-group-text">%</span>
+                          </div>
+                        </div>
+                        <div className="col-12 text-end">
+                          <button
+                            type="submit"
+                            className="btn btn-primary mb-0"
+                          >
+                            Ajouter
+                          </button>
+                        </div>
+                      </form>
+                    )}
                   </div>
                 </div>
               </div>
