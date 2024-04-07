@@ -75,10 +75,6 @@ const AuthentificatedRouter = () => {
       path: "/abonnes",
       element: <Abonnes />,
     },
-    {
-      path: "/compteFlouci",
-      element: <CompteFlouci />,
-    },
 
     {
       path: "/*",
