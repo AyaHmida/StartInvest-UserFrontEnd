@@ -56,11 +56,8 @@ const PageDeMiseAJourProfil = () => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
-  const registrationUrl = "https://app.flouci.com/account/register";
 
-  const handleClick = () => {
-    window.location.href = registrationUrl;
-  };
+
   return (
     <div>
       <Header />
@@ -81,10 +78,6 @@ const PageDeMiseAJourProfil = () => {
                 </div>
                 <div className="card-body">
                   <form className="row g-3" onSubmit={updateProfile}>
-                    <button className="btn btn-primary" onClick={handleClick}>
-                      Créer un compte Flouci Wallet
-                    </button>
-
                     <div className="col-sm-6 col-lg-4">
                       <label className="form-label">Nom</label>
                       <input
