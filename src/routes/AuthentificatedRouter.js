@@ -14,6 +14,7 @@ import {
   UpdateProfile,
   Abonnes,
   Connections,
+  CompteFlouci,
 } from "../components/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
