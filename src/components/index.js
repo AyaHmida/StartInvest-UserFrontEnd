@@ -13,6 +13,7 @@ export { default as Forgetpassword } from "../auth/forgetpassword";
 export { default as Resetpassword } from "../auth/resetpassword";
 export { default as SidebarLeft } from "../components/sidebarLeft";
 export { default as Header } from "../components/header";
+export { default as PaymentGenerator } from "../Paiement/paiement";
 
 export { default as SidebarRight } from "../components/sidebarRight";
 export { default as Publications } from "../publication/publications";
