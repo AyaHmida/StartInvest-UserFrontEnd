@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Header from "../components/header";
 import { SidebarLeft } from "../components";
 import { callApi } from "../api";
-import { Link } from "react-router-dom"; // Importer le composant Link
+import { Link } from "react-router-dom"; 
+
 
 export default function Reclamation() {
   const [formData, setFormData] = useState({

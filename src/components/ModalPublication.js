@@ -28,8 +28,7 @@ const ModelPublication = () => {
       const formData = new FormData();
       formData.append("description", description);
       formData.append("file", file);
-      console.log(description);
-      console.log(file);
+
 
       const response = await callApi(
         "auth/publication",
