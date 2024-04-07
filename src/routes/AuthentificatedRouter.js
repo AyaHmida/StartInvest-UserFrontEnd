@@ -76,6 +76,10 @@ const AuthentificatedRouter = () => {
       element: <Abonnes />,
     },
     {
+      path: "/compteFlouci",
+      element: <CompteFlouci />,
+    },
+    {
       path: "/*",
       element: <Navigate to="/publication" replace />,
     },
