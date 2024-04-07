@@ -14,7 +14,6 @@ import {
   UpdateProfile,
   Abonnes,
   Connections,
-  PaymentGenerator,
 } from "../components/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
@@ -75,11 +74,6 @@ const AuthentificatedRouter = () => {
       path: "/abonnes",
       element: <Abonnes />,
     },
-    {
-      path: "/paymentGenerator",
-      element: <PaymentGenerator />,
-    },
-
     {
       path: "/*",
       element: <Navigate to="/publication" replace />,
