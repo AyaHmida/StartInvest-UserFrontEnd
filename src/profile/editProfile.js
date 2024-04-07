@@ -168,35 +168,7 @@ const PageDeMiseAJourProfil = () => {
                         </div>
                       </>
                     )}
-                    <div className="col-sm-6 col-lg-4">
-                      <label className="form-label">App_privé</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="app_privé"
-                        value={userData.app_privé || ""}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      <small className="text-muted">
-                        Copiez cette information depuis votre compte Flouci
-                      </small>
-                    </div>
-                    <div className="col-sm-6 col-lg-4">
-                      <label className="form-label">App_secret</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="app_secret"
-                        value={userData.app_secret || ""}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      <small className="text-muted">
-                        Copiez cette information depuis votre compte Flouci
-                      </small>
-                    </div>
-
+                    
                     <div className="col-12 text-end">
                       <button type="submit" className="btn btn-primary mb-0">
                         Mettre à jour le profil
