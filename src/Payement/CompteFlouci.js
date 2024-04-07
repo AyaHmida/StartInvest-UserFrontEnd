@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, SidebarLeft } from "../components";
+import { callApi } from "../api";
 
 const CompteFlouci = () => {
+  const [app_secret, setAppSecret] = useState("");
+  const [app_public, setAppPublic] = useState("");
+  const [amount, setAmount] = useState(0);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("app_public", app_public);
+      formData.append("app_secret", app_secret);
+      formData.append("amount", amount);
+      const response = await callApi(
+        "auth/createCompte",
+        "POST",
+        formData,
+        true
+      );
+      setAppSecret("");
+      setAppPublic("");
+      setAmount();
+    } catch (error) {
+      console.error("Erreur lors de la soumission du formulaire:", error);
+    }
+  };
   return (
     <>
       <div>
@@ -25,13 +49,17 @@ const CompteFlouci = () => {
                       Si vous n'avez pas de compte en Flouci, voici le lien :{" "}
                       <a href="https://fr.flouci.com/">flouci.com</a>
                     </p>
-                    <form className="row g-3">
+                    <form className="row g-3" onSubmit={handleSubmit}>
                       <div className="col-sm-6 col-lg-4">
                         <label className="form-label">App secrète</label>
                         <input
                           type="text"
                           className="form-control"
-                          name="name"
+                          name="app_secret"
+                          value={app_secret}
+                          onChange={(e) => {
+                            setAppSecret(e.target.value);
+                          }}
                           required
                         />
                       </div>
@@ -40,7 +68,11 @@ const CompteFlouci = () => {
                         <input
                           type="text"
                           className="form-control"
-                          name="email"
+                          name="app_public"
+                          value={app_public}
+                          onChange={(e) => {
+                            setAppPublic(e.target.value);
+                          }}
                           required
                         />
                       </div>
@@ -52,8 +84,12 @@ const CompteFlouci = () => {
                           <input
                             type="text"
                             className="form-control"
-                            name="numero"
+                            name="amount"
                             placeholder="Montant à investir"
+                            value={amount}
+                            onChange={(e) => {
+                              setAmount(e.target.value);
+                            }}
                           />
                           <span className="input-group-text">%</span>
                         </div>
