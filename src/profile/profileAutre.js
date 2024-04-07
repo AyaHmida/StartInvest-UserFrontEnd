@@ -106,8 +106,8 @@ const Profile = () => {
                 }}
               />
               <div className="card-body py-0">
-                <div className="d-sm-flex align-items-start text-center text-sm-start">
-                  <div className="position-relative d-inline-block">
+                <div className="d-flex align-items-start text-center text-sm-start">
+                  <div className="position-relative d-inline-block me-4">
                     <div className="avatar avatar-xxl mt-n5 mb-3 position-relative">
                       <img
                         className="avatar-img rounded-circle border border-white border-3"
@@ -121,13 +121,33 @@ const Profile = () => {
                     </div>
                   </div>
                   {userdetail && (
-                    <div className="ms-sm-4 mt-sm-3">
+                    <div className="flex-grow-1">
                       {/* Info */}
                       <h1 className="mb-0 h5">
                         {userdetail.name}&nbsp;
                         <i className="bi bi-patch-check-fill text-success small" />
                       </h1>
                       <p>{userdetail.type}</p>
+                      <div className=" rounded px-2 py-1 d-inline-block float-end">
+                        <button
+                          className={`btn btn-link ${
+                            isFollowing ? "text-muted" : ""
+                          } me-2`}
+                          title={isFollowing ? "Se désabonner" : "S'abonner"}
+                          onClick={isFollowing ? handleUnfollow : handleFollow}
+                        >
+                          <i
+                            className={`bi ${
+                              isFollowing
+                                ? "bi-check-square-fill"
+                                : "bi-plus-square-fill"
+                            }`}
+                            alt={isFollowing ? "Se désabonner" : "S'abonner"}
+                          ></i>{" "}
+                          {isFollowing ? "Suivi(e)" : "Suivre"}
+                        </button>
+                        <button className="btn btn-primary">Paiement</button>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -137,21 +157,6 @@ const Profile = () => {
                     <li className="list-inline-item">
                       <i className="bi bi-calendar2-plus me-1" />
                       account created on {formatDate(userdetail.created_at)}
-                      <button
-                        className="btn btn-link"
-                        title={isFollowing ? "Se désabonner" : "S'abonner"}
-                        onClick={isFollowing ? handleUnfollow : handleFollow}
-                      >
-                        <i
-                          className={`bi ${
-                            isFollowing
-                              ? "bi-person-x-fill"
-                              : "bi-person-plus-fill"
-                          }`}
-                          style={{ fontSize: "24px", marginLeft: "287px" }}
-                          alt={isFollowing ? "Se désabonner" : "S'abonner"}
-                        ></i>
-                      </button>
                     </li>
                   </ul>
                 )}

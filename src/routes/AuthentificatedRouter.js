@@ -14,6 +14,7 @@ import {
   UpdateProfile,
   Abonnes,
   Connections,
+  CompteFlouci,
 } from "../components/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
@@ -73,6 +74,10 @@ const AuthentificatedRouter = () => {
     {
       path: "/abonnes",
       element: <Abonnes />,
+    },
+    {
+      path: "/compteFlouci",
+      element: <CompteFlouci />,
     },
 
     {
