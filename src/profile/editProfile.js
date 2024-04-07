@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Header,SidebarLeft } from "../components";
+import { Header, SidebarLeft } from "../components";
 import { callApi } from "../api";
 import { useNavigate } from "react-router-dom/dist";
 
@@ -49,7 +49,6 @@ const PageDeMiseAJourProfil = () => {
       navigate("/publication");
     } catch (error) {
       console.error("Erreur lors de la mise à jour du profil:", error);
-      // Afficher un message d'erreur à l'utilisateur
     }
   };
 
@@ -57,7 +56,11 @@ const PageDeMiseAJourProfil = () => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
+  const registrationUrl = "https://app.flouci.com/account/register";
 
+  const handleClick = () => {
+    window.location.href = registrationUrl;
+  };
   return (
     <div>
       <Header />
@@ -78,6 +81,10 @@ const PageDeMiseAJourProfil = () => {
                 </div>
                 <div className="card-body">
                   <form className="row g-3" onSubmit={updateProfile}>
+                    <button className="btn btn-primary" onClick={handleClick}>
+                      Créer un compte Flouci Wallet
+                    </button>
+
                     <div className="col-sm-6 col-lg-4">
                       <label className="form-label">Nom</label>
                       <input
@@ -161,6 +168,34 @@ const PageDeMiseAJourProfil = () => {
                         </div>
                       </>
                     )}
+                    <div className="col-sm-6 col-lg-4">
+                      <label className="form-label">App_privé</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="app_privé"
+                        value={userData.app_privé || ""}
+                        onChange={handleInputChange}
+                        required
+                      />
+                      <small className="text-muted">
+                        Copiez cette information depuis votre compte Flouci
+                      </small>
+                    </div>
+                    <div className="col-sm-6 col-lg-4">
+                      <label className="form-label">App_secret</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="app_secret"
+                        value={userData.app_secret || ""}
+                        onChange={handleInputChange}
+                        required
+                      />
+                      <small className="text-muted">
+                        Copiez cette information depuis votre compte Flouci
+                      </small>
+                    </div>
 
                     <div className="col-12 text-end">
                       <button type="submit" className="btn btn-primary mb-0">
