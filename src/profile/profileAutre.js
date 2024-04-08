@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Header from "../components/header";
 import { callApi } from "../api";
 import { PublicationsAutrePub, ModelPublication } from "../components";
@@ -94,19 +93,16 @@ const Profile = () => {
     setLoading(true);
     try {
       const response = await callApi("auth/generate-payment", "POST", {
-        id_startup: idStartup, // Assurez-vous d'avoir idStartup défini correctement
+        id_startup: idStartup,
       });
 
       if (response.result && response.result.link) {
-        // Rediriger l'utilisateur vers le lien de paiement
         window.location.href = response.result.link;
       } else {
         console.error("Erreur lors de la génération du paiement:", response);
-        // Gérer les autres cas d'erreur
       }
     } catch (error) {
       console.error("Erreur lors de la génération du paiement:", error);
-      // Gérer les erreurs réseau ou autres
     }
     setLoading(false);
   };

@@ -12,6 +12,7 @@ import {
   ListReclamation,
   Calendar,
   UpdateProfile,
+  Success,
   Abonnes,
   Connections,
   CompteFlouci,
@@ -78,6 +79,10 @@ const AuthentificatedRouter = () => {
     {
       path: "/compteFlouci",
       element: <CompteFlouci />,
+    },
+    {
+      path: "/success",
+      element: <Success />,
     },
     {
       path: "/*",
