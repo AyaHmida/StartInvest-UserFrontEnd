@@ -151,18 +151,26 @@ const SidebarLeft = () => {
                         <span>Réseaux </span>
                       </Link>
                     </li>
-                    {userdetail && userdetail.type === 'fondateur' && (
-  <li className="nav-item">
-    <Link className="nav-link" to="/compteFlouci">
-      <img
-        className="me-2 h-20px fa-fw"
-        src="assets/images/icon/money.svg"
-        alt=""
-      />
-      <span>Compte Flouci </span>
-    </Link>
-  </li>
-)}
+                    {userdetail && userdetail.type === "fondateur" && (
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/compteFlouci">
+                          <img
+                            className="me-2 h-20px fa-fw"
+                            src="assets/images/icon/money.svg"
+                            alt=""
+                          />
+                          <span>Compte Flouci </span>
+                        </Link>
+                      </li>
+                    )}
+                    {userdetail && userdetail.type === "investisseur" && (
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/investFormation">
+                          <i className="bi bi-cash-stack me-2"></i>{" "}
+                          <span>Historique </span>
+                        </Link>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
