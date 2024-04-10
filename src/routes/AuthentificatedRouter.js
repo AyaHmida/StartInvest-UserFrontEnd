@@ -13,9 +13,11 @@ import {
   Calendar,
   UpdateProfile,
   Success,
+  Failed,
   Abonnes,
   Connections,
   CompteFlouci,
+  InvestFormation,
 } from "../components/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
@@ -56,6 +58,10 @@ const AuthentificatedRouter = () => {
       element: <Calendar />,
     },
     {
+      path: "/investFormation",
+      element: <InvestFormation />,
+    },
+    {
       path: "/reclamation",
       element: <Reclamation />,
     },
@@ -79,6 +85,10 @@ const AuthentificatedRouter = () => {
     {
       path: "/compteFlouci",
       element: <CompteFlouci />,
+    },
+    {
+      path: "/failed",
+      element: <Failed />,
     },
     {
       path: "/success",

@@ -14,6 +14,8 @@ export { default as Resetpassword } from "../auth/resetpassword";
 export { default as SidebarLeft } from "../components/sidebarLeft";
 export { default as Header } from "../components/header";
 export { default as Success } from "../profile/success";
+export { default as Failed } from "../profile/fail";
+export { default as InvestFormation } from "../Payement/formationInves";
 
 export { default as SidebarRight } from "../components/sidebarRight";
 export { default as Publications } from "../publication/publications";
