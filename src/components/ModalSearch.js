@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { callApi } from "../api";
+import { navigate } from "@reach/router";
 
 const ModalSearch = () => {
   const [query, setQuery] = useState("");
@@ -17,6 +18,9 @@ const ModalSearch = () => {
   useEffect(() => {
     handleSearch();
   }, [query]);
+  const redirectToProfile = (userId) => {
+    navigate(`/${userId}`);
+  };
   return (
     <>
       <div
@@ -65,7 +69,10 @@ const ModalSearch = () => {
                       <div className="d-md-flex align-items-center mb-4">
                         <div key={index} className="mb-3">
                           <div className="d-flex align-items-center">
-                            <div className="avatar me-3">
+                            <div
+                              className="avatar me-3"
+                              onClick={() => redirectToProfile(user.id)}
+                            >
                               <a href="#!">
                                 {" "}
                                 <img
