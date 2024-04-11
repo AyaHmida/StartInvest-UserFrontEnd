@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { callApi } from "../api";
 import { Link } from "react-router-dom";
+import { navigate } from "@reach/router";
 
 const SidebarRight = () => {
   const [randomFollowers, setRandomFollowers] = useState([]);
@@ -20,6 +21,9 @@ const SidebarRight = () => {
 
     fetchFollowers();
   }, []);
+  const redirectToProfile = (userId) => {
+    navigate(`/${userId}`);
+  };
 
   return (
     <div className="col-lg-3">
@@ -32,8 +36,11 @@ const SidebarRight = () => {
               </div>
               <div className="card-body">
                 <div className="hstack gap-2 mb-3">
-                  <div className="avatar">
-                    <a href="#">
+                  <div
+                    className="avatar"
+                    onClick={() => redirectToProfile(item.id)}
+                  >
+                    <a href="">
                       {" "}
                       <img
                         className="avatar-img rounded-circle"
