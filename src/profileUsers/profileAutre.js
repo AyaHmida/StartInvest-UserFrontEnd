@@ -12,6 +12,27 @@ const Profile = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [idStartup, setIdStartup] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [flouciExists, setFlouciExists] = useState(false);
+  const checkFlouciExistence = async () => {
+    try {
+      const response = await callApi("auth/checkFlouciExistence", "POST", {
+        id_startup: idStartup,
+      });
+      setFlouciExists(response.exists);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la vérification de l'existence de Flouci:",
+        error
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (idStartup) {
+      checkFlouciExistence();
+    }
+  }, [idStartup]);
+
   const getStartup = async (userId) => {
     await callApi(`auth/startup/${userId}`, "GET").then((response) => {
       setStartup(response);
@@ -194,15 +215,18 @@ const Profile = () => {
                           ></i>{" "}
                           {isFollowing ? "Suivi(e)" : "Suivre"}
                         </button>
-                        {userdetail.type === "fondateur" && (
-                          <button
-                            className="btn btn-primary"
-                            onClick={handleInvestment}
-                            disabled={loading}
-                          >
-                            {loading ? "Loading..." : "Investir"}
-                          </button>
-                        )}
+                        {startup &&
+                          flouciExists &&
+                          userdetail &&
+                          userdetail.type === "fondateur" && (
+                            <button
+                              className="btn btn-primary"
+                              onClick={handleInvestment}
+                              disabled={loading}
+                            >
+                              {loading ? "Loading..." : "Investir"}
+                            </button>
+                          )}
                       </div>
                     </div>
                   )}
