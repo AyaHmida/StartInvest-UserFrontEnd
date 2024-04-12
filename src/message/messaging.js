@@ -20,7 +20,7 @@ const Messaging = () => {
     });
 
     const follower = followers.find((follower) => follower.id === followerId);
-    setSelectedFollowerId(followerId);
+    // setSelectedFollowerId(followerId);
     setSelectedFollower(follower);
   };
 
@@ -294,7 +294,7 @@ const Messaging = () => {
                     />
                     <button
                       className="btn btn-sm btn-primary ms-2"
-                      onClick={() => createMessage(selectedFollowerId)}
+                      onClick={() => createMessage(selectedFollower.id)}
                     >
                       <i className="fa-solid fa-paper-plane fs-6" />
                     </button>
