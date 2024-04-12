@@ -3,7 +3,7 @@ import Header from "../components/header";
 import { callApi } from "../api";
 import { PublicationsAutrePub, ModelPublication } from "../components";
 import { useParams } from "react-router-dom";
-
+import "./profileAutre.css";
 const Profile = () => {
   const [previewURL, setPreviewURL] = useState(null);
   const [userdetail, setUserdetail] = useState();
@@ -11,6 +11,7 @@ const Profile = () => {
   const { userId } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
   const [idStartup, setIdStartup] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
   const getStartup = async (userId) => {
     await callApi(`auth/startup/${userId}`, "GET").then((response) => {
       setStartup(response);
@@ -63,7 +64,7 @@ const Profile = () => {
       return;
     }
 
-    callApi(`auth/unfollow/${userId}`, "DELETE") // Assurez-vous d'envoyer l'ID de l'utilisateur dans l'URL
+    callApi(`auth/unfollow/${userId}`, "DELETE")
       .then((response) => {
         console.log("User unfollowed successfully");
         setIsFollowing(false);
@@ -92,17 +93,42 @@ const Profile = () => {
   const handleInvestment = async () => {
     setLoading(true);
     try {
-      const response = await callApi("auth/generate-payment", "POST", {
+      const existsResponse = await callApi("auth/testExist", "POST", {
         id_startup: idStartup,
       });
 
-      if (response.result && response.result.link) {
-        window.location.href = response.result.link;
+      if (existsResponse.error) {
+        setErrorMessage(existsResponse.error);
+        setLoading(false);
+        return;
+      }
+
+      if (existsResponse.invested) {
+        setErrorMessage(
+          "Vous avez déjà effectué un investissement pour cette startup."
+        );
+        setLoading(false);
+        return;
+      }
+
+      const paymentResponse = await callApi("auth/generate-payment", "POST", {
+        id_startup: idStartup,
+      });
+
+      if (paymentResponse.result && paymentResponse.result.link) {
+        window.location.href = paymentResponse.result.link;
       } else {
-        console.error("Erreur lors de la génération du paiement:", response);
+        console.error(
+          "Erreur lors de la génération du paiement:",
+          paymentResponse
+        );
       }
     } catch (error) {
-      console.error("Erreur lors de la génération du paiement:", error);
+      if (error.response && error.response.data && error.response.data.error) {
+        setErrorMessage(error.response.data.error);
+      } else {
+        console.error("Erreur lors de la génération du paiement:", error);
+      }
     }
     setLoading(false);
   };
@@ -115,6 +141,7 @@ const Profile = () => {
         <div className="row g-4">
           <br />
           <br />
+
           <div className="col-lg-8 vstack gap-4">
             <div className="card">
               <div
@@ -180,7 +207,12 @@ const Profile = () => {
                     </div>
                   )}
                 </div>
-
+                <br></br>
+                {errorMessage && (
+                  <div className="error-message" role="alert">
+                    {errorMessage}
+                  </div>
+                )}
                 {userdetail && (
                   <ul className="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
                     <li className="list-inline-item">
@@ -190,6 +222,7 @@ const Profile = () => {
                   </ul>
                 )}
               </div>
+
               <div className="card-footer mt-3 pt-2 pb-0">
                 <ul className="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
                   <li className="nav-item">
