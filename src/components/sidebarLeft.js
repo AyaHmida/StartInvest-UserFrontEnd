@@ -6,6 +6,7 @@ const SidebarLeft = () => {
   const [userdetail, setUserdetail] = useState();
   const [startup, setStartup] = useState();
 
+  const [nbposts, setNbposts] = useState(null);
   const getUser = () => {
     callApi("auth/user").then((data) => {
       setUserdetail(data);
@@ -16,9 +17,15 @@ const SidebarLeft = () => {
       setStartup(response);
     });
   };
+  const numberposts = () => {
+    callApi("auth/nbposts").then((response) => {
+      setNbposts(response);
+    });
+  };
 
   useEffect(() => {
     getStartup();
+    numberposts();
 
     getUser();
   }, []);
@@ -92,13 +99,12 @@ const SidebarLeft = () => {
                     {startup && (
                       <>
                         <p className="mt-3">{startup.nom}</p>
-                        <p>{startup.description}</p>
                       </>
                     )}
 
                     <div className="hstack gap-2 gap-xl-3 justify-content-center">
                       <div>
-                        <h6 className="mb-0">256</h6>
+                        <h6 className="mb-0">{nbposts}</h6>
                         <small>Post</small>
                       </div>
                     </div>
