@@ -18,6 +18,7 @@ import {
   Connections,
   CompteFlouci,
   InvestFormation,
+  InvestmentHistoryPage,
 } from "../components/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
@@ -93,6 +94,10 @@ const AuthentificatedRouter = () => {
     {
       path: "/success",
       element: <Success />,
+    },
+    {
+      path: "/investStartup",
+      element: <InvestmentHistoryPage />,
     },
     {
       path: "/*",
