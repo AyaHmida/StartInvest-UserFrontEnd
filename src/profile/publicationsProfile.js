@@ -25,7 +25,7 @@ const PublicationsProfile = () => {
 
   const getUser = () => {
     callApi("auth/user").then((data) => {
-      setUserdetail(data);
+      setUserdetail(data.user);
       setPreviewURL(data.image);
       console.log(data.name);
     });

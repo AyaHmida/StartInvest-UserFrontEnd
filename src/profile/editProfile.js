@@ -20,7 +20,7 @@ const PageDeMiseAJourProfil = () => {
     const fetchData = async () => {
       try {
         const userResponse = await callApi("auth/user", "GET");
-        setUserData(userResponse);
+        setUserData(userResponse.user);
         const sectorsResponse = await callApi("auth/secteurs", "GET");
         setSecteurs(sectorsResponse.secteurs);
         const startupResponse = await callApi("auth/startup", "GET");
@@ -56,7 +56,6 @@ const PageDeMiseAJourProfil = () => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
-
 
   return (
     <div>
@@ -161,7 +160,7 @@ const PageDeMiseAJourProfil = () => {
                         </div>
                       </>
                     )}
-                    
+
                     <div className="col-12 text-end">
                       <button type="submit" className="btn btn-primary mb-0">
                         Mettre à jour le profil

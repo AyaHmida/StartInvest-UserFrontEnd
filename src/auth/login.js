@@ -48,7 +48,7 @@ function Login() {
       const response = await callApi("auth/user", "GET", null, {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       });
-      return response.type;
+      return response.user.type;
     } catch (error) {
       console.error(
         "Erreur lors de la récupération du type d'utilisateur:",

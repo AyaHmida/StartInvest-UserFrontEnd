@@ -10,7 +10,6 @@ const SidebarRight = () => {
     const fetchFollowers = async () => {
       try {
         const response = await callApi("auth/followerPersonns");
-        console.log(response);
         const shuffledFollowers = response.sort(() => 0.5 - Math.random());
         const selectedFollowers = shuffledFollowers.slice(0, 1);
         setRandomFollowers(selectedFollowers);
