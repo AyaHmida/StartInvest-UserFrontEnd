@@ -6,15 +6,6 @@ const ModalNotification = () => {
   const [notifications, setNotifications] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
 
-  const countNotify = async () => {
-    try {
-      const response = await callApi("auth/countNotifications");
-      setNotificationCount(response.countNotifications);
-      getNotifications();
-    } catch (error) {
-      console.error("Error fetching count notifications:", error);
-    }
-  };
   const markAllRead = () => {
     callApi("auth/markAllRead");
     getNotifications();
@@ -49,12 +40,13 @@ const ModalNotification = () => {
       });
 
       setNotifications(uniqueNotifications);
-      console.log(uniqueNotifications);
+      if (data.count) {
+        setNotificationCount(data.count);
+      }
     });
   };
   useEffect(() => {
     getNotifications();
-    countNotify();
   }, []);
 
   return (

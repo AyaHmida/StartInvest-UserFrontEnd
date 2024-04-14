@@ -18,22 +18,18 @@ const Profile = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [activeTab, setActiveTab] = useState("posts");
 
-  const getUser = () => {
-    callApi("auth/user").then((data) => {
-      setUserdetail(data);
-      setPreviewURL(data.image);
-    });
-  };
+  const getUserAndStartupDetails = () => {
+    callApi("auth/user").then((response) => {
+      setUserdetail(response.user);
 
-  const getStartup = async () => {
-    await callApi("auth/startup", "GET").then((response) => {
-      setStartup(response);
+      if (response.startup) {
+        setStartup(response.startup);
+      }
     });
   };
 
   useEffect(() => {
-    getUser();
-    getStartup();
+    getUserAndStartupDetails();
   }, []);
   const formatDate = (dateString) => {
     const options = {
@@ -67,7 +63,7 @@ const Profile = () => {
         formData,
         true
       );
-      getUser();
+      getUserAndStartupDetails();
       console.log(response);
     } catch (error) {
       console.error("Error uploading image:", error);

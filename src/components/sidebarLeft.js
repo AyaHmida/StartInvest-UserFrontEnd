@@ -7,27 +7,21 @@ const SidebarLeft = () => {
   const [startup, setStartup] = useState();
 
   const [nbposts, setNbposts] = useState(null);
-  const getUser = () => {
-    callApi("auth/user").then((data) => {
-      setUserdetail(data);
-    });
-  };
-  const getStartup = async () => {
-    await callApi("auth/startup", "GET").then((response) => {
-      setStartup(response);
-    });
-  };
-  const numberposts = () => {
-    callApi("auth/nbposts").then((response) => {
-      setNbposts(response);
+  const getUserAndStartupDetails = () => {
+    callApi("auth/user").then((response) => {
+      setUserdetail(response.user);
+
+      if (response.startup) {
+        setStartup(response.startup);
+      }
+      if (response.countPosts) {
+        setNbposts(response.countPosts);
+      }
     });
   };
 
   useEffect(() => {
-    getStartup();
-    numberposts();
-
-    getUser();
+    getUserAndStartupDetails();
   }, []);
   return (
     <>
