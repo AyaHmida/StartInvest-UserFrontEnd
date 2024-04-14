@@ -4,6 +4,7 @@ import { callApi } from "../api";
 import { PublicationsAutrePub, ModelPublication } from "../components";
 import { useParams } from "react-router-dom";
 import "./profileAutre.css";
+
 const Profile = () => {
   const [previewURL, setPreviewURL] = useState(null);
   const [userdetail, setUserdetail] = useState();
@@ -13,38 +14,21 @@ const Profile = () => {
   const [idStartup, setIdStartup] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [flouciExists, setFlouciExists] = useState(false);
-  const checkFlouciExistence = async () => {
-    try {
-      const response = await callApi("auth/checkFlouciExistence", "POST", {
-        id_startup: idStartup,
-      });
-      setFlouciExists(response.exists);
-    } catch (error) {
-      console.error(
-        "Erreur lors de la vérification de l'existence de Flouci:",
-        error
-      );
-    }
-  };
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getStartup(userId);
+    getUser(userId);
+    handleCheckFollow();
+    checkFlouciExistence();
+    testExist(); // Appel de testExist au chargement du composant
+  }, [userId]);
 
   useEffect(() => {
     if (idStartup) {
       checkFlouciExistence();
     }
   }, [idStartup]);
-
-  const getStartup = async (userId) => {
-    await callApi(`auth/startup/${userId}`, "GET").then((response) => {
-      setStartup(response);
-      setIdStartup(response.id);
-    });
-  };
-
-  useEffect(() => {
-    getStartup(userId);
-    getUser(userId);
-    handleCheckFollow(); // Appel de handleCheckFollow au chargement du composant
-  }, []);
 
   const formatDate = (dateString) => {
     const options = {
@@ -60,6 +44,14 @@ const Profile = () => {
     callApi(`auth/userById/${userId}`).then((data) => {
       setUserdetail(data);
       setPreviewURL(data.image);
+    });
+  };
+
+  const getStartup = async (userId) => {
+    await callApi(`auth/startup/${userId}`, "GET").then((response) => {
+      setStartup(response.startup);
+      setIdStartup(response.id);
+      console.log(idStartup);
     });
   };
 
@@ -109,7 +101,19 @@ const Profile = () => {
       });
   };
 
-  const [loading, setLoading] = useState(false);
+  const checkFlouciExistence = async () => {
+    try {
+      const response = await callApi("auth/checkFlouciExistence", "POST", {
+        id_startup: idStartup,
+      });
+      setFlouciExists(response.exists);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la vérification de l'existence de Flouci:",
+        error
+      );
+    }
+  };
 
   const handleInvestment = async () => {
     setLoading(true);
@@ -152,6 +156,18 @@ const Profile = () => {
       }
     }
     setLoading(false);
+  };
+
+  const testExist = async () => {
+    try {
+      const response = await callApi("auth/testExist", "POST", {
+        id_startup: idStartup,
+      });
+
+      console.log("testExist response:", response);
+    } catch (error) {
+      console.error("Error in testExist:", error);
+    }
   };
 
   return (
@@ -215,8 +231,7 @@ const Profile = () => {
                           ></i>{" "}
                           {isFollowing ? "Suivi(e)" : "Suivre"}
                         </button>
-                        {startup &&
-                          flouciExists &&
+                        {flouciExists &&
                           userdetail &&
                           userdetail.type === "fondateur" && (
                             <button
