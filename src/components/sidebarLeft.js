@@ -177,6 +177,14 @@ const SidebarLeft = () => {
                         </Link>
                       </li>
                     )}
+                    {userdetail && userdetail.type === "fondateur" && (
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/investStartup">
+                          <i className="bi bi-graph-up me-2"></i>{" "}
+                          <span>Historique startup</span>
+                        </Link>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
