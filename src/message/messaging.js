@@ -10,7 +10,7 @@ const Messaging = () => {
 
   const getUser = () => {
     callApi("auth/user").then((data) => {
-      setUserdetail(data);
+      setUserdetail(data.user);
     });
   };
 
