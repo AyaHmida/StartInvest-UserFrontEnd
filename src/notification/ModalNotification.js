@@ -20,12 +20,10 @@ const ModalNotification = () => {
   };
   const getNotifications = () => {
     callApi("auth/notifications").then((data) => {
-      const parsedNotifications = data.likedNotifications.map(
-        (notification) => ({
-          ...notification,
-          data: JSON.parse(notification.data),
-        })
-      );
+      const parsedNotifications = data.notifications.map((notification) => ({
+        ...notification,
+        data: JSON.parse(notification.data),
+      }));
 
       // Filtrer les notifications pour n'afficher qu'une seule instance de chaque type
       const uniqueNotifications = [];
@@ -40,9 +38,7 @@ const ModalNotification = () => {
       });
 
       setNotifications(uniqueNotifications);
-      if (data.count) {
-        setNotificationCount(data.count);
-      }
+      setNotificationCount(data.count);
     });
   };
   useEffect(() => {
@@ -114,9 +110,11 @@ const ModalNotification = () => {
                               <div className="d-flex justify-content-between align-items-center">
                                 <div>
                                   <p className="small mb-0">
-                                    <b>{notification.data.user}</b> est{" "}
-                                    {notification.data.title}:{" "}
-                                    {notification.data.description}{" "}
+                                    <b>{notification.data.user}</b>{" "}
+                                    {notification.data.title === "a abonné vous"
+                                      ? "a abonné à vous"
+                                      : "a aimé votre publication"}{" "}
+                                    : {notification.data.description}{" "}
                                     {notification.created_at}
                                   </p>
                                 </div>
