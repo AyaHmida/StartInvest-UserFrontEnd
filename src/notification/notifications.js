@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import { callApi } from "../api";
+import { navigate } from "@reach/router";
+
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
 
   const getNotifications = () => {
     callApi("auth/notifications").then((data) => {
-      const parsedNotifications = data.likedNotifications.map(
-        (notification) => ({
-          ...notification,
-          data: JSON.parse(notification.data),
-        })
-      );
+      const parsedNotifications = data.notifications.map((notification) => ({
+        ...notification,
+        data: JSON.parse(notification.data),
+      }));
 
       // Filtrer les notifications pour n'afficher qu'une seule instance de chaque type
       const uniqueNotifications = [];
@@ -32,6 +32,7 @@ export default function Notifications() {
   useEffect(() => {
     getNotifications();
   }, []);
+
   return (
     <div>
       <Header />
@@ -93,8 +94,12 @@ export default function Notifications() {
                                 <b> {notification.data.user}</b>{" "}
                               </p>
                               <p className="small mb-0">
-                                {notification.data.title}:
-                                {notification.data.description}
+                                <b>{notification.data.user}</b>{" "}
+                                {notification.data.title === "a abonné vous"
+                                  ? "a abonné à vous"
+                                  : "a aimé votre publication"}{" "}
+                                : {notification.data.description}{" "}
+                                {notification.created_at}
                               </p>
                               <p className="text-primary ">
                                 {" "}
