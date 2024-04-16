@@ -20,12 +20,13 @@ const Messaging = () => {
     });
 
     const follower = followers.find((follower) => follower.id === followerId);
-    // setSelectedFollowerId(followerId);
     setSelectedFollower(follower);
   };
 
   const createMessage = (followerId) => {
-    // console.log(followerId);
+    if(followerId==null){
+      
+    }
     const formData = new FormData();
     formData.append("content", content);
     formData.append("auth_id", userdetail.id);
@@ -33,6 +34,7 @@ const Messaging = () => {
     formData.append("chat_id", selectedFollower.chat_id);
     callApi(`auth/message/${followerId}`, "POST", formData, true);
     setContent("");
+    showConversation(followerId);
   };
 
   const [followers, setFollowers] = useState([]);

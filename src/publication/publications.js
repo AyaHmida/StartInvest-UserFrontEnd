@@ -141,6 +141,7 @@ const Publications = () => {
               <ul className="nav nav-fill nav-stack small">
                 <li className="nav-item">
                   <a
+                    style={{ cursor: "pointer" }}
                     className="nav-link mb-0 active"
                     onClick={() => Like(item.id, index)}
                   >
