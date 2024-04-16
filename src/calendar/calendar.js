@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/header";
+import { SidebarLeft, Header } from "../components";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,7 +22,7 @@ export default function Calendar() {
     start_time: "",
     end_time: "",
     created_by: null,
-    assigned_to: 2,
+    assigned_to: null,
   });
   const [events, setEvents] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -79,6 +79,14 @@ export default function Calendar() {
     } catch (error) {
       console.error("Erreur lors de la suppression de la tâche:", error);
     }
+  };
+  const truncate = (str, wordsCount) => {
+    const words = str.split(" ");
+    let truncatedWords = words.slice(0, wordsCount);
+    if (words.length > wordsCount) {
+      truncatedWords.push("..");
+    }
+    return truncatedWords.join(" ");
   };
 
   useEffect(() => {
@@ -165,7 +173,7 @@ export default function Calendar() {
     setQuery(user.name);
     setFormData((prevFormData) => ({
       ...prevFormData,
-      assigned_to: 2,
+      assigned_to: user.id,
     }));
     console.log("FormData après clic:", formData);
   };
@@ -209,59 +217,73 @@ export default function Calendar() {
   };
 
   return (
-    <>
+    <div>
       <Header />
-      <main className="cd__main">
-        <br />
-        <br />
-        <br />
-        <div className="d-flex justify-content-center mb-3">
-          <button className="btn btn-primary" onClick={handleAddTask}>
-            <FontAwesomeIcon icon={faPlus} />
-            Ajouter tâche
-          </button>
-        </div>
-        <br />
-        <div className="calendar-container">
-          <div style={{ width: "90%", margin: "auto" }}>
-            <FullCalendar
-              plugins={[dayGridPlugin]}
-              initialView="dayGridMonth"
-              dayMaxEventRows={4}
-              weekends={true}
-              events={events.map((event) => ({
-                id: event.id,
-                title: event.title,
-                start: event.start_time,
-                end: event.end_time,
-                description: event.description,
-                backgroundColor: event.color,
-                extendedProps: {
-                  created_by: event.created_by,
-                  description: event.description,
-                  assigned_to: event.assigned_to,
-                  color: event.color,
-                },
-              }))}
-              eventContent={(arg) => (
+      <br />
+      <br />
+      <br />
+
+      <main>
+        <div className="container">
+          <div className="row g-4">
+            <SidebarLeft />
+
+            <div className="col-md-8 col-lg-6 vstack gap-4">
+              <main className="cd__main">
                 <div
-                  className="event-container"
-                  style={{
-                    backgroundColor: "#92C2CE",
-                    padding: "5px",
-                    borderRadius: "5px",
-                    color: "black",
-                  }}
+                  className="container mt-5"
+                  style={{ height: "550px", width: "115%" }}
                 >
-                  {arg.event.title}
+                  <div className="row justify-content-center">
+                    <div className="col-lg-12">
+                      <div className="d-flex justify-content-center mb-4">
+                        <button
+                          className="btn btn-primary rounded-pill d-flex align-items-center"
+                          onClick={handleAddTask}
+                        >
+                          <FontAwesomeIcon icon={faPlus} className="me-2" />
+                          Ajouter rendez-vous
+                        </button>
+                      </div>
+                      <div className="calendar-container">
+                        <FullCalendar
+                          plugins={[dayGridPlugin]}
+                          initialView="dayGridMonth"
+                          dayMaxEventRows={4}
+                          weekends={true}
+                          events={events.map((event) => ({
+                            id: event.id,
+                            title: event.title, // Appel de la fonction truncate pour afficher uniquement les deux premiers mots
+                            start: event.start_time,
+                            end: event.end_time,
+                            description: event.description,
+                            backgroundColor: event.color,
+                            extendedProps: {
+                              created_by: event.created_by,
+                              description: event.description,
+                              assigned_to: event.assigned_to,
+                              color: event.color,
+                            },
+                          }))}
+                          eventContent={(arg) => (
+                            <div className="event-container">
+                              {truncate(arg.event.title, 2)}
+                            </div>
+                          )}
+                          eventClick={handleTaskClick}
+                          locale={frLocale}
+                          height="600px" // Réduire la taille du calendrier
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              )}
-              eventClick={handleTaskClick}
-              locale={frLocale}
-            />
+              </main>
+            </div>
           </div>
         </div>
       </main>
+
       {selectedTask && (
         <div className="modal fade show d-flex align-items-center justify-content-center">
           <div className="modal-dialog modal-xl" role="document">
@@ -406,7 +428,7 @@ export default function Calendar() {
                 <div className="modal-body">
                   <div className="mb-3">
                     <label htmlFor="event-title" className="form-label">
-                      Title:
+                      Titre:
                     </label>
                     <input
                       type="text"
@@ -432,7 +454,7 @@ export default function Calendar() {
                   <div className="row mb-3">
                     <div className="col">
                       <label htmlFor="event-start-time" className="form-label">
-                        Start Time:
+                        Date de début :
                       </label>
                       <input
                         type="date"
@@ -445,7 +467,7 @@ export default function Calendar() {
                     </div>
                     <div className="col">
                       <label htmlFor="event-end-time" className="form-label">
-                        End Time:
+                        Date de fin :
                       </label>
                       <input
                         type="date"
@@ -517,7 +539,7 @@ export default function Calendar() {
                 <div className="modal-footer border-top-0 d-flex justify-content-center">
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn btn-secondary me-2"
                     data-bs-dismiss="modal"
                     onClick={handleCloseModal}
                   >
@@ -532,6 +554,6 @@ export default function Calendar() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
