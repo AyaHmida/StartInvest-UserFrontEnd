@@ -137,9 +137,10 @@ export default function Calendar() {
         start_time: "",
         end_time: "",
         created_by: null,
-        assigned_to: 2,
+        assigned_to: null,
       });
       setShowModal(false);
+      fetchEvents();
     } catch (error) {
       console.error("Erreur lors de l'ajout de la tâche:", error);
     }
@@ -209,8 +210,22 @@ export default function Calendar() {
       0,
       100
     );
+
+    // Formatage des dates
+    const startDate =
+      info.event.start instanceof Date
+        ? info.event.start.toISOString().split("T")[0]
+        : "";
+    const endDate =
+      info.event.end instanceof Date
+        ? info.event.end.toISOString() // Convertir en format ISO 8601
+        : "";
+
     setFormData((prevFormData) => ({
       ...prevFormData,
+      title: info.event.title,
+      start_time: startDate,
+      end_time: endDate,
       description: shortDescription,
     }));
     setShowModal(false);
@@ -266,7 +281,15 @@ export default function Calendar() {
                             },
                           }))}
                           eventContent={(arg) => (
-                            <div className="event-container">
+                            <div
+                              className="event-container"
+                              style={{
+                                backgroundColor: "#306BA9",
+                                color: "white",
+                                padding: "5px",
+                                cursor: "pointer",
+                              }}
+                            >
                               {truncate(arg.event.title, 2)}
                             </div>
                           )}
@@ -336,15 +359,11 @@ export default function Calendar() {
                       className="form-control"
                       id="event-start-time"
                       name="start_time"
-                      defaultValue={
-                        selectedTask.start
-                          ? new Date(selectedTask.end)
-                              .toLocaleDateString("fr-FR")
-                              .split("/")
-                              .reverse()
-                              .join("-")
+                      value={
+                        formData.start_time
+                          ? formData.start_time.split("T")[0]
                           : ""
-                      }
+                      } // Afficher uniquement la partie date
                       onChange={handleChange}
                     />
                   </div>
@@ -357,15 +376,9 @@ export default function Calendar() {
                       className="form-control"
                       id="event-end-time"
                       name="end_time"
-                      defaultValue={
-                        selectedTask.end
-                          ? new Date(selectedTask.end)
-                              .toLocaleDateString("fr-FR")
-                              .split("/")
-                              .reverse()
-                              .join("-")
-                          : ""
-                      }
+                      value={
+                        formData.end_time ? formData.end_time.split("T")[0] : ""
+                      } // Afficher uniquement la partie date
                       onChange={handleChange}
                     />
                   </div>
