@@ -21,7 +21,6 @@ const Profile = () => {
     getUser(userId);
     handleCheckFollow();
     checkFlouciExistence();
-    testExist(); // Appel de testExist au chargement du composant
   }, [userId]);
 
   useEffect(() => {
@@ -118,24 +117,6 @@ const Profile = () => {
   const handleInvestment = async () => {
     setLoading(true);
     try {
-      const existsResponse = await callApi("auth/testExist", "POST", {
-        id_startup: idStartup,
-      });
-
-      if (existsResponse.error) {
-        setErrorMessage(existsResponse.error);
-        setLoading(false);
-        return;
-      }
-
-      if (existsResponse.invested) {
-        setErrorMessage(
-          "Vous avez déjà effectué un investissement pour cette startup."
-        );
-        setLoading(false);
-        return;
-      }
-
       const paymentResponse = await callApi("auth/generate-payment", "POST", {
         id_startup: idStartup,
       });
@@ -156,18 +137,6 @@ const Profile = () => {
       }
     }
     setLoading(false);
-  };
-
-  const testExist = async () => {
-    try {
-      const response = await callApi("auth/testExist", "POST", {
-        id_startup: idStartup,
-      });
-
-      console.log("testExist response:", response);
-    } catch (error) {
-      console.error("Error in testExist:", error);
-    }
   };
 
   return (
