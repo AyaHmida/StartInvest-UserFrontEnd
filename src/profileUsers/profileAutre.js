@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/header";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { callApi } from "../api";
 import { PublicationsAutrePub, ModelPublication } from "../components";
 import { useParams } from "react-router-dom";
@@ -14,7 +15,7 @@ const Profile = () => {
   const [idStartup, setIdStartup] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [flouciExists, setFlouciExists] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getStartup(userId);
@@ -43,6 +44,7 @@ const Profile = () => {
     callApi(`auth/userById/${userId}`).then((data) => {
       setUserdetail(data);
       setPreviewURL(data.image);
+      setLoading(false); // Arrêter le chargement une fois que les données de l'utilisateur sont récupérées
     });
   };
 
@@ -50,7 +52,6 @@ const Profile = () => {
     await callApi(`auth/startup/${userId}`, "GET").then((response) => {
       setStartup(response.startup);
       setIdStartup(response.id);
-      console.log(idStartup);
     });
   };
 
@@ -63,7 +64,6 @@ const Profile = () => {
       follower_id: userId,
     })
       .then((response) => {
-        console.log("User followed successfully");
         setIsFollowing(true);
       })
       .catch((error) => {
@@ -78,7 +78,6 @@ const Profile = () => {
 
     callApi(`auth/unfollow/${userId}`, "DELETE")
       .then((response) => {
-        console.log("User unfollowed successfully");
         setIsFollowing(false);
       })
       .catch((error) => {
@@ -143,139 +142,153 @@ const Profile = () => {
     <div>
       <Header />
       <br />
-      <div className="container">
-        <div className="row g-4">
-          <br />
-          <br />
-
-          <div className="col-lg-8 vstack gap-4">
-            <div className="card">
-              <div
-                className="h-200px rounded-top"
-                style={{
-                  backgroundImage: "url(assets/images/bg/05.jpg)",
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                }}
-              />
-              <div className="card-body py-0">
-                <div className="d-flex align-items-start text-center text-sm-start">
-                  <div className="position-relative d-inline-block me-4">
-                    <div className="avatar avatar-xxl mt-n5 mb-3 position-relative">
-                      <img
-                        className="avatar-img rounded-circle border border-white border-3"
-                        src={
-                          userdetail && userdetail.image
-                            ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
-                            : "assets/images/avatar/no-image-male.jpg"
-                        }
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                  {userdetail && (
-                    <div className="flex-grow-1">
-                      {/* Info */}
-                      <h1 className="mb-0 h5">
-                        {userdetail.name}&nbsp;
-                        <i className="bi bi-patch-check-fill text-success small" />
-                      </h1>
-                      <p>{userdetail.type}</p>
-                      <div className=" rounded px-2 py-1 d-inline-block float-end">
-                        <button
-                          className={`btn btn-link ${
-                            isFollowing ? "text-muted" : ""
-                          } me-2`}
-                          title={isFollowing ? "Se désabonner" : "S'abonner"}
-                          onClick={isFollowing ? handleUnfollow : handleFollow}
-                        >
-                          <i
-                            className={`bi ${
-                              isFollowing
-                                ? "bi-check-square-fill"
-                                : "bi-plus-square-fill"
-                            }`}
-                            alt={isFollowing ? "Se désabonner" : "S'abonner"}
-                          ></i>{" "}
-                          {isFollowing ? "Suivi(e)" : "Suivre"}
-                        </button>
-                        {flouciExists &&
-                          userdetail &&
-                          userdetail.type === "fondateur" && (
-                            <button
-                              className="btn btn-primary"
-                              onClick={handleInvestment}
-                              disabled={loading}
-                            >
-                              {loading ? "Loading..." : "Investir"}
-                            </button>
-                          )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <br></br>
-                {errorMessage && (
-                  <div className="error-message" role="alert">
-                    {errorMessage}
-                  </div>
-                )}
-                {userdetail && (
-                  <ul className="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
-                    <li className="list-inline-item">
-                      <i className="bi bi-calendar2-plus me-1" />
-                      account created on {formatDate(userdetail.created_at)}
-                    </li>
-                  </ul>
-                )}
-              </div>
-
-              <div className="card-footer mt-3 pt-2 pb-0">
-                <ul className="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
-                  <li className="nav-item">
-                    {" "}
-                    <a className="nav-link active"> Posts </a>{" "}
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <PublicationsAutrePub />
-          </div>
-
-          <div className="col-lg-4">
+      {loading ? (
+        <div className="col text-center">
+          <CircularProgress style={{ marginTop: "200px" }} />
+        </div>
+      ) : (
+        <>
+          <div className="container">
             <div className="row g-4">
-              <div className="col-md-6 col-lg-12">
+              <br />
+              <br />
+
+              <div className="col-lg-8 vstack gap-4">
                 <div className="card">
-                  <div className="card-header border-0 pb-0">
-                    <h5 className="card-title">About</h5>
-                  </div>
-                  {userdetail && (
-                    <div className="card-body position-relative pt-0">
-                      {startup && <p>{startup.description}</p>}
-                      <ul className="list-unstyled mt-3 mb-0">
-                        <li className="mb-2">
-                          {" "}
-                          <i className="bi bi-telephone fa-fw pe-1" />{" "}
-                          Télephone: <strong> {userdetail.numero} </strong>{" "}
-                        </li>
-                        <li>
-                          {" "}
-                          <i className="bi bi-envelope fa-fw pe-1" /> Email:{" "}
-                          <strong> {userdetail.email} </strong>{" "}
+                  <div
+                    className="h-200px rounded-top"
+                    style={{
+                      backgroundImage: "url(assets/images/bg/05.jpg)",
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  />
+                  <div className="card-body py-0">
+                    <div className="d-flex align-items-start text-center text-sm-start">
+                      <div className="position-relative d-inline-block me-4">
+                        <div className="avatar avatar-xxl mt-n5 mb-3 position-relative">
+                          <img
+                            className="avatar-img rounded-circle border border-white border-3"
+                            src={
+                              userdetail && userdetail.image
+                                ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                                : "assets/images/avatar/no-image-male.jpg"
+                            }
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                      {userdetail && (
+                        <div className="flex-grow-1">
+                          {/* Info */}
+                          <h1 className="mb-0 h5">
+                            {userdetail.name}&nbsp;
+                            <i className="bi bi-patch-check-fill text-success small" />
+                          </h1>
+                          <p>{userdetail.type}</p>
+                          <div className=" rounded px-2 py-1 d-inline-block float-end">
+                            <button
+                              className={`btn btn-link ${
+                                isFollowing ? "text-muted" : ""
+                              } me-2`}
+                              title={
+                                isFollowing ? "Se désabonner" : "S'abonner"
+                              }
+                              onClick={
+                                isFollowing ? handleUnfollow : handleFollow
+                              }
+                            >
+                              <i
+                                className={`bi ${
+                                  isFollowing
+                                    ? "bi-check-square-fill"
+                                    : "bi-plus-square-fill"
+                                }`}
+                                alt={
+                                  isFollowing ? "Se désabonner" : "S'abonner"
+                                }
+                              ></i>{" "}
+                              {isFollowing ? "Suivi(e)" : "Suivre"}
+                            </button>
+                            {flouciExists &&
+                              userdetail &&
+                              userdetail.type === "fondateur" && (
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={handleInvestment}
+                                  disabled={loading}
+                                >
+                                  {loading ? "Loading..." : "Investir"}
+                                </button>
+                              )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <br></br>
+                    {errorMessage && (
+                      <div className="error-message" role="alert">
+                        {errorMessage}
+                      </div>
+                    )}
+                    {userdetail && (
+                      <ul className="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
+                        <li className="list-inline-item">
+                          <i className="bi bi-calendar2-plus me-1" />
+                          account created on {formatDate(userdetail.created_at)}
                         </li>
                       </ul>
+                    )}
+                  </div>
+
+                  <div className="card-footer mt-3 pt-2 pb-0">
+                    <ul className="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
+                      <li className="nav-item">
+                        {" "}
+                        <a className="nav-link active"> Posts </a>{" "}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <PublicationsAutrePub />
+              </div>
+
+              <div className="col-lg-4">
+                <div className="row g-4">
+                  <div className="col-md-6 col-lg-12">
+                    <div className="card">
+                      <div className="card-header border-0 pb-0">
+                        <h5 className="card-title">About</h5>
+                      </div>
+                      {userdetail && (
+                        <div className="card-body position-relative pt-0">
+                          {startup && <p>{startup.description}</p>}
+                          <ul className="list-unstyled mt-3 mb-0">
+                            <li className="mb-2">
+                              {" "}
+                              <i className="bi bi-telephone fa-fw pe-1" />{" "}
+                              Télephone: <strong> {userdetail.numero} </strong>{" "}
+                            </li>
+                            <li>
+                              {" "}
+                              <i className="bi bi-envelope fa-fw pe-1" /> Email:{" "}
+                              <strong> {userdetail.email} </strong>{" "}
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <ModelPublication />
+          <ModelPublication />
+        </>
+      )}
     </div>
   );
 };
