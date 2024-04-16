@@ -24,8 +24,7 @@ const Messaging = () => {
   };
 
   const createMessage = (followerId) => {
-    if(followerId==null){
-      
+    if (followerId == null) {
     }
     const formData = new FormData();
     formData.append("content", content);
@@ -218,9 +217,37 @@ const Messaging = () => {
                           messages.map((message, index) => (
                             <div key={index}>
                               {/* Chat time */}
-                              <div className="text-center small my-2">
-                                Jul 16, 2022, 06:15 am
-                              </div>
+                              {index === 0 ||
+                              new Date(message.created_at).getHours() !==
+                                new Date(
+                                  messages[index - 1].created_at
+                                ).getHours() ||
+                              new Date(message.created_at).getDate() !==
+                                new Date(
+                                  messages[index - 1].created_at
+                                ).getDate() ||
+                              new Date(message.created_at).getMonth() !==
+                                new Date(
+                                  messages[index - 1].created_at
+                                ).getMonth() ||
+                              new Date(message.created_at).getFullYear() !==
+                                new Date(
+                                  messages[index - 1].created_at
+                                ).getFullYear() ? (
+                                <div className="text-center small my-2">
+                                  {new Date(message.created_at).toLocaleString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                      hour12: true,
+                                    }
+                                  )}
+                                </div>
+                              ) : null}
                               {/* Chat message left */}
                               {message.from_user !== userdetail.id ? (
                                 <div className="d-flex mb-1">
@@ -264,7 +291,12 @@ const Messaging = () => {
                                       </div>
                                       <div className="d-flex my-2">
                                         <div className="small text-secondary">
-                                          6:20 AM
+                                          {new Date(
+                                            message.created_at
+                                          ).toLocaleTimeString([], {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                          })}
                                         </div>
                                         <div className="small ms-2">
                                           <i className="fa-solid fa-check-double text-info" />
