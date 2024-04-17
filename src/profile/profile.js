@@ -122,8 +122,6 @@ const Profile = () => {
                             alt=""
                           />
                         </div>
-
-                        {/* Bouton pour uploader l'image */}
                         <label
                           htmlFor="uploadAvatar"
                           className="btn btn-primary position-absolute bottom-0 end-0 p-0 d-flex align-items-center justify-content-center"
@@ -150,10 +148,7 @@ const Profile = () => {
                       {userdetail && (
                         <div className="ms-sm-4 mt-sm-3">
                           {/* Info */}
-                          <h1 className="mb-0 h5">
-                            {userdetail.name}&nbsp;
-                            <i className="bi bi-patch-check-fill text-success small" />
-                          </h1>
+                          <h1 className="mb-0 h5">{userdetail.name}&nbsp;</h1>
                           <p>{userdetail.type}</p>
                         </div>
                       )}

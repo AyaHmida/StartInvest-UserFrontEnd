@@ -8,6 +8,14 @@ export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true); // Ajout de l'état de chargement
 
+  const markAsRead = (notificationId) => {
+    try {
+      callApi(`auth/markAsRead/${notificationId}`);
+      getNotifications();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const getNotifications = () => {
     callApi("auth/notifications")
       .then((data) => {
@@ -64,32 +72,6 @@ export default function Notifications() {
                 <div className="card">
                   <div className="card-header py-3 border-0 d-flex align-items-center justify-content-between">
                     <h1 className="h5 mb-0">Notifications</h1>
-                    {/* Notification action START */}
-                    <div className="dropdown">
-                      <a
-                        href="#"
-                        className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
-                        id="cardNotiAction"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <i className="bi bi-three-dots" />
-                      </a>
-                      {/* Card share action dropdown menu */}
-                      <ul
-                        className="dropdown-menu dropdown-menu-end"
-                        aria-labelledby="cardNotiAction"
-                      >
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            {" "}
-                            <i className="bi bi-check-lg fa-fw pe-2" />
-                            Tout marquer comme lu
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    {/* Notification action END */}
                   </div>
                   <div className="card-body p-2">
                     <ul className="list-unstyled">
@@ -147,7 +129,13 @@ export default function Notifications() {
                                       aria-labelledby="cardNotiAction8"
                                     >
                                       <li>
-                                        <a className="dropdown-item" href="#">
+                                        <a
+                                          className="dropdown-item"
+                                          href="#"
+                                          onClick={() =>
+                                            markAsRead(notification.id)
+                                          }
+                                        >
                                           {" "}
                                           <i className="bi bi-trash fa-fw pe-2" />
                                           Delete
