@@ -183,10 +183,7 @@ const Profile = () => {
                       {userdetail && (
                         <div className="flex-grow-1">
                           {/* Info */}
-                          <h1 className="mb-0 h5">
-                            {userdetail.name}&nbsp;
-                            <i className="bi bi-patch-check-fill text-success small" />
-                          </h1>
+                          <h1 className="mb-0 h5">{userdetail.name}&nbsp;</h1>
                           <p>{userdetail.type}</p>
                           <div className=" rounded px-2 py-1 d-inline-block float-end">
                             <button

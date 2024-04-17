@@ -112,7 +112,7 @@ const Messaging = () => {
                                   role="tab"
                                 >
                                   <div className="d-flex">
-                                    <div className="flex-shrink-0 avatar avatar-story me-2 status-online">
+                                    <div className="flex-shrink-0 avatar avatar-story me-2 ">
                                       <img
                                         className="avatar-img rounded-circle"
                                         src={
