@@ -114,7 +114,7 @@ const Profile = () => {
   };
 
   const handleInvestment = async () => {
-    setLoading(true);
+    setLoading(true); // Charger la page
     try {
       const paymentResponse = await callApi("auth/generate-payment", "POST", {
         id_startup: idStartup,
@@ -134,8 +134,9 @@ const Profile = () => {
       } else {
         console.error("Erreur lors de la génération du paiement:", error);
       }
+    } finally {
+      setLoading(false); // Arrêter le chargement après l'appel API
     }
-    setLoading(false);
   };
 
   return (
