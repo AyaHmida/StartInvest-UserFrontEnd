@@ -95,11 +95,15 @@ const ModalNotification = () => {
                             className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
                           >
                             <div className="avatar text-center d-none d-sm-inline-block me-3">
-                              <div className="avatar-img rounded-circle">
+                              <div className="avatar text-center">
                                 <img
-                                  src={`http://127.0.0.1:8000/uploads/${notification.data.image}`}
+                                  src={
+                                    notification.data.image
+                                      ? `http://127.0.0.1:8000/uploads/${notification.data.image}`
+                                      : "assets/images/avatar/no-image-male.jpg"
+                                  }
                                   alt="Image"
-                                  className="rounded-circle"
+                                  className="rounded-circle" // Ajouter la classe pour rendre l'image circulaire
                                 />
                               </div>
                             </div>
