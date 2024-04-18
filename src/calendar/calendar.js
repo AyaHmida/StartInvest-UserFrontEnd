@@ -70,7 +70,7 @@ export default function Calendar() {
           Authorization: `Bearer ${token}`,
         }
       );
-
+      fetchEvents();
       if (response.ok) {
         console.log("La tâche a été supprimée avec succès");
       } else {
