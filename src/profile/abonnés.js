@@ -3,6 +3,7 @@ import { callApi } from "../api";
 import { SidebarLeft, Header } from "../components";
 import { Link } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
 export default function Abonnes() {
   const [utilisateurs, setUtilisateurs] = useState([]);
   const [totalUtilisateursChargees, setTotalUtilisateursChargees] = useState(5);
@@ -71,6 +72,30 @@ export default function Abonnes() {
   const chargerPlusUtilisateurs = () => {
     setTotalUtilisateursChargees(totalUtilisateursChargees + 5);
   };
+
+  const handleCheckFollow = (userId) => {
+    if (!userId) {
+      return;
+    }
+
+    callApi(`auth/checkFollow/${userId}`, "GET")
+      .then((response) => {
+        setFollowingStatus((prevStatus) => ({
+          ...prevStatus,
+          [userId]: response.isFollowing,
+        }));
+      })
+      .catch((error) => {
+        console.error("Error checking follow status:", error);
+      });
+  };
+
+  useEffect(() => {
+    utilisateurs.forEach((user) => {
+      handleCheckFollow(user.id);
+    });
+  }, [utilisateurs]);
+
   return (
     <div>
       <Header />
