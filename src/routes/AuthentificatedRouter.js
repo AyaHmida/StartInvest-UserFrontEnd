@@ -18,6 +18,7 @@ import {
   Connections,
   CompteFlouci,
   InvestFormation,
+  EtatTache,
   InvestmentHistoryPage,
 } from "../components/index";
 const AuthentificatedRouter = () => {
@@ -98,6 +99,10 @@ const AuthentificatedRouter = () => {
     {
       path: "/investStartup",
       element: <InvestmentHistoryPage />,
+    },
+    {
+      path: "/etatTache",
+      element: <EtatTache />,
     },
     {
       path: "/*",
