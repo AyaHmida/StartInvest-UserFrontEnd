@@ -15,6 +15,7 @@ export { default as SidebarLeft } from "../components/sidebarLeft";
 export { default as Header } from "../components/header";
 export { default as Success } from "../profile/success";
 export { default as Failed } from "../profile/fail";
+export { default as EtatTache } from "../calendar/etatTache";
 export { default as InvestFormation } from "../Payement/formationInves";
 export { default as InvestmentHistoryPage } from "../Payement/historiqueStartup";
 
