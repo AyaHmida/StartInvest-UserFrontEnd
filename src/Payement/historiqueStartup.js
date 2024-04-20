@@ -129,6 +129,7 @@ const InvestmentHistoryPage = () => {
       <Header />
       <br />
       <br />
+      <br />
       <main>
         <div className="container">
           <br />

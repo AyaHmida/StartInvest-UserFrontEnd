@@ -15,8 +15,7 @@ export default function UpdateProfile() {
         typePerson: type,
       });
       console.log("Données enregistrées avec succès :", response);
-            window.location.href = "/editProfile";
-
+      window.location.href = "/editProfile";
     } catch (error) {
       console.error("Erreur lors de l'enregistrement des données :", error);
     }
@@ -25,7 +24,9 @@ export default function UpdateProfile() {
   return (
     <div>
       <Header />
-      <br></br>
+      <br />
+      <br />
+      <br />{" "}
       <main>
         <div className="container">
           <br />

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/header";
 import { SidebarLeft } from "../components";
 import { callApi } from "../api";
-import { Link } from "react-router-dom"; 
-
+import { Link } from "react-router-dom";
 
 export default function Reclamation() {
   const [formData, setFormData] = useState({
@@ -49,7 +48,9 @@ export default function Reclamation() {
   return (
     <div>
       <Header />
-      <br></br>
+      <br />
+      <br />
+      <br />{" "}
       <main>
         <div className="container">
           <br />

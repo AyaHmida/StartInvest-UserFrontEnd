@@ -33,8 +33,10 @@ const ListReclamation = () => {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <br />
+      <br />
+      <br />{" "}
       <main>
         <div className="container mt-5">
           <div className="row g-4">

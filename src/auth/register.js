@@ -8,11 +8,14 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       const formData = new FormData();
       formData.append("name", name);
@@ -23,6 +26,7 @@ function Register() {
       const { data } = await callApi("auth/register", "POST", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      setLoading(true);
 
       navigate("/login");
     } catch (error) {
@@ -175,8 +179,12 @@ function Register() {
                   </div>
                   {/* Button */}
                   <div className="d-grid">
-                    <button type="submit" className="btn btn-lg btn-primary">
-                      M'inscrire
+                    <button
+                      type="submit"
+                      className="btn btn-lg btn-primary"
+                      disabled={loading}
+                    >
+                      {loading ? "inscrire en cours" : "inscrie"}
                     </button>
                   </div>
                   <div class="text-center">

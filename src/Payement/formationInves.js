@@ -69,6 +69,7 @@ const InvestmentInfoPage = () => {
       <Header />
       <br />
       <br />
+      <br />
       <main>
         <div className="container">
           <br />

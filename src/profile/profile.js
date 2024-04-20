@@ -86,7 +86,9 @@ const Profile = () => {
   return (
     <div>
       <Header />
-      <br></br>
+      <br />
+      <br />
+      <br />{" "}
       {loading ? (
         <div className="col text-center">
           <CircularProgress style={{ marginTop: "200px" }} />
