@@ -113,19 +113,19 @@ const ModalNotification = () => {
                             >
                               <div className="d-flex justify-content-between align-items-center">
                                 <div>
-                                  <p className="small mb-0">
-                                    <b>{notification.data.user}</b>{" "}
-                                    {notification.data.title === "a abonné vous"
-                                      ? "a abonné à vous"
-                                      : "a aimé votre publication"}{" "}
-                                    : {notification.data.description}{" "}
-                                    {notification.created_at}
-                                  </p>
+                                  <a className="btn " href="/messaging">
+                                    <p className="small mb-0">
+                                      <b>{notification.data.user}</b>{" "}
+                                      {notification.data.title}:{" "}
+                                      {notification.data.description}{" "}
+                                      {notification.created_at}
+                                    </p>
+                                  </a>
                                 </div>
                                 <div className="dropdown">
                                   <a
                                     className="btn btn-sm btn-light"
-                                    href="#"
+                                    href="/messaging"
                                     role="button"
                                     id={`dropdownMenuLink${notification.id}`}
                                     data-bs-toggle="dropdown"
