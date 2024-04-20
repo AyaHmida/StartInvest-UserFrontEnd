@@ -34,6 +34,8 @@ const Success = () => {
     <div>
       <Header />
       <br />
+      <br />
+      <br />{" "}
       <main>
         <div className="container">
           <br />

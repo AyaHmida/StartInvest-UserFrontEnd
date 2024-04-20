@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "../components";
 import { callApi } from "../api";
+import { navigate } from "@reach/router";
 const Messaging = () => {
   const [content, setContent] = useState("");
   const [messages, setMessages] = useState([]);
@@ -45,6 +46,9 @@ const Messaging = () => {
     } catch (error) {
       console.error("Error fetching followers:", error);
     }
+  };
+  const redirectToProfile = (followerId) => {
+    navigate(`/${followerId}`);
   };
 
   useEffect(() => {
@@ -154,18 +158,17 @@ const Messaging = () => {
                       role="tabpanel"
                       aria-labelledby={`chat-${selectedFollowerId}-tab`}
                     >
-                      {/* Top avatar and status START */}
                       <div className="d-sm-flex justify-content-between align-items-center">
                         <div className="d-flex mb-2 mb-sm-0">
                           <div className="flex-shrink-0 avatar me-2">
                             <img
                               className="avatar-img rounded-circle"
                               src={
-                                selectedFollower && selectedFollower.image // Modification ici
+                                selectedFollower && selectedFollower.image
                                   ? `http://127.0.0.1:8000/uploads/${selectedFollower.image}`
                                   : "assets/images/avatar/no-image-male.jpg"
                               }
-                              alt={selectedFollower && selectedFollower.name} // Modification ici
+                              alt={selectedFollower && selectedFollower.name}
                             />
                           </div>
                           <div className="d-block flex-grow-1">
@@ -175,7 +178,6 @@ const Messaging = () => {
                           </div>
                         </div>
                         <div className="d-flex align-items-center">
-                          {/* Card action START */}
                           <div className="dropdown">
                             <a
                               className="icon-md rounded-circle btn btn-primary-soft me-2 px-2"
@@ -192,14 +194,12 @@ const Messaging = () => {
                               className="dropdown-menu dropdown-menu-end"
                               aria-labelledby="chatcoversationDropdown"
                             >
-                              <li>
-                                <a className="dropdown-item" href="#">
-                                  <i className="bi bi-check-lg me-2 fw-icon" />
-                                  Mark as read
-                                </a>
-                              </li>
-                              <li>
-                                <a className="dropdown-item" href="#">
+                              <li
+                                onClick={() =>
+                                  redirectToProfile(selectedFollower.id)
+                                }
+                              >
+                                <a className="dropdown-item" href="">
                                   <i className="bi bi-person-check me-2 fw-icon" />
                                   View profile
                                 </a>
