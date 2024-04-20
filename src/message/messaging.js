@@ -2,12 +2,35 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../components";
 import { callApi } from "../api";
 import { navigate } from "@reach/router";
+import IconButton from "@mui/material/IconButton";
+import PaperPlaneIcon from "@mui/icons-material/Send";
 const Messaging = () => {
   const [content, setContent] = useState("");
   const [messages, setMessages] = useState([]);
   const [userdetail, setUserdetail] = useState();
-  const [selectedFollowerId, setSelectedFollowerId] = useState(null);
-  const [selectedFollower, setSelectedFollower] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const [query, setQuery] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const handleSearch = async () => {
+    try {
+      let response;
+      if (query.trim() === "") {
+        // Si la requête de recherche est vide, récupérer toutes les personnes
+        response = await callApi("auth/getUtilisateurs");
+      } else {
+        // Sinon, effectuer une recherche
+        response = await callApi("auth/search", "GET", null, false, {
+          query: query,
+        });
+      }
+      setSearchResult(response);
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
 
   const getUser = () => {
     callApi("auth/user").then((data) => {
@@ -15,46 +38,47 @@ const Messaging = () => {
     });
   };
 
-  const showConversation = (followerId) => {
-    callApi(`auth/showConversation/${followerId}`).then((response) => {
+  const showConversation = (UserId) => {
+    callApi(`auth/showConversation/${UserId}`).then((response) => {
       setMessages(response);
     });
 
-    const follower = followers.find((follower) => follower.id === followerId);
-    setSelectedFollower(follower);
+    const user = searchResult.find((user) => user.id === UserId); // Correction ici
+    setSelectedUser(user);
   };
 
-  const createMessage = (followerId) => {
-    if (followerId == null) {
+  const createMessage = (UserId) => {
+    if (UserId == null) {
     }
     const formData = new FormData();
     formData.append("content", content);
     formData.append("auth_id", userdetail.id);
-    formData.append("receiver_id", selectedFollowerId);
-    formData.append("chat_id", selectedFollower.chat_id);
-    callApi(`auth/message/${followerId}`, "POST", formData, true);
+    formData.append("receiver_id", selectedUserId);
+    formData.append("chat_id", selectedUser.chat_id);
+    callApi(`auth/message/${UserId}`, "POST", formData, true);
     setContent("");
-    showConversation(followerId);
+    showConversation(UserId);
   };
 
-  const [followers, setFollowers] = useState([]);
+  const [Users, setUsers] = useState([]);
 
-  const fetchFollowers = async () => {
+  const fetchUsers = async () => {
     try {
-      const response = await callApi("auth/followerPersonns");
-      setFollowers(response);
+      const response = await callApi("auth/getUtilisateurs");
+      setUsers(response);
     } catch (error) {
-      console.error("Error fetching followers:", error);
+      console.error("Error fetching Users:", error);
     }
   };
-  const redirectToProfile = (followerId) => {
-    navigate(`/${followerId}`);
+  const redirectToProfile = (UserId) => {
+    navigate(`/${UserId}`);
   };
 
   useEffect(() => {
     getUser();
-    fetchFollowers();
-  }, []);
+    fetchUsers();
+    handleSearch();
+  }, [query]);
 
   return (
     <div>
@@ -85,6 +109,10 @@ const Messaging = () => {
                         <input
                           className="form-control py-2"
                           type="search"
+                          value={query}
+                          onChange={(e) => {
+                            setQuery(e.target.value);
+                          }}
                           placeholder="Rechercher des chats"
                           aria-label="Rechercher"
                         />
@@ -92,50 +120,92 @@ const Messaging = () => {
                           className="btn bg-transparent text-secondary px-2 py-0 position-absolute top-50 end-0 translate-middle-y"
                           type="submit"
                         >
-                          <i className="bi bi-search fs-5" />
+                          {/* <i className="bi bi-search fs-5" /> */}
                         </button>
                       </form>
                       <div className="mt-4 h-100">
                         <div className="chat-tab-list custom-scrollbar">
                           <ul className="nav flex-column nav-pills nav-pills-soft">
-                            {followers.map((follower) => (
-                              <li
-                                key={follower.id}
-                                onClick={() => showConversation(follower.id)}
-                                data-bs-dismiss="offcanvas"
-                              >
-                                <a
-                                  href={`#chat-${follower.id}`}
-                                  className={`nav-link text-start ${
-                                    selectedFollowerId === follower.id
-                                      ? "active"
-                                      : ""
-                                  }`}
-                                  id={`chat-${follower.id}-tab`}
-                                  data-bs-toggle="pill"
-                                  role="tab"
-                                >
-                                  <div className="d-flex">
-                                    <div className="flex-shrink-0 avatar avatar-story me-2 ">
-                                      <img
-                                        className="avatar-img rounded-circle"
-                                        src={
-                                          follower.image
-                                            ? `http://127.0.0.1:8000/uploads/${follower.image}`
-                                            : "assets/images/avatar/no-image-male.jpg"
-                                        }
-                                        alt={follower.name}
-                                      />
-                                    </div>
-                                    <div className="flex-grow-1 d-block">
-                                      <h6 className="mb-0 mt-1">
-                                        {follower.name}
-                                      </h6>
-                                    </div>
-                                  </div>
-                                </a>
-                              </li>
-                            ))}
+                            {query.trim() !== "" &&
+                            Array.isArray(searchResult) &&
+                            searchResult.length > 0
+                              ? searchResult.map((result) => (
+                                  <li
+                                    key={result.id}
+                                    onClick={() => showConversation(result.id)}
+                                    data-bs-dismiss="offcanvas"
+                                  >
+                                    <a
+                                      href={`#chat-${result.id}`}
+                                      className={`nav-link text-start ${
+                                        selectedUserId === result.id
+                                          ? "active"
+                                          : ""
+                                      }`}
+                                      id={`chat-${result.id}-tab`}
+                                      data-bs-toggle="pill"
+                                      role="tab"
+                                    >
+                                      <div className="d-flex">
+                                        <div className="flex-shrink-0 avatar avatar-story me-2 ">
+                                          <img
+                                            className="avatar-img rounded-circle"
+                                            src={
+                                              result.image
+                                                ? `http://127.0.0.1:8000/uploads/${result.image}`
+                                                : "assets/images/avatar/no-image-male.jpg"
+                                            }
+                                            alt={result.name}
+                                          />
+                                        </div>
+                                        <div className="flex-grow-1 d-block">
+                                          <h6 className="mb-0 mt-1">
+                                            {result.name}
+                                          </h6>
+                                        </div>
+                                      </div>
+                                    </a>
+                                  </li>
+                                ))
+                              : // Afficher tous les utilisateurs si aucune recherche en cours
+                                Users.map((user) => (
+                                  <li
+                                    key={user.id}
+                                    onClick={() => showConversation(user.id)}
+                                    data-bs-dismiss="offcanvas"
+                                  >
+                                    <a
+                                      href={`#chat-${user.id}`}
+                                      className={`nav-link text-start ${
+                                        selectedUserId === user.id
+                                          ? "active"
+                                          : ""
+                                      }`}
+                                      id={`chat-${user.id}-tab`}
+                                      data-bs-toggle="pill"
+                                      role="tab"
+                                    >
+                                      <div className="d-flex">
+                                        <div className="flex-shrink-0 avatar avatar-story me-2 ">
+                                          <img
+                                            className="avatar-img rounded-circle"
+                                            src={
+                                              user.image
+                                                ? `http://127.0.0.1:8000/uploads/${user.image}`
+                                                : "assets/images/avatar/no-image-male.jpg"
+                                            }
+                                            alt={user.name}
+                                          />
+                                        </div>
+                                        <div className="flex-grow-1 d-block">
+                                          <h6 className="mb-0 mt-1">
+                                            {user.name}
+                                          </h6>
+                                        </div>
+                                      </div>
+                                    </a>
+                                  </li>
+                                ))}
                           </ul>
                         </div>
                       </div>
@@ -154,9 +224,9 @@ const Messaging = () => {
                     {/* Conversation item START */}
                     <div
                       className="fade tab-pane show active h-100"
-                      id={`chat-${selectedFollowerId}`}
+                      id={`chat-${selectedUserId}`}
                       role="tabpanel"
-                      aria-labelledby={`chat-${selectedFollowerId}-tab`}
+                      aria-labelledby={`chat-${selectedUserId}-tab`}
                     >
                       <div className="d-sm-flex justify-content-between align-items-center">
                         <div className="d-flex mb-2 mb-sm-0">
@@ -164,16 +234,16 @@ const Messaging = () => {
                             <img
                               className="avatar-img rounded-circle"
                               src={
-                                selectedFollower && selectedFollower.image
-                                  ? `http://127.0.0.1:8000/uploads/${selectedFollower.image}`
+                                selectedUser && selectedUser.image
+                                  ? `http://127.0.0.1:8000/uploads/${selectedUser.image}`
                                   : "assets/images/avatar/no-image-male.jpg"
                               }
-                              alt={selectedFollower && selectedFollower.name}
+                              alt={selectedUser && selectedUser.name}
                             />
                           </div>
                           <div className="d-block flex-grow-1">
                             <h6 className="mb-0 mt-1">
-                              {selectedFollower && selectedFollower.name}
+                              {selectedUser && selectedUser.name}
                             </h6>
                           </div>
                         </div>
@@ -196,7 +266,7 @@ const Messaging = () => {
                             >
                               <li
                                 onClick={() =>
-                                  redirectToProfile(selectedFollower.id)
+                                  redirectToProfile(selectedUser.id)
                                 }
                               >
                                 <a className="dropdown-item" href="">
@@ -255,9 +325,8 @@ const Messaging = () => {
                                     <img
                                       className="avatar-img rounded-circle"
                                       src={
-                                        selectedFollower &&
-                                        selectedFollower.image // Modification ici
-                                          ? `http://127.0.0.1:8000/uploads/${selectedFollower.image}`
+                                        selectedUser && selectedUser.image // Modification ici
+                                          ? `http://127.0.0.1:8000/uploads/${selectedUser.image}`
                                           : "assets/images/avatar/no-image-male.jpg"
                                       }
                                     />
@@ -310,8 +379,6 @@ const Messaging = () => {
                           ))}
                       </div>
                     </div>
-                    {/* Conversation item END */}
-                    {/* Conversation item START */}
                   </div>
                 </div>
                 <div className="card-footer">
@@ -328,7 +395,7 @@ const Messaging = () => {
                     />
                     <button
                       className="btn btn-sm btn-primary ms-2"
-                      onClick={() => createMessage(selectedFollower.id)}
+                      onClick={() => createMessage(selectedUser.id)}
                     >
                       <i className="fa-solid fa-paper-plane fs-6" />
                     </button>
