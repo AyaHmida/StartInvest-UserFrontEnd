@@ -16,7 +16,9 @@ const ModalSearch = () => {
     }
   };
   useEffect(() => {
-    handleSearch();
+    if (query.trim !== "") {
+      handleSearch();
+    }
   }, [query]);
   const redirectToProfile = (userId) => {
     navigate(`/${userId}`);
@@ -78,7 +80,7 @@ const ModalSearch = () => {
                                 <img
                                   className="avatar-img rounded-circle"
                                   src={
-                                    user.image
+                                    user?.image
                                       ? `http://127.0.0.1:8000/uploads/${user.image}`
                                       : "assets/images/avatar/no-image-male.jpg"
                                   }
@@ -88,8 +90,8 @@ const ModalSearch = () => {
                             <div className="w-100">
                               <div className="d-sm-flex align-items-start">
                                 <h6 className="mb-0">
-                                  <a>{user.name}</a>
-                                  <p>{user.type}</p>
+                                  <a>{user?.name}</a>
+                                  <p>{user?.type}</p>
                                 </h6>
                               </div>
                             </div>

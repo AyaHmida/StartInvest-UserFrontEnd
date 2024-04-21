@@ -113,7 +113,7 @@ const PageDeMiseAJourProfil = () => {
                       />
                     </div>
 
-                    {userData.type === "fondateur" && (
+                    {userData && userData.type === "fondateur" && (
                       <>
                         <div className="col-12">
                           <label className="form-label">
@@ -138,11 +138,12 @@ const PageDeMiseAJourProfil = () => {
                           required
                         >
                           <option value="">Sélectionnez un secteur</option>
-                          {secteurs.map((sector, index) => (
-                            <option key={index} value={sector.id}>
-                              {sector.nom}
-                            </option>
-                          ))}
+                          {secteurs &&
+                            secteurs.map((sector, index) => (
+                              <option key={index} value={sector.id}>
+                                {sector.nom}
+                              </option>
+                            ))}
                         </select>
                         <div className="col-12">
                           <label className="form-label">

@@ -80,7 +80,7 @@ const CompteFlouci = () => {
                         {successMessage}
                       </div>
                     )}
-                    {!showSuccess && ( // Condition pour afficher le formulaire seulement si showSuccess est false
+                    {!showSuccess && (
                       <form className="row g-3" onSubmit={handleSubmit}>
                         <div className="col-sm-6 col-lg-4">
                           <label className="form-label">App secrète</label>

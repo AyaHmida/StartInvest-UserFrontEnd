@@ -35,6 +35,6 @@ export const callApi = async (
       localStorage.removeItem("token");
       window.location.href = "/";
     }
-    throw error.response ? error.response.data : error.message;
+    return [null, error.response ? error.response.data : error.message]; // Return error object and set response data to null
   }
 };

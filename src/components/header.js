@@ -5,22 +5,19 @@ import { ModalNotification, ModalSearch } from "../components";
 function Header() {
   const [userdetail, setUserdetail] = useState();
 
-  const getUser = () => {
-    callApi("auth/user").then((data) => {
-      setUserdetail(data.user);
-    });
+  const getUser = async () => {
+    const responseData = await callApi("auth/user");
+    if (responseData) {
+      setUserdetail(responseData.user);
+    }
   };
 
-  const handleLogout = () => {
-    callApi("auth/logout", "POST")
-      .then((res) => {
-        localStorage.removeItem("token");
-
-        window.location.href = "/login";
-      })
-      .catch((error) => {
-        console.error("Error logging out:", error);
-      });
+  const handleLogout = async () => {
+    const responseData = await callApi("auth/logout", "POST");
+    if (responseData) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
   };
   useEffect(() => {
     getUser();

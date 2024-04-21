@@ -352,32 +352,33 @@ export default function Calendar() {
               <main className="cd__main">
                 <br></br>
                 <div>
-                  {tasks.map((task) => (
-                    <div key={task.id} className={classes.root}>
-                      <div>
-                        <Typography variant="h6">{task.title}</Typography>
-                        <Typography variant="body1">
-                          Date: {task.start_time}
-                        </Typography>
+                  {tasks &&
+                    tasks.map((task) => (
+                      <div key={task.id} className={classes.root}>
+                        <div>
+                          <Typography variant="h6">{task.title}</Typography>
+                          <Typography variant="body1">
+                            Date: {task.start_time}
+                          </Typography>
+                        </div>
+                        <div className={classes.buttonContainer}>
+                          <Button
+                            variant="outlined"
+                            onClick={() => handleAcceptAppointment(task.id)} // Utilisation d'une fonction fléchée pour passer l'ID de la tâche
+                            startIcon={<Check />}
+                            className={classes.buttonText}
+                          ></Button>
+                          <div className={classes.space}></div>{" "}
+                          {/* Espace de 2 unités */}
+                          <Button
+                            variant="outlined"
+                            onClick={() => handleRejectAppointment(task.id)} // Utilisation d'une fonction fléchée pour passer l'ID de la tâche
+                            startIcon={<Close />}
+                            className={classes.buttonText}
+                          ></Button>
+                        </div>
                       </div>
-                      <div className={classes.buttonContainer}>
-                        <Button
-                          variant="outlined"
-                          onClick={() => handleAcceptAppointment(task.id)} // Utilisation d'une fonction fléchée pour passer l'ID de la tâche
-                          startIcon={<Check />}
-                          className={classes.buttonText}
-                        ></Button>
-                        <div className={classes.space}></div>{" "}
-                        {/* Espace de 2 unités */}
-                        <Button
-                          variant="outlined"
-                          onClick={() => handleRejectAppointment(task.id)} // Utilisation d'une fonction fléchée pour passer l'ID de la tâche
-                          startIcon={<Close />}
-                          className={classes.buttonText}
-                        ></Button>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
                 <div
                   className="container mt-5"

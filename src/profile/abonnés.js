@@ -122,68 +122,69 @@ export default function Abonnes() {
                       </div>
                       <div className="card-body p-2">
                         <ul className="list-unstyled">
-                          {utilisateurs
-                            .slice(0, totalUtilisateursChargees)
-                            .map((user, index) => (
-                              <li key={index}>
-                                <div className="rounded d-sm-flex border-0 mb-1 p-3 position-relative">
-                                  <div className="avatar text-center">
-                                    <img
-                                      className="avatar-img rounded-circle"
-                                      src={
-                                        user && user.image
-                                          ? `http://127.0.0.1:8000/uploads/${user.image}`
-                                          : "assets/images/avatar/no-image-male.jpg"
-                                      }
-                                      alt={user.name}
-                                    />
-                                  </div>
-                                  <div className="mx-sm-3 my-2 my-sm-0">
-                                    <p className="small mb-2">
-                                      <Link
-                                        to={`/${user.id}`}
-                                        style={{
-                                          textDecoration: "none",
-                                          color: "inherit",
-                                        }}
-                                      >
-                                        <b>{user.name}</b>
-                                      </Link>
-                                    </p>
-                                  </div>
-                                  <div className="d-flex ms-auto">
-                                    <a
-                                      className="btn btn-primary-soft rounded-circle icon-md d-flex justify-content-center align-items-center"
-                                      href="#"
-                                      title={
-                                        followingStatus[user.id]
-                                          ? "Se désabonner"
-                                          : "S'abonner"
-                                      }
-                                      onClick={() =>
-                                        followingStatus[user.id]
-                                          ? handleUnfollow(user.id)
-                                          : handleFollow(user.id)
-                                      }
-                                    >
-                                      <i
-                                        className={`bi ${
-                                          followingStatus[user.id]
-                                            ? "bi-person-x-fill"
-                                            : "bi-person-plus-fill"
-                                        }`}
-                                        style={{ fontSize: "20px" }}
-                                        alt={
+                          {utilisateurs &&
+                            utilisateurs
+                              .slice(0, totalUtilisateursChargees)
+                              .map((user, index) => (
+                                <li key={index}>
+                                  <div className="rounded d-sm-flex border-0 mb-1 p-3 position-relative">
+                                    <div className="avatar text-center">
+                                      <img
+                                        className="avatar-img rounded-circle"
+                                        src={
+                                          user && user.image
+                                            ? `http://127.0.0.1:8000/uploads/${user.image}`
+                                            : "assets/images/avatar/no-image-male.jpg"
+                                        }
+                                        alt={user.name}
+                                      />
+                                    </div>
+                                    <div className="mx-sm-3 my-2 my-sm-0">
+                                      <p className="small mb-2">
+                                        <Link
+                                          to={`/${user.id}`}
+                                          style={{
+                                            textDecoration: "none",
+                                            color: "inherit",
+                                          }}
+                                        >
+                                          <b>{user.name}</b>
+                                        </Link>
+                                      </p>
+                                    </div>
+                                    <div className="d-flex ms-auto">
+                                      <a
+                                        className="btn btn-primary-soft rounded-circle icon-md d-flex justify-content-center align-items-center"
+                                        href="#"
+                                        title={
                                           followingStatus[user.id]
                                             ? "Se désabonner"
                                             : "S'abonner"
                                         }
-                                      ></i>
-                                    </a>
+                                        onClick={() =>
+                                          followingStatus[user.id]
+                                            ? handleUnfollow(user.id)
+                                            : handleFollow(user.id)
+                                        }
+                                      >
+                                        <i
+                                          className={`bi ${
+                                            followingStatus[user.id]
+                                              ? "bi-person-x-fill"
+                                              : "bi-person-plus-fill"
+                                          }`}
+                                          style={{ fontSize: "20px" }}
+                                          alt={
+                                            followingStatus[user.id]
+                                              ? "Se désabonner"
+                                              : "S'abonner"
+                                          }
+                                        ></i>
+                                      </a>
+                                    </div>
                                   </div>
-                                </div>
-                              </li>
-                            ))}
+                                </li>
+                              ))}
                         </ul>
                       </div>
                       <div className="card-footer border-0 py-3 text-center position-relative d-grid pt-0">
