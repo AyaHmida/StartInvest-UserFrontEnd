@@ -26,7 +26,6 @@ const Messaging = () => {
         });
       }
       setSearchResult(response);
-      console.log(response);
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
@@ -168,6 +167,7 @@ const Messaging = () => {
                                   </li>
                                 ))
                               : // Afficher tous les utilisateurs si aucune recherche en cours
+                                Users &&
                                 Users.map((user) => (
                                   <li
                                     key={user.id}

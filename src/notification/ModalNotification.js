@@ -6,41 +6,50 @@ const ModalNotification = () => {
   const [notifications, setNotifications] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
 
-  const markAllRead = () => {
-    callApi("auth/markAllRead");
-    getNotifications();
-  };
-  const markAsRead = (notificationId) => {
-    try {
-      callApi(`auth/markAsRead/${notificationId}`);
+  const markAllRead = async () => {
+    const responseData = await callApi("auth/markAllRead");
+    if (responseData) {
       getNotifications();
-    } catch (error) {
-      console.error(error);
     }
   };
-  const getNotifications = () => {
-    callApi("auth/notifications").then((data) => {
-      const parsedNotifications = data.notifications.map((notification) => ({
-        ...notification,
-        data: JSON.parse(notification.data),
-      }));
-
-      // Filtrer les notifications pour n'afficher qu'une seule instance de chaque type
-      const uniqueNotifications = [];
-      const seenData = new Set();
-
-      parsedNotifications.forEach((notification) => {
-        const notificationData = JSON.stringify(notification.data);
-        if (!seenData.has(notificationData)) {
-          uniqueNotifications.push(notification);
-          seenData.add(notificationData);
-        }
-      });
-
-      setNotifications(uniqueNotifications);
-      setNotificationCount(data.count);
-    });
+  const markAsRead = async (notificationId) => {
+    const responseData = await callApi(`auth/markAsRead/${notificationId}`);
+    if (responseData) {
+      getNotifications();
+    }
   };
+  const getNotifications = async () => {
+    const responseData = await callApi("auth/notifications");
+    if (responseData) {
+      const parsedNotifications =
+        responseData.notifications &&
+        responseData.notifications.map((notification) => ({
+          ...notification,
+          data: JSON.parse(notification.data),
+        }));
+
+      if (parsedNotifications) {
+        // Vérifiez si parsedNotifications est défini
+        const uniqueNotifications = [];
+        const seenData = new Set();
+
+        parsedNotifications.forEach((notification) => {
+          const notificationData = JSON.stringify(notification.data);
+          if (!seenData.has(notificationData)) {
+            uniqueNotifications.push(notification);
+            seenData.add(notificationData);
+          }
+        });
+
+        setNotifications(uniqueNotifications);
+        setNotificationCount(responseData.count);
+      } else {
+        // Gérer le cas où parsedNotifications est undefined
+        console.error("parsedNotifications est undefined");
+      }
+    }
+  };
+
   useEffect(() => {
     getNotifications();
   }, []);
@@ -86,78 +95,79 @@ const ModalNotification = () => {
             {notificationCount > 0 ? (
               <div className="card-body p-0">
                 <ul className="list-group list-group-flush list-unstyled p-2">
-                  {notifications.map(
-                    (notification) =>
-                      !notification.read_at && (
-                        <li key={notification.id}>
-                          <a
-                            href="#"
-                            className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
-                          >
-                            <div className="avatar text-center d-none d-sm-inline-block me-3">
-                              <div className="avatar text-center">
-                                <img
-                                  src={
-                                    notification.data.image
-                                      ? `http://127.0.0.1:8000/uploads/${notification.data.image}`
-                                      : "assets/images/avatar/no-image-male.jpg"
-                                  }
-                                  alt="Image"
-                                  className="rounded-circle" // Ajouter la classe pour rendre l'image circulaire
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="flex-grow-1"
-                              style={{ minWidth: "300px" }}
+                  {notifications &&
+                    notifications.map(
+                      (notification) =>
+                        !notification.read_at && (
+                          <li key={notification.id}>
+                            <a
+                              href="#"
+                              className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
                             >
-                              <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                  <a className="btn " href="/messaging">
-                                    <p className="small mb-0">
-                                      <b>{notification.data.user}</b>{" "}
-                                      {notification.data.title}:{" "}
-                                      {notification.data.description}{" "}
-                                      {notification.created_at}
-                                    </p>
-                                  </a>
-                                </div>
-                                <div className="dropdown">
-                                  <a
-                                    className="btn btn-sm btn-light"
-                                    href="/messaging"
-                                    role="button"
-                                    id={`dropdownMenuLink${notification.id}`}
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                  >
-                                    <i className="bi bi-three-dots"></i>
-                                  </a>
-                                  <ul
-                                    className="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby={`dropdownMenuLink${notification.id}`}
-                                  >
-                                    <li>
-                                      <a
-                                        className="dropdown-item"
-                                        href="#"
-                                        onClick={() =>
-                                          markAsRead(notification.id)
-                                        }
-                                      >
-                                        {" "}
-                                        <i className="bi bi-check-lg fa-fw pe-2"></i>
-                                        Marquer comme lu
-                                      </a>
-                                    </li>
-                                  </ul>
+                              <div className="avatar text-center d-none d-sm-inline-block me-3">
+                                <div className="avatar text-center">
+                                  <img
+                                    src={
+                                      notification.data.image
+                                        ? `http://127.0.0.1:8000/uploads/${notification.data.image}`
+                                        : "assets/images/avatar/no-image-male.jpg"
+                                    }
+                                    alt="Image"
+                                    className="rounded-circle" // Ajouter la classe pour rendre l'image circulaire
+                                  />
                                 </div>
                               </div>
-                            </div>
-                          </a>
-                        </li>
-                      )
-                  )}
+                              <div
+                                className="flex-grow-1"
+                                style={{ minWidth: "300px" }}
+                              >
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <div>
+                                    <a className="btn " href="/messaging">
+                                      <p className="small mb-0">
+                                        <b>{notification.data.user}</b>{" "}
+                                        {notification.data.title}:{" "}
+                                        {notification.data.description}{" "}
+                                        {notification.created_at}
+                                      </p>
+                                    </a>
+                                  </div>
+                                  <div className="dropdown">
+                                    <a
+                                      className="btn btn-sm btn-light"
+                                      href="/messaging"
+                                      role="button"
+                                      id={`dropdownMenuLink${notification.id}`}
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false"
+                                    >
+                                      <i className="bi bi-three-dots"></i>
+                                    </a>
+                                    <ul
+                                      className="dropdown-menu dropdown-menu-end"
+                                      aria-labelledby={`dropdownMenuLink${notification.id}`}
+                                    >
+                                      <li>
+                                        <a
+                                          className="dropdown-item"
+                                          href="#"
+                                          onClick={() =>
+                                            markAsRead(notification.id)
+                                          }
+                                        >
+                                          {" "}
+                                          <i className="bi bi-check-lg fa-fw pe-2"></i>
+                                          Marquer comme lu
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+                        )
+                    )}
                 </ul>
               </div>
             ) : (

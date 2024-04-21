@@ -15,16 +15,10 @@ const Publication = () => {
 
   useEffect(() => {
     const getUserDetail = async () => {
-      try {
-        const data = await callApi("auth/user");
-        setUserDetail(data);
-        setLoading(false); // Arrêter le chargement une fois que les données de l'utilisateur sont récupérées
-      } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des détails de l'utilisateur:",
-          error
-        );
-        setLoading(false); // Arrêter le chargement en cas d'erreur
+      const responseData = await callApi("auth/user");
+      if (responseData) {
+        setUserDetail(responseData);
+        setLoading(false);
       }
     };
 
