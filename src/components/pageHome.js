@@ -164,7 +164,7 @@ function PageHome() {
                     <div className="d-grid d-sm-flex gap-3">
                       <a
                         className="btn btn-primary btn-transition px-6"
-                        href="page-login-simple.html"
+                        href="/login"
                       >
                         Commencer
                       </a>
@@ -434,131 +434,6 @@ function PageHome() {
               </div>
             </div>
             {/* End Row */}
-            <div className="border-top my-7" />
-            <div className="row mb-7">
-              <div className="col-sm mb-3 mb-sm-0">
-                {/* Socials */}
-                <ul className="list-inline list-separator mb-0">
-                  <li className="list-inline-item">
-                    <a className="text-body" href="#" />
-                  </li>
-                  <li className="list-inline-item">
-                    <a className="text-body" href="#" />
-                  </li>
-                  <li className="list-inline-item">
-                    <a className="text-body" href="#" />
-                  </li>
-                </ul>
-                {/* End Socials */}
-              </div>
-              <div className="col-sm-auto">
-                {/* Socials */}
-                <ul className="list-inline mb-0">
-                  <li className="list-inline-item">
-                    <a
-                      className="btn btn-soft-secondary btn-xs btn-icon"
-                      href="#"
-                    >
-                      <i className="bi-facebook" />
-                    </a>
-                  </li>
-                  <li className="list-inline-item">
-                    <a
-                      className="btn btn-soft-secondary btn-xs btn-icon"
-                      href="#"
-                    >
-                      <i className="bi-google" />
-                    </a>
-                  </li>
-                  <li className="list-inline-item">
-                    <a
-                      className="btn btn-soft-secondary btn-xs btn-icon"
-                      href="#"
-                    >
-                      <i className="bi-github" />
-                    </a>
-                  </li>
-                  <li className="list-inline-item">
-                    {/* Button Group */}
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-soft-secondary btn-xs dropdown-toggle"
-                        id="footerSelectLanguage"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        data-bs-dropdown-animation
-                      >
-                        <span className="d-flex align-items-center">
-                          <img
-                            className="avatar avatar-xss avatar-circle me-2"
-                            src="assets1home/vendor/flag-icon-css/flags/1x1/us.svg"
-                            alt="Image description"
-                            width={16}
-                          />
-                          <span>English (US)</span>
-                        </span>
-                      </button>
-                      <div
-                        className="dropdown-menu"
-                        aria-labelledby="footerSelectLanguage"
-                      >
-                        <a
-                          className="dropdown-item d-flex align-items-center active"
-                          href="#"
-                        >
-                          <img
-                            className="avatar avatar-xss avatar-circle me-2"
-                            src="assets1home/vendor/flag-icon-css/flags/1x1/us.svg"
-                            alt="Image description"
-                            width={16}
-                          />
-                          <span>English (US)</span>
-                        </a>
-                        <a
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img
-                            className="avatar avatar-xss avatar-circle me-2"
-                            src="assets1home/vendor/flag-icon-css/flags/1x1/de.svg"
-                            alt="Image description"
-                            width={16}
-                          />
-                          <span>Deutsch</span>
-                        </a>
-                        <a
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img
-                            className="avatar avatar-xss avatar-circle me-2"
-                            src="assets1home/vendor/flag-icon-css/flags/1x1/es.svg"
-                            alt="Image description"
-                            width={16}
-                          />
-                          <span>Español</span>
-                        </a>
-                        <a
-                          className="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <img
-                            className="avatar avatar-xss avatar-circle me-2"
-                            src="assets1home/vendor/flag-icon-css/flags/1x1/cn.svg"
-                            alt="Image description"
-                            width={16}
-                          />
-                          <span>中文 (繁體)</span>
-                        </a>
-                      </div>
-                    </div>
-                    {/* End Button Group */}
-                  </li>
-                </ul>
-                {/* End Socials */}
-              </div>
-            </div>
           </div>
         </footer>
       </div>
