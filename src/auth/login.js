@@ -67,6 +67,11 @@ function Login() {
     e.preventDefault();
     window.location.href = "http://localhost:8000/auth/facebook/redirect";
   };
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <main>
@@ -90,24 +95,26 @@ function Login() {
                   <div className="input-group input-group-lg">
                     <input
                       className="form-control fakepassword"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Entrez votre mot de passe"
+                      type={showPassword ? "text" : "password"}
+                      id="psw-input"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      placeholder="Entrez votre nouveau mot de passe"
                     />
+                    <span
+                      className="input-group-text p-0"
+                      onClick={togglePasswordVisibility}
+                    >
+                      <i
+                        className={`fa-solid ${
+                          showPassword ? "fa-eye" : "fa-eye-slash"
+                        } cursor-pointer p-2 w-40px`}
+                      />
+                    </span>
                   </div>
                 </div>
                 <div className="mb-3 d-sm-flex justify-content-between">
-                  <div>
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="rememberCheck"
-                    />
-                    <label className="form-check-label" htmlFor="rememberCheck">
-                      Se souvenir de moi?
-                    </label>
-                  </div>
                   <Link to="/forgot-password">Mot de passe oublié?</Link>
                 </div>
                 <div className="d-grid">
@@ -125,27 +132,6 @@ function Login() {
                     Vous n'avez pas de compte?{" "}
                     <Link to="/register">S'inscrire</Link>
                   </p>
-                  <p>ou connectez-vous avec:</p>
-                  <button
-                    type="button"
-                    className="btn btn-link btn-floating mx-1"
-                    onClick={handleFacebook}
-                  >
-                    <i className="fab fa-facebook-f"></i>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-link btn-floating mx-1"
-                    onClick={handleGoogle}
-                  >
-                    <i className="fab fa-google"></i>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-link btn-floating mx-1"
-                  >
-                    <i className="fab fa-linkedin-in"></i>
-                  </button>
                 </div>
               </form>
             </div>

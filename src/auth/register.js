@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { callApi } from "../api";
@@ -9,6 +8,8 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordconfirm, setPasswordConfirm] = useState("");
+  const [passwordvalider, setPasswordValider] = useState("");
 
   const navigate = useNavigate();
 
@@ -16,31 +17,59 @@ function Register() {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("password", password);
-      formData.append("password_confirmation", confirmPassword);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("password_confirmation", confirmPassword);
 
-      const { data } = await callApi("auth/register", "POST", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setLoading(true);
+    const responseData = await callApi("auth/register", "POST", formData, true);
+    console.log(responseData);
 
-      navigate("/login");
-    } catch (error) {
-      console.error("Error registering user:", error);
+    if (responseData) {
+      if (responseData[1] && responseData[1].errors.email) {
+        setLoading(false);
+        setEmailExistsError(
+          "Ce nom d'utilisateur est déjà utilisé.Essayez un autre nom. "
+        );
+      } else if (responseData[1] && responseData[1].errors.password) {
+        setLoading(false);
+        setPasswordConfirm(
+          "Ces mots de passe ne correspondent pas. Veuillez réessayer."
+        );
+      } else {
+        setLoading(false);
+        navigate("/login");
+      }
+    }
+    if (
+      password.length < 8 ||
+      !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/.test(password)
+    ) {
+      setLoading(false);
+      setPasswordValider(
+        "Veuillez choisir un mot de passe plus sûr. Essayez un mélange de lettres, de chiffres et de symboles avec au moins 8 caractères."
+      );
     }
   };
 
-  const handleGoogle = (e) => {
-    e.preventDefault();
-    window.location.href = "http://127.0.0.1:8000/auth/google/redirect";
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
-  const handleFacebook = (e) => {
-    e.preventDefault();
-    window.location.href = "http://localhost:8000/auth/facebook/redirect";
+  const [emailExistsError, setEmailExistsError] = useState("");
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setEmailExistsError("");
+  };
+  const handlePasswordConfirmed = (e) => {
+    setConfirmPassword(e.target.value);
+    setPasswordConfirm("");
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    setPasswordValider("");
   };
   return (
     <>
@@ -69,87 +98,51 @@ function Register() {
                         setName(e.target.value);
                       }}
                       placeholder="Entrez votre nom"
+                      required
                     />
                     <small>
                       Nous ne partagerons jamais votre nom avec qui que ce soit.
                     </small>
                   </div>
-                  <div className="mb-3">
-                    {/* <select
-                      className="form-select form-select-lg"
-                      onChange={(e) => setType(e.target.value)}
-                      id="signupModalFormSignupType"
-                      aria-label="Type"
-                      required
-                    >
-                      <option value="">Sélectionnez un type</option>
-                      <option value="investisseur">Investisseur</option>
-                      <option value="fondateur">Fondateur</option>
-                    </select> */}
-                    <span className="invalid-feedback">
-                      Veuillez sélectionner un type.
-                    </span>
-                  </div>
+
                   {/* Email */}
                   <div className="mb-3 input-group-lg">
                     <input
                       type="email"
                       className="form-control"
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
+                      onChange={handleEmailChange}
                       placeholder="Entrez votre email"
+                      required
                     />
-                    <small>
-                      Nous ne partagerons jamais votre email avec qui que ce
-                      soit.
-                    </small>
+                    {emailExistsError && (
+                      <small className="text-danger">{emailExistsError}</small>
+                    )}
                   </div>
-                  {/* <div className="mb-3 input-group-lg">
-                    <input
-                      type="number"
-                      className="form-control"
-                      onChange={(e) => {
-                        setNumero(e.target.value);
-                      }}
-                      placeholder="Entrez votre numéro de téléphone"
-                    />
-                    <small>
-                      Nous ne partagerons jamais votre numéro de téléphone avec
-                      qui que ce soit.
-                    </small>
-                  </div> */}
+
                   {/* New password */}
                   <div className="mb-3 position-relative">
                     <div className="input-group input-group-lg">
                       <input
                         className="form-control fakepassword"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="psw-input"
-                        onChange={(e) => {
-                          setPassword(e.target.value);
-                        }}
+                        onChange={handlePassword}
                         placeholder="Entrez votre nouveau mot de passe"
+                        required
                       />
-                      <span className="input-group-text p-0">
-                        <i className="fakepasswordicon fa-solid fa-eye-slash cursor-pointer p-2 w-40px" />
-                      </span>
-                    </div>
-                    {/* Pswmeter */}
-                    <div id="pswmeter" className="mt-2" />
-                    <div className="d-flex mt-1">
-                      <div id="pswmeter-message" className="rounded" />
-                      <div className="ms-auto">
+                      <span
+                        className="input-group-text p-0"
+                        onClick={togglePasswordVisibility}
+                      >
                         <i
-                          className="bi bi-info-circle ps-1"
-                          data-bs-container="body"
-                          data-bs-toggle="popover"
-                          data-bs-placement="top"
-                          data-bs-content="Incluez au moins une lettre majuscule, une lettre minuscule, un caractère spécial, un chiffre et une longueur minimale de 8 caractères."
-                          data-bs-original-title
-                          title
+                          className={`fa-solid ${
+                            showPassword ? "fa-eye" : "fa-eye-slash"
+                          } cursor-pointer p-2 w-40px`}
                         />
-                      </div>
+                      </span>
+                      {passwordvalider && (
+                        <small className="text-danger">{passwordvalider}</small>
+                      )}
                     </div>
                   </div>
                   {/* Confirm password */}
@@ -159,24 +152,15 @@ function Register() {
                       type="password"
                       placeholder="Confirmez votre mot de passe"
                       value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      onChange={handlePasswordConfirmed}
+                      required
                     />
+                    {passwordconfirm && (
+                      <small className="text-danger">{passwordconfirm}</small>
+                    )}
                   </div>
                   {/* Keep me signed in */}
-                  <div className="mb-3 text-start">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="keepsingnedCheck"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="keepsingnedCheck"
-                    >
-                      {" "}
-                      Rester connecté
-                    </label>
-                  </div>
+
                   {/* Button */}
                   <div className="d-grid">
                     <button
@@ -184,33 +168,7 @@ function Register() {
                       className="btn btn-lg btn-primary"
                       disabled={loading}
                     >
-                      {loading ? "inscrire en cours" : "inscrie"}
-                    </button>
-                  </div>
-                  <div class="text-center">
-                    <br />
-                    <p>ou inscrirez-vous avec:</p>
-                    <button
-                      type="button"
-                      class="btn btn-link btn-floating mx-1"
-                      onClick={handleFacebook}
-                    >
-                      <i class="fab fa-facebook-f"></i>
-                    </button>
-
-                    <button
-                      type="button"
-                      class="btn btn-link btn-floating mx-1"
-                      onClick={handleGoogle}
-                    >
-                      <i class="fab fa-google"></i>
-                    </button>
-
-                    <button
-                      type="button"
-                      class="btn btn-link btn-floating mx-1"
-                    >
-                      <i class="fab fa-linkedin-in"></i>
+                      {loading ? "Inscrire en cours..." : "Inscrire"}
                     </button>
                   </div>
                 </form>
