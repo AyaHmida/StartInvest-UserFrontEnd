@@ -372,21 +372,6 @@ function PageHome() {
                     </div>
                     {/* End Stats */}
                   </div>
-                  <div className="col-sm-6 col-md-4">
-                    {/* Stats */}
-                    <div className="text-center">
-                      <h2 className="display-4">
-                        <i className="bi-arrow-up-short text-success" />
-                        9.3
-                      </h2>
-                      <p className="mb-0">
-                        Milliards
-                        <br />
-                        Total des investissements
-                      </p>
-                    </div>
-                    {/* End Stats */}
-                  </div>
                 </div>
                 {/* End Row */}
               </div>
