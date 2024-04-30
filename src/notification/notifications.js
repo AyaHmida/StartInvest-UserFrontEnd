@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Header, SidebarLeft } from "../components";
 import { callApi } from "../api";
-import { navigate } from "@reach/router";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(true); // Ajout de l'état de chargement
+  const [loading, setLoading] = useState(true);
 
   const markAsRead = (notificationId) => {
     try {
@@ -16,6 +15,7 @@ export default function Notifications() {
       console.error(error);
     }
   };
+
   const getNotifications = () => {
     callApi("auth/notifications")
       .then((data) => {
@@ -88,11 +88,10 @@ export default function Notifications() {
                                         : "assets/images/avatar/no-image-male.jpg"
                                     }
                                     alt="Image"
-                                    className="rounded-circle" // Ajouter la classe pour rendre l'image circulaire
+                                    className="rounded-circle"
                                   />
                                 </div>
 
-                                {/* Info */}
                                 <div className="mx-sm-3 my-2 my-sm-0">
                                   <p className="small mb-0">
                                     <b> {notification.data.user}</b>{" "}
@@ -122,7 +121,6 @@ export default function Notifications() {
                                     >
                                       <i className="bi bi-three-dots" />
                                     </a>
-                                    {/* Card share action dropdown menu */}
                                     <ul
                                       className="dropdown-menu dropdown-menu-end"
                                       aria-labelledby="cardNotiAction8"
@@ -137,12 +135,11 @@ export default function Notifications() {
                                         >
                                           {" "}
                                           <i className="bi bi-trash fa-fw pe-2" />
-                                          Delete
+                                          Supprimer la notification
                                         </a>
                                       </li>
                                     </ul>
                                   </div>
-                                  {/* Notification action END */}
                                 </div>
                               </div>
                             </li>
@@ -150,35 +147,9 @@ export default function Notifications() {
                       )}
                     </ul>
                   </div>
-                  <div className="card-footer border-0 py-3 text-center position-relative d-grid pt-0">
-                    {/* Load more button START */}
-                    <a
-                      href="#!"
-                      role="button"
-                      className="btn btn-loader btn-primary-soft"
-                      data-bs-toggle="button"
-                      aria-pressed="true"
-                    >
-                      <span className="load-text">
-                        {" "}
-                        Load more notifications{" "}
-                      </span>
-                      <div className="load-icon">
-                        <div
-                          className="spinner-grow spinner-grow-sm"
-                          role="status"
-                        >
-                          <span className="visually-hidden">Loading...</span>
-                        </div>
-                      </div>
-                    </a>
-                    {/* Load more button END */}
-                  </div>
                 </div>
-                {/* Card END */}
               </div>
             </div>{" "}
-            {/* Row END */}
           </div>
         </>
       )}

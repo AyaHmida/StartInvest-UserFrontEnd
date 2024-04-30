@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { callApi } from "../api";
 
 const PublicationsProfile = () => {
@@ -23,38 +23,31 @@ const PublicationsProfile = () => {
     fetchPublications();
   };
 
-  const getUser = () => {
-    callApi("auth/user").then((data) => {
-      setUserdetail(data.user);
-      setPreviewURL(data.image);
-      console.log(data.name);
-    });
-    fetchPublications();
+  const getUser = async () => {
+    const responseData = await callApi("auth/user");
+    if (responseData) {
+      setUserdetail(responseData.user);
+
+      setPreviewURL(responseData.user.image);
+      fetchPublications();
+    }
   };
 
   const handleDelete = (publicationId) => {
-    callApi(`auth/publications/${publicationId}`, "DELETE")
-      .then((response) => {
-        console.log("Publication supprimée avec succès");
-        setPublications((prevPublications) =>
-          prevPublications.filter((pub) => pub.id !== publicationId)
-        );
-      })
-      .catch((error) => {
-        console.error(
-          "Erreur lors de la suppression de la publication :",
-          error
-        );
-      });
+    const responseData = callApi(
+      `auth/publications/${publicationId}`,
+      "DELETE"
+    );
+
+    console.log("Publication supprimée avec succès");
+    setPublications((prevPublications) =>
+      prevPublications.filter((pub) => pub.id !== publicationId)
+    );
   };
 
   const fetchPublications = async () => {
-    try {
-      const data = await callApi("auth/publicationsUser");
-      setPublications(data.publications);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des publications:", error);
-    }
+    const data = await callApi("auth/publicationsUser");
+    setPublications(data.publications);
   };
 
   useEffect(() => {
@@ -77,7 +70,7 @@ const PublicationsProfile = () => {
       <div className="card card-body">
         <div className="d-flex mb-3">
           <div className="avatar avatar-xs me-2">
-            <a href="#">
+            <a href="">
               <img
                 className="avatar-img rounded-circle border border-white border-3"
                 src={
@@ -92,7 +85,7 @@ const PublicationsProfile = () => {
           <form className="w-100">
             <input
               className="form-control pe-4 border-0"
-              placeholder="Share your thoughts..."
+              placeholder="Partage tes pensées..."
               data-bs-toggle="modal"
               data-bs-target="#feedActionPhoto"
             />
@@ -145,7 +138,7 @@ const PublicationsProfile = () => {
                     </div>
                   </div>
                   <a
-                    href="#"
+                    href=""
                     className="text-secondary btn btn-secondary-soft-hover py-1 px-2"
                     id="cardShareAction5"
                     data-bs-toggle="dropdown"
@@ -159,6 +152,7 @@ const PublicationsProfile = () => {
                   >
                     <li key={item.id}>
                       <a
+                        href=""
                         className="dropdown-item"
                         onClick={() => {
                           handleDelete(item.id);

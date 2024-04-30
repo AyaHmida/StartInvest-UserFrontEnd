@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { callApi } from "../api";
 import { Link } from "react-router-dom";
 import { navigate } from "@reach/router";
@@ -6,7 +6,7 @@ import { navigate } from "@reach/router";
 const SidebarRight = () => {
   const [randomFollowers, setRandomFollowers] = useState([]);
   const fetchFollowers = async () => {
-    const response = await callApi("auth/followerPersonns");
+    const response = await callApi("auth/getUtilisateurs");
     if (response) {
       const shuffledFollowers = response.sort(() => 0.5 - Math.random());
       const selectedFollowers = shuffledFollowers.slice(0, 1);

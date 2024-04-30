@@ -1,5 +1,5 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
 import { callApi } from "../api";

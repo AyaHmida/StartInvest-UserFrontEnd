@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { callApi } from "../api";
 
 const ModelPublication = () => {
@@ -7,11 +7,10 @@ const ModelPublication = () => {
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
 
-  const getUser = () => {
-    callApi("auth/user").then((data) => {
-      setUserdetail(data);
-      setPreviewURL(data.image);
-    });
+  const getUser = async () => {
+    const responseData = await callApi("auth/user");
+    setUserdetail(responseData.user);
+    // setPreviewURL(responseData.image);
   };
   useEffect(() => {
     getUser();
@@ -24,24 +23,15 @@ const ModelPublication = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("description", description);
-      formData.append("file", file);
 
+    const formData = new FormData();
+    formData.append("description", description);
+    formData.append("file", file);
 
-      const response = await callApi(
-        "auth/publication",
-        "POST",
-        formData,
-        true
-      );
-      console.log(response);
-      setDescription("");
-      setFile("");
-    } catch (error) {
-      console.error("Erreur lors de la soumission du formulaire:", error);
-    }
+    const response = await callApi("auth/publication", "POST", formData, true);
+    console.log(response);
+    setDescription("");
+    setFile("");
   };
 
   return (
