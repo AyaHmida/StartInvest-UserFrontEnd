@@ -1,6 +1,5 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { callApi } from "../api";
 
 function Resetpassword() {
@@ -8,15 +7,9 @@ function Resetpassword() {
   const [email, setEmail] = useState("");
   const [password_confirmation, setPasswordConfirmation] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [searchParams] = useSearchParams();
   const { token } = useParams();
-
-  // useEffect(() => {
-  //   const emailParam = searchParams.get("email");
-  //   if (emailParam) {
-  //     setEmail(emailParam);
-  //   }
-  // }, [searchParams]);
+  const [passwordconfirm, setPasswordConfirm] = useState("");
+  const [passwordvalider, setPasswordValider] = useState("");
 
   useEffect(() => {
     console.log("Email:", email);
@@ -25,18 +18,43 @@ function Resetpassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await callApi("auth/reset-password", "POST", {
-        token: token,
-        email: email,
-        password: password,
-        password_confirmation: password_confirmation,
-      });
-      window.location.href = "/login";
-    } catch (error) {
-      console.log(error);
-      setErrorMessage("An error occurred. Please try again.");
+    const responseData = await callApi("auth/reset-password", "POST", {
+      token: token,
+      email: email,
+      password: password,
+      password_confirmation: password_confirmation,
+    });
+    console.log(responseData);
+    if (responseData) {
+      if (responseData[1] && responseData[1].error) {
+        setPasswordConfirm(
+          "Ces mots de passe ne correspondent pas. Veuillez réessayer."
+        );
+      } else {
+        // window.location.href = "/login";
+      }
     }
+    if (
+      password.length < 8 ||
+      !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/.test(password)
+    ) {
+      setPasswordValider(
+        "Veuillez choisir un mot de passe plus sûr. Essayez un mélange de lettres, de chiffres et de symboles avec au moins 8 caractères."
+      );
+    }
+  };
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const handlePasswordConfirmed = (e) => {
+    setPasswordConfirmation(e.target.value);
+    setPasswordConfirm("");
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    setPasswordValider("");
   };
 
   return (
@@ -53,7 +71,7 @@ function Resetpassword() {
                     type="email"
                     className="form-control"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)} // Vous pouvez retirer cette ligne si vous ne voulez pas que l'e-mail soit modifiable
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="Entrez votre email"
                   />
                 </div>
@@ -61,14 +79,24 @@ function Resetpassword() {
                   <div className="input-group input-group-lg">
                     <input
                       className="form-control fakepassword"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={handlePassword}
                       placeholder="Nouveau mot de passe"
                     />
-                    <span className="input-group-text p-0">
-                      <i className="fakepasswordicon fa-solid fa-eye-slash cursor-pointer p-2 w-40px" />
+                    <span
+                      className="input-group-text p-0"
+                      onClick={togglePasswordVisibility}
+                    >
+                      <i
+                        className={`fa-solid ${
+                          showPassword ? "fa-eye" : "fa-eye-slash"
+                        } cursor-pointer p-2 w-40px`}
+                      />
                     </span>
+                    {passwordvalider && (
+                      <small className="text-danger">{passwordvalider}</small>
+                    )}
                   </div>
                 </div>
                 <div className="mb-3 input-group-lg">
@@ -76,9 +104,12 @@ function Resetpassword() {
                     className="form-control"
                     type="password"
                     value={password_confirmation}
-                    onChange={(e) => setPasswordConfirmation(e.target.value)}
-                    placeholder="Confirmez le mot de passe"
+                    onChange={handlePasswordConfirmed}
+                    placeholder="Confirmer le mot de passe"
                   />
+                  {passwordconfirm && (
+                    <small className="text-danger">{passwordconfirm}</small>
+                  )}
                 </div>
                 <div className="d-grid">
                   <button type="submit" className="btn btn-lg btn-primary">

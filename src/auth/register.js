@@ -149,7 +149,7 @@ function Register() {
                     <input
                       className="form-control"
                       type="password"
-                      placeholder="Confirmez votre mot de passe"
+                      placeholder="Confirmer votre mot de passe"
                       value={confirmPassword}
                       onChange={handlePasswordConfirmed}
                       required
