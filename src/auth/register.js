@@ -24,7 +24,6 @@ function Register() {
     formData.append("password_confirmation", confirmPassword);
 
     const responseData = await callApi("auth/register", "POST", formData, true);
-    console.log(responseData);
 
     if (responseData) {
       if (responseData[1] && responseData[1].errors.email) {
