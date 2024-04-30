@@ -49,7 +49,7 @@ const PageDeMiseAJourProfil = () => {
     console.log(responseData.message);
     if (responseData) {
       if (responseData[1] && responseData[1].errors.numero) {
-        setNumeroError("Le nomuero doit contenir 8 chiffres. ");
+        setNumeroError("Votre numéro de téléphone doit comporter 8 chiffres.");
       } else if (responseData.message) {
         navigate("/publication");
       }
@@ -123,12 +123,13 @@ const PageDeMiseAJourProfil = () => {
                           <span className="input-group-text">+216</span>
                         </div>
                         <input
-                          type="text"
+                          type="number"
                           className="form-control"
                           name="numero"
                           value={userData.numero || ""}
+                          maxLength={8}
                           onChange={handleInputChange}
-                          placeholder="Numéro de téléphone"
+                          placeholder="Votre numéro de téléphone"
                         />
                       </div>
                       {numeroerror && (
