@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Header, SidebarLeft } from "../components";
 import { callApi } from "../api";
 import { useNavigate } from "react-router-dom/dist";
@@ -45,12 +45,15 @@ const PageDeMiseAJourProfil = () => {
     e.preventDefault();
 
     const responseData = await callApi("auth/updateprofile", "put", userData);
+    console.log(responseData);
+    console.log(responseData.message);
     if (responseData) {
       if (responseData[1] && responseData[1].errors.numero) {
         setNumeroError("Le nomuero doit contenir 8 chiffres. ");
+      } else if (responseData.message) {
+        navigate("/publication");
       }
     }
-    navigate("/publication");
   };
 
   const handleInputChange = (e) => {
