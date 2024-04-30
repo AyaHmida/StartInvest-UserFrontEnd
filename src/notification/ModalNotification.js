@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { callApi } from "../api";
-import { Link } from "@reach/router";
 
 const ModalNotification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -85,7 +84,7 @@ const ModalNotification = () => {
                   )}
                 </h6>
 
-                <a className="small" onClick={() => markAllRead()}>
+                <a href="" className="small" onClick={() => markAllRead()}>
                   {" "}
                   <i className="bi bi-check-lg fa-fw pe-2"></i>
                   Tout Marquer comme lu
@@ -177,9 +176,9 @@ const ModalNotification = () => {
             )}
 
             <div className="card-footer text-center">
-              <Link to="/notifications" className="btn btn-sm btn-primary-soft">
+              <a href="/notifications" className="btn btn-sm btn-primary-soft">
                 Voir tous
-              </Link>
+              </a>
             </div>
           </div>
         </div>

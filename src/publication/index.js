@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { callApi } from "../api";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {
@@ -17,7 +17,7 @@ const Publication = () => {
     const getUserDetail = async () => {
       const responseData = await callApi("auth/user");
       if (responseData) {
-        setUserDetail(responseData);
+        setUserDetail(responseData.user);
         setLoading(false);
       }
     };
@@ -92,7 +92,7 @@ const Publication = () => {
                     data-bs-toggle="button"
                     aria-pressed="true"
                   >
-                    <span className="load-text"> Load more </span>
+                    <span className="load-text">Charger plus</span>
                     <div className="load-icon">
                       <div
                         className="spinner-grow spinner-grow-sm"
