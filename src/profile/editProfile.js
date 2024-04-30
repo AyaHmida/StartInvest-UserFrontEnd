@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Header, SidebarLeft } from "../components";
 import { callApi } from "../api";
 import { useNavigate } from "react-router-dom/dist";
+import CountryFlag from "react-country-flag";
 
 const PageDeMiseAJourProfil = () => {
   const [userData, setUserData] = useState({
@@ -15,6 +16,7 @@ const PageDeMiseAJourProfil = () => {
   });
   const [secteurs, setSecteurs] = useState([]);
   const navigate = useNavigate();
+  const [numeroerror, setNumeroError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,13 +25,12 @@ const PageDeMiseAJourProfil = () => {
         setUserData(userResponse.user);
         const sectorsResponse = await callApi("auth/secteurs", "GET");
         setSecteurs(sectorsResponse.secteurs);
-        const startupResponse = await callApi("auth/startup", "GET");
-        if (startupResponse) {
+        if (userResponse.startup) {
           setUserData((prevUserData) => ({
             ...prevUserData,
-            nom: startupResponse.nom,
-            secteur: startupResponse.secteur,
-            description: startupResponse.description,
+            nom: userResponse.startup.nom,
+            secteur: userResponse.startup.secteur,
+            description: userResponse.startup.description,
           }));
         }
       } catch (error) {
@@ -43,18 +44,19 @@ const PageDeMiseAJourProfil = () => {
   const updateProfile = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await callApi("auth/updateprofile", "put", userData);
-      console.log(response);
-      navigate("/publication");
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour du profil:", error);
+    const responseData = await callApi("auth/updateprofile", "put", userData);
+    if (responseData) {
+      if (responseData[1] && responseData[1].errors.numero) {
+        setNumeroError("Le nomuero doit contenir 8 chiffres. ");
+      }
     }
+    navigate("/publication");
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
+    setNumeroError("");
   };
 
   return (
@@ -103,14 +105,32 @@ const PageDeMiseAJourProfil = () => {
                     </div>
                     <div className="col-lg-6">
                       <label className="form-label">Numéro de téléphone</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="numero"
-                        value={userData.numero || ""}
-                        onChange={handleInputChange}
-                        placeholder="Numéro de téléphone"
-                      />
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <CountryFlag
+                            countryCode="TN"
+                            svg
+                            style={{
+                              width: "50px",
+                              height: "auto",
+                              marginRight: "10px",
+                            }}
+                          />
+                          {/* Pour la Tunisie (code pays : TN) */}
+                          <span className="input-group-text">+216</span>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="numero"
+                          value={userData.numero || ""}
+                          onChange={handleInputChange}
+                          placeholder="Numéro de téléphone"
+                        />
+                      </div>
+                      {numeroerror && (
+                        <small className="text-danger">{numeroerror}</small>
+                      )}
                     </div>
 
                     {userData && userData.type === "fondateur" && (
