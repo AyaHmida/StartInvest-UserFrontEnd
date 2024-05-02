@@ -6,6 +6,7 @@ const ModelPublication = () => {
   const [previewURL, setPreviewURL] = useState(null);
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
+  const [publications, setPublications] = useState([]);
 
   const getUser = async () => {
     const responseData = await callApi("auth/user");
@@ -20,7 +21,10 @@ const ModelPublication = () => {
     setFile(selectedFile);
     setPreviewURL(URL.createObjectURL(selectedFile));
   };
-
+  const fetchPublications = async () => {
+    const data = await callApi("auth/publicationsUser");
+    setPublications(data.publications);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,9 +33,11 @@ const ModelPublication = () => {
     formData.append("file", file);
 
     const response = await callApi("auth/publication", "POST", formData, true);
+
     console.log(response);
     setDescription("");
     setFile("");
+    fetchPublications();
   };
 
   return (
