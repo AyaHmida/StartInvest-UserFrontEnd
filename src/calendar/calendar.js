@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { SidebarLeft, Header } from "../components";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -12,7 +12,6 @@ import { Check, Close } from "@material-ui/icons";
 import frLocale from "@fullcalendar/core/locales/fr";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import EtatTache from "./etatTache";
 import { callApi } from "../api";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -261,17 +260,44 @@ export default function Calendar() {
   const handleDeleteAndCloseModal = async (taskId) => {
     try {
       await handleDeleteTask(taskId);
-      setSelectedTask(null); // Pour fermer le modal après la suppression
+      setSelectedTask(null);
     } catch (error) {
       console.error("Erreur lors de la suppression de la tâche:", error);
     }
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+
+    // Ajouter une validation spécifique pour la date de début
+    if (name === "start_time") {
+      const today = new Date();
+      const selectedDate = new Date(value);
+
+      // Vérifier si la date sélectionnée est antérieure à la date d'aujourd'hui
+      if (selectedDate < today) {
+        alert(
+          "La date de début ne peut pas être antérieure à la date d'aujourd'hui."
+        );
+        return; // Arrêter la mise à jour du formulaire si la validation échoue
+      }
+
+      // Vérifier si la date de début est après la date de fin actuelle
+      if (formData.end_time && selectedDate > new Date(formData.end_time)) {
+        alert("La date de début ne peut pas être après la date de fin.");
+        return; // Arrêter la mise à jour du formulaire si la validation échoue
+      }
+    } else if (name === "end_time" && formData.start_time) {
+      // Vérifier si la date de fin est avant la date de début actuelle
+      if (new Date(value) < new Date(formData.start_time)) {
+        alert("La date de fin ne peut pas être avant la date de début.");
+        return;
+      }
+    }
+
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
   };
 
   const handleParticipantClick = (user) => {
