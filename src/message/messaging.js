@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../components";
 import { callApi } from "../api";
 import { navigate } from "@reach/router";
-import IconButton from "@mui/material/IconButton";
-import PaperPlaneIcon from "@mui/icons-material/Send";
 const Messaging = () => {
   const [content, setContent] = useState("");
   const [messages, setMessages] = useState([]);
