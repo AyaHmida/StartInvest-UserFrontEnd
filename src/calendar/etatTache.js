@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Button } from "@material-ui/core";
 import { Check, Close } from "@material-ui/icons";
-import { callApi } from "../api";
 
 const useStyles = makeStyles((theme) => ({
   root: {

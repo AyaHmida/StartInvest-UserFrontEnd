@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { callApi } from "../api";
 import { ModalNotification, ModalSearch } from "../components";
@@ -46,7 +46,7 @@ function Header() {
               <div className="nav-item w-100">
                 <form className="rounded position-relative">
                   <input
-                    className="form-control ps-5 bg-light"
+                    className="form-control ps-5 bg-light rounded-pill border-0"
                     type="search"
                     placeholder="Search..."
                     aria-label="Search"
