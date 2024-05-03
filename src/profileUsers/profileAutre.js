@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { callApi } from "../api";
-import { PublicationsAutrePub, ModelPublication } from "../components";
+import { PublicationsAutrePub, ModelPublication } from "../services";
 import { useParams } from "react-router-dom";
 import "./profileAutre.css";
 

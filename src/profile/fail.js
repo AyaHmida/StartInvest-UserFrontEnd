@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { callApi } from "../api";
-import { Header, SidebarLeft } from "../components";
+import { Header, SidebarLeft } from "../services";
 
 const Failed = () => {
   const [paymentData, setPaymentData] = useState(null);

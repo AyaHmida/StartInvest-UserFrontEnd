@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Header, SidebarLeft } from "../components";
+import { Header, SidebarLeft } from "../services";
 import { callApi } from "../api";
 import CircularProgress from "@material-ui/core/CircularProgress";
 

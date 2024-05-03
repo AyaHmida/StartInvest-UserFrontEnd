@@ -9,7 +9,7 @@ import {
   PublicationsProfile,
   ModelPublication,
   Connections,
-} from "../components";
+} from "../services";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);

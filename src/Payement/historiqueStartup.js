@@ -4,7 +4,7 @@ import { callApi } from "../api";
 import Chart from "chart.js/auto";
 import moment from "moment";
 import Select from "react-select";
-import { SidebarLeft, Header } from "../components";
+import { SidebarLeft, Header } from "../services";
 
 const InvestmentHistoryPage = () => {
   const [investmentHistory, setInvestmentHistory] = useState([]);

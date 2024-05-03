@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import {
   Publication,
@@ -20,7 +19,7 @@ import {
   InvestFormation,
   EtatTache,
   InvestmentHistoryPage,
-} from "../components/index";
+} from "../services/index";
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
     {

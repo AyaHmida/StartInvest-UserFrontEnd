@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../components";
+import { Header } from "../services";
 import { callApi } from "../api";
 import { navigate } from "@reach/router";
 const Messaging = () => {

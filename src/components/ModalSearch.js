@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { callApi } from "../api";
 import { navigate } from "@reach/router";
 
@@ -38,7 +38,7 @@ const ModalSearch = () => {
               <div className="nav-item w-100">
                 <div className="rounded position-relative">
                   <input
-                    className="form-control ps-5 bg-light"
+                    className="form-control ps-5 bg-light rounded-pill border-0"
                     type="search"
                     value={query}
                     onChange={(e) => {

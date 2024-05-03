@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SidebarLeft, Header } from "../components";
+import { SidebarLeft, Header } from "../services";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

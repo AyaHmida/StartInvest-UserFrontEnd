@@ -7,7 +7,7 @@ import {
   SidebarLeft,
   SidebarRight,
   Header,
-} from "../components";
+} from "../services";
 
 const Publication = () => {
   const [userDetail, setUserDetail] = useState(null);
