@@ -1,4 +1,4 @@
-export { default as PageHome } from "./pageHome";
+export { default as PageHome } from "../components/pageHome";
 export { default as Publication } from "../publication";
 export { default as Profile } from "../profile/profile";
 export { default as ProfileAutre } from "../profileUsers/profileAutre";
@@ -27,9 +27,9 @@ export { default as Messages } from "../publication/messages";
 export { default as Reclamation } from "../reclamation/reclamation";
 export { default as ListReclamation } from "../reclamation/listReclamation";
 export { default as UpdateProfile } from "../profile/update";
-export { default as ModelPublication } from "./ModalPublication";
+export { default as ModelPublication } from "../publication/ModalPublication";
 export { default as Connections } from "../profile/Connections";
 export { default as Abonnes } from "../profile/abonnés";
-export { default as ModalSearch } from "./ModalSearch";
+export { default as ModalSearch } from "../components/ModalSearch";
 export { default as ModalNotification } from "../notification/ModalNotification";
 export { default as CompteFlouci } from "../Payement/CompteFlouci";

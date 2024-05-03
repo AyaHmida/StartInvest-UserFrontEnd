@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { callApi } from "../api";
 
-import { SidebarLeft, Header } from "../components";
+import { SidebarLeft, Header } from "../services";
 
 const CompteFlouci = () => {
   const [app_secret, setAppSecret] = useState("");

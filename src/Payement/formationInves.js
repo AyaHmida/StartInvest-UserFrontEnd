@@ -9,7 +9,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { SidebarLeft, Header } from "../components";
+import { SidebarLeft, Header } from "../services";
 import { callApi } from "../api";
 
 const useStyles = makeStyles((theme) => ({

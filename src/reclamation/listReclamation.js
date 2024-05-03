@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { callApi } from "../api";
-import { Header, SidebarLeft } from "../components";
+import { Header, SidebarLeft } from "../services";
 
 const ListReclamation = () => {
   const [reclamations, setReclamations] = useState([]);

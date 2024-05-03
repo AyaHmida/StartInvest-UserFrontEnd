@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { callApi } from "../api";
-import { ModalNotification, ModalSearch } from "../components";
+import { ModalNotification, ModalSearch } from "../services";
 function Header() {
   const [userdetail, setUserdetail] = useState();
 

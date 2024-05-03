@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Header, SidebarLeft } from "../components";
+import { Header, SidebarLeft } from "../services";
 import { callApi } from "../api";
 import { useNavigate } from "react-router-dom/dist";
 import CountryFlag from "react-country-flag";

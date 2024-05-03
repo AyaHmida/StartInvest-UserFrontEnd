@@ -26,13 +26,7 @@ function Resetpassword() {
     });
     console.log(responseData);
     if (responseData) {
-      if (responseData[1] && responseData[1].error) {
-        setPasswordConfirm(
-          "Ces mots de passe ne correspondent pas. Veuillez réessayer."
-        );
-      } else {
-        // window.location.href = "/login";
-      }
+      window.location.href = "/login";
     }
     if (
       password.length < 8 ||

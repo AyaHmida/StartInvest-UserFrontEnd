@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { callApi } from "../api";
-import { Header, SidebarLeft } from "../components";
+import { Header, SidebarLeft } from "../services";
 
 const Success = () => {
   const [paymentData, setPaymentData] = useState(null);
@@ -15,6 +15,7 @@ const Success = () => {
     callApi(`auth/verify/${paymentId}`, "POST")
       .then((response) => {
         if (response.success && response.result.status === "SUCCESS") {
+          console.log(response.result.details);
           setPaymentData(response.result.details);
         } else {
           console.error(

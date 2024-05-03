@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { callApi } from "../api";
-import { SidebarLeft, Header } from "../components";
+import { SidebarLeft, Header } from "../services";
 import { Link } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
