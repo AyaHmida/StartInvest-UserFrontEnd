@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { callApi } from "../api";
-import { Link } from "@reach/router";
 
 const ModalNotification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -93,7 +92,10 @@ const ModalNotification = () => {
               </div>
             )}
             {notificationCount > 0 ? (
-              <div className="card-body p-0">
+              <div
+                className="card-body p-0 "
+                style={{ maxHeight: "300px", overflowY: "auto" }}
+              >
                 <ul className="list-group list-group-flush list-unstyled p-2">
                   {notifications &&
                     notifications.map(
@@ -177,9 +179,9 @@ const ModalNotification = () => {
             )}
 
             <div className="card-footer text-center">
-              <Link to="/notifications" className="btn btn-sm btn-primary-soft">
+              <a href="/notifications" className="btn btn-sm btn-primary-soft">
                 Voir tous
-              </Link>
+              </a>
             </div>
           </div>
         </div>
