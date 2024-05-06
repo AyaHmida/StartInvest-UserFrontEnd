@@ -68,7 +68,7 @@ const AuthentificatedRouter = () => {
       element: <Reclamation />,
     },
     {
-      path: "/abonnes",
+      path: "/mynetwork",
       element: <Abonnes />,
     },
     {

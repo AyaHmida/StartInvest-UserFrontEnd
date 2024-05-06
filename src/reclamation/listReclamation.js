@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { callApi } from "../api";
 import { Header, SidebarLeft } from "../services";
 
@@ -36,7 +36,7 @@ const ListReclamation = () => {
       <Header />
       <br />
       <br />
-      <br />{" "}
+      <br />
       <main>
         <div className="container mt-5">
           <div className="row g-4">

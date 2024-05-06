@@ -65,7 +65,10 @@ const SidebarRight = () => {
                     </div>
                   </div>
                   <div className="d-grid mt-3">
-                    <a className="btn btn-sm btn-primary-soft" href="/abonnes">
+                    <a
+                      className="btn btn-sm btn-primary-soft"
+                      href="/mynetwork"
+                    >
                       Voir plus
                     </a>
                   </div>

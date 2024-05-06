@@ -114,7 +114,7 @@ const Profile = () => {
   };
 
   const handleInvestment = async () => {
-    setLoading(true); // Charger la page
+    setLoading(true); // Charger la pagez
     try {
       const paymentResponse = await callApi("auth/generate-payment", "POST", {
         id_startup: idStartup,
