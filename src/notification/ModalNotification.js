@@ -102,10 +102,7 @@ const ModalNotification = () => {
                       (notification) =>
                         !notification.read_at && (
                           <li key={notification.id}>
-                            <a
-                              href="#"
-                              className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3"
-                            >
+                            <a className="list-group-item list-group-item-action rounded d-flex border-0 mb-1 p-3">
                               <div className="avatar text-center d-none d-sm-inline-block me-3">
                                 <div className="avatar text-center">
                                   <img
@@ -115,7 +112,7 @@ const ModalNotification = () => {
                                         : "assets/images/avatar/no-image-male.jpg"
                                     }
                                     alt="Image"
-                                    className="rounded-circle" // Ajouter la classe pour rendre l'image circulaire
+                                    className="rounded-circle"
                                   />
                                 </div>
                               </div>
@@ -125,7 +122,24 @@ const ModalNotification = () => {
                               >
                                 <div className="d-flex justify-content-between align-items-center">
                                   <div>
-                                    <a className="btn " href="/messaging">
+                                    <a
+                                      className="btn"
+                                      href={
+                                        notification.data.title.includes(
+                                          "a envoyer un message"
+                                        )
+                                          ? "/messaging"
+                                          : notification.data.title.includes(
+                                              "a abonné vous"
+                                            )
+                                          ? "/abonnes"
+                                          : notification.data.title.includes(
+                                              "a aime ce publication"
+                                            )
+                                          ? "/publication"
+                                          : null
+                                      }
+                                    >
                                       <p className="small mb-0">
                                         <b>{notification.data.user}</b>{" "}
                                         {notification.data.title}:{" "}
