@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./InvestmentHistoryPage.css";
 import { callApi } from "../api";
 import Chart from "chart.js/auto";
@@ -16,20 +16,16 @@ const InvestmentHistoryPage = () => {
   );
   const [selectedInvestor, setSelectedInvestor] = useState(null);
   const chartRef = useRef(null);
+  const fetchInvestmentHistory = async () => {
+    const data = await callApi("auth/investorsTransactions");
+    if (data) {
+      setInvestmentHistory(data);
+      filterInvestmentHistory(data, selectedMonth, selectedInvestor);
+      renderChart(data);
+    }
+  };
 
   useEffect(() => {
-    const fetchInvestmentHistory = async () => {
-      try {
-        const response = await callApi("auth/investorsTransactions");
-        const data = await response;
-        setInvestmentHistory(data);
-        filterInvestmentHistory(data, selectedMonth, selectedInvestor);
-        renderChart(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchInvestmentHistory();
   }, [selectedMonth, selectedInvestor]);
 

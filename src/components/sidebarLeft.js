@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { callApi } from "../api";
 
@@ -85,7 +85,9 @@ const SidebarLeft = () => {
                     {userdetail && (
                       <>
                         <h5 className="mb-0">
-                          <Link to="/profile">{userdetail.name} </Link>
+                          <Link to={`/profile?${userdetail.name}`}>
+                            {userdetail.name}{" "}
+                          </Link>
                         </h5>
                         <small>{userdetail.type}</small>
                       </>
@@ -142,7 +144,7 @@ const SidebarLeft = () => {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link class="nav-link" to="/abonnes">
+                      <Link class="nav-link" to="/mynetwork">
                         <img
                           class="me-2 h-20px fa-fw"
                           src="assets/images/icon/person-outline-filled.svg"

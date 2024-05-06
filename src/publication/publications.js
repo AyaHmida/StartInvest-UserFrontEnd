@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { callApi } from "../api";
 import { navigate } from "@reach/router";
 const Publications = () => {
@@ -66,7 +66,7 @@ const Publications = () => {
                       className="avatar me-2"
                       onClick={() => redirectToProfile(item.user.id)}
                     >
-                      <a href="#">
+                      <a href="">
                         {" "}
                         <img
                           className="avatar-img rounded-circle"
