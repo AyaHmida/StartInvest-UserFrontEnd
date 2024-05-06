@@ -57,7 +57,7 @@ const ModalNotification = () => {
     <>
       <li className="nav-item dropdown ms-2">
         <a
-          className="nav-link bg-light icon-md btn btn-light p-0"
+          className="nav-link  icon-md btn btn-light p-0"
           href="#"
           id="notifDropdown"
           role="button"

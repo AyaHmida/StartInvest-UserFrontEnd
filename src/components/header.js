@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { callApi } from "../api";
 import { ModalNotification, ModalSearch } from "../services";
+import "./header.css";
 function Header() {
   const [userdetail, setUserdetail] = useState();
 
@@ -66,7 +67,7 @@ function Header() {
             <ul className="nav flex-nowrap align-items-center ms-sm-3 list-unstyled">
               <li className="nav-item ms-2">
                 <Link
-                  className="nav-link bg-light icon-md btn btn-light p-0"
+                  className="nav-link  icon-md btn btn-light p-0"
                   to="/messaging"
                 >
                   <i className="bi bi-chat-left-text-fill fs-6"> </i>
