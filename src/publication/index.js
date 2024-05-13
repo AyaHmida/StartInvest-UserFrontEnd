@@ -43,7 +43,7 @@ const Publication = () => {
               <>
                 <SidebarLeft />
                 <div className="col-md-8 col-lg-6 vstack gap-4">
-                  <div className="card card-body">
+                  <div className="card card-body rounded-3">
                     <div className="d-flex mb-3">
                       <div className="avatar avatar-xs me-2">
                         <img
@@ -58,7 +58,7 @@ const Publication = () => {
                       </div>
                       <form className="w-100">
                         <textarea
-                          className="form-control pe-4 border-0"
+                          className="form-control rounded-pill pe-4 border-0"
                           rows="2"
                           data-autoresize
                           placeholder="Partage tes pensées..."
