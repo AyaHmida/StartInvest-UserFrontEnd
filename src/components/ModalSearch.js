@@ -44,7 +44,7 @@ const ModalSearch = () => {
                     onChange={(e) => {
                       setQuery(e.target.value);
                     }}
-                    placeholder="Search..."
+                    placeholder="Recherche..."
                     aria-label="Search"
                   />
                   <button
@@ -108,7 +108,7 @@ const ModalSearch = () => {
                   </div>
                 ))
               ) : (
-                <p>No results found</p>
+                <p>Aucun résultat trouvé</p>
               )}
             </div>
           </div>

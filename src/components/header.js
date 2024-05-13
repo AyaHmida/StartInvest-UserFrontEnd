@@ -49,7 +49,7 @@ function Header() {
                   <input
                     className="form-control ps-5 bg-light rounded-pill border-0"
                     type="search"
-                    placeholder="Search..."
+                    placeholder="Recherche..."
                     aria-label="Search"
                     data-bs-toggle="modal"
                     data-bs-target="#search"
