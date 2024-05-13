@@ -23,7 +23,7 @@ import {
 const AuthentificatedRouter = () => {
   const routes = useRoutes([
     {
-      path: "/publication",
+      path: "/StartInvest",
       element: <Publication />,
     },
     {
@@ -106,7 +106,7 @@ const AuthentificatedRouter = () => {
     },
     {
       path: "/*",
-      element: <Navigate to="/publication" replace />,
+      element: <Navigate to="/StartInvest" replace />,
     },
   ]);
 

@@ -67,8 +67,9 @@ const Messaging = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await callApi("auth/getUtilisateurs");
+      const response = await callApi("auth/showPersonsConversation");
       setUsers(response);
+      console.log(response);
     } catch (error) {
       console.error("Error fetching Users:", error);
     }
@@ -127,19 +128,17 @@ const Messaging = () => {
                                 onChange={(e) => {
                                   setQuery(e.target.value);
                                 }}
-                                placeholder="Rechercher des chats"
+                                placeholder="Rechercher des conversations"
                                 aria-label="Rechercher"
                               />
                               <button
                                 className="btn bg-transparent text-secondary px-2 py-0 position-absolute top-50 end-0 translate-middle-y"
                                 type="submit"
-                              >
-                                {/* <i className="bi bi-search fs-5" /> */}
-                              </button>
+                              ></button>
                             </form>
                             <div className="mt-4 h-100">
                               <div className="chat-tab-list custom-scrollbar">
-                                <ul className="nav flex-column nav-pills nav-pills-soft">
+                                <ul className="nav flex-column nav-pills nav-pills-soft  ">
                                   {query.trim() !== "" &&
                                   Array.isArray(searchResult) &&
                                   searchResult.length > 0
@@ -153,7 +152,7 @@ const Messaging = () => {
                                         >
                                           <a
                                             href={`#chat-${result.id}`}
-                                            className={`nav-link text-start ${
+                                            className={`nav-link text-start  ${
                                               selectedUserId === result.id
                                                 ? "active"
                                                 : ""
@@ -183,8 +182,7 @@ const Messaging = () => {
                                           </a>
                                         </li>
                                       ))
-                                    : // Afficher tous les utilisateurs si aucune recherche en cours
-                                      Users &&
+                                    : Users &&
                                       Users.map((user) => (
                                         <li
                                           key={user.id}
@@ -284,13 +282,15 @@ const Messaging = () => {
                                     aria-labelledby="chatcoversationDropdown"
                                   >
                                     <li
-                                      onClick={() =>
-                                        redirectToProfile(selectedUser.id)
-                                      }
+                                      onClick={() => {
+                                        if (selectedUser && selectedUser.id) {
+                                          redirectToProfile(selectedUser.id);
+                                        }
+                                      }}
                                     >
                                       <a className="dropdown-item" href="">
                                         <i className="bi bi-person-check me-2 fw-icon" />
-                                        View profile
+                                        Voir le profil
                                       </a>
                                     </li>
                                   </ul>
@@ -344,7 +344,7 @@ const Messaging = () => {
                                           <img
                                             className="avatar-img rounded-circle"
                                             src={
-                                              selectedUser && selectedUser.image 
+                                              selectedUser && selectedUser.image
                                                 ? `http://127.0.0.1:8000/uploads/${selectedUser.image}`
                                                 : "assets/images/avatar/no-image-male.jpg"
                                             }

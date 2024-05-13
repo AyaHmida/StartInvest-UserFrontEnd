@@ -28,7 +28,7 @@ function Header() {
       <header className="navbar-light fixed-top header-static bg-mode">
         <nav className="navbar">
           <div className="container">
-            <Link className="navbar-brand" to="/publication">
+            <Link className="navbar-brand" to="/StartInvest">
               <img
                 className="light-mode-item navbar-brand-item"
                 src="assets/images/logo.png"

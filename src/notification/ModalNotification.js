@@ -132,11 +132,11 @@ const ModalNotification = () => {
                                           : notification.data.title.includes(
                                               "a abonné vous"
                                             )
-                                          ? "/abonnes"
+                                          ? "/mynetwork"
                                           : notification.data.title.includes(
                                               "a aime ce publication"
                                             )
-                                          ? "/publication"
+                                          ? "/StartInvest"
                                           : null
                                       }
                                     >
