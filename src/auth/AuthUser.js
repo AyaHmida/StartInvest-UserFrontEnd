@@ -19,7 +19,7 @@ export default function AuthUser() {
     sessionStorage.setItem("user", JSON.stringify(user));
     setToken(token);
     setUser(user);
-    navigate("/publication");
+    navigate("/StartInvest");
   };
 
   const http = axios.create({

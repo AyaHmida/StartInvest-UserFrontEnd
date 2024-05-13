@@ -51,7 +51,7 @@ const PageDeMiseAJourProfil = () => {
       if (responseData[1] && responseData[1].errors.numero) {
         setNumeroError("Votre numéro de téléphone doit comporter 8 chiffres.");
       } else if (responseData.message) {
-        navigate("/publication");
+        navigate("/StartInvest");
       }
     }
   };
