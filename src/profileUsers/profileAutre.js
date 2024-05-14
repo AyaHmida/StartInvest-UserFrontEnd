@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/header";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { callApi } from "../api";
@@ -44,13 +44,13 @@ const Profile = () => {
     callApi(`auth/userById/${userId}`).then((data) => {
       setUserdetail(data);
       setPreviewURL(data.image);
-      setLoading(false); // Arrêter le chargement une fois que les données de l'utilisateur sont récupérées
+      setLoading(false);
     });
   };
 
   const getStartup = async (userId) => {
     await callApi(`auth/startup/${userId}`, "GET").then((response) => {
-      setStartup(response.startup);
+      setStartup(response);
       setIdStartup(response.id);
     });
   };
@@ -114,7 +114,7 @@ const Profile = () => {
   };
 
   const handleInvestment = async () => {
-    setLoading(true); // Charger la pagez
+    setLoading(true);
     try {
       const paymentResponse = await callApi("auth/generate-payment", "POST", {
         id_startup: idStartup,
