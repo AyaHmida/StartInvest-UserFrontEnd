@@ -128,7 +128,7 @@ const Messaging = () => {
                                 onChange={(e) => {
                                   setQuery(e.target.value);
                                 }}
-                                placeholder="Rechercher des conversations"
+                                placeholder="Rechercher "
                                 aria-label="Rechercher"
                               />
                               <button
