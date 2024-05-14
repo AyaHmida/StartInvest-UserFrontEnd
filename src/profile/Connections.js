@@ -67,11 +67,7 @@ const Connections = () => {
                     <li className="small">{item.type} </li>
                   </ul>
                 </div>
-                <div className="ms-md-auto d-flex">
-                  <button className="btn btn-primary-soft btn-sm mb-0 me-2">
-                    Message
-                  </button>
-                </div>
+
                 <div className="dropdown">
                   <a
                     href="#"
