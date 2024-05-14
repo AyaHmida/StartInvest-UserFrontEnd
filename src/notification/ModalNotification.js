@@ -143,7 +143,11 @@ const ModalNotification = () => {
                                       <p className="small mb-0">
                                         <b>{notification.data.user}</b>{" "}
                                         {notification.data.title}:{" "}
-                                        {notification.data.description}{" "}
+                                        {notification.data.description
+                                          .split(" ")
+                                          .slice(0, 3)
+                                          .join(" ")}
+                                        ...
                                         {notification.created_at}
                                       </p>
                                     </a>

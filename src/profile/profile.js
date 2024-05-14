@@ -188,8 +188,7 @@ const Profile = () => {
                       <ul className="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
                         <li className="list-inline-item">
                           <i className="bi bi-calendar2-plus me-1" /> account
-                          compte créé le
-                          {formatDate(userdetail.created_at)}
+                          compte créé le {formatDate(userdetail.created_at)}
                         </li>
                       </ul>
                     )}
