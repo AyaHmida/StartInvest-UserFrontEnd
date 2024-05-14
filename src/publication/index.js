@@ -42,10 +42,10 @@ const Publication = () => {
             ) : (
               <>
                 <SidebarLeft />
-                <div className="col-md-8 col-lg-6 vstack gap-4">
-                  <div className="card card-body rounded-3">
-                    <div className="d-flex mb-3">
-                      <div className="avatar avatar-xs me-2">
+                <div className="col-md-8 col-lg-6 vstack gap-2">
+                  <div className="card card-body rounded-4">
+                    <div className="d-flex mb-1 ">
+                      <div className="avatar avatar-sm me-2">
                         <img
                           className="avatar-img rounded-circle border border-white border-3"
                           src={
@@ -82,6 +82,7 @@ const Publication = () => {
                       </li>
                     </ul>
                   </div>
+                  <hr />
 
                   <Publications />
 

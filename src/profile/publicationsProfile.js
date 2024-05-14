@@ -88,38 +88,37 @@ const PublicationsProfile = () => {
 
   return (
     <>
-      <div className="card card-body">
-        <div className="d-flex mb-3">
-          <div className="avatar avatar-xs me-2">
-            <a href="">
-              <img
-                className="avatar-img rounded-circle border border-white border-3"
-                src={
-                  userdetail && userdetail.image
-                    ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
-                    : "assets/images/avatar/no-image-male.jpg"
-                }
-                alt=""
-              />
-            </a>
+      <div className="card card-body rounded-4">
+        <div className="d-flex mb-1 ">
+          <div className="avatar avatar-sm me-2">
+            <img
+              className="avatar-img rounded-circle border border-white border-3"
+              src={
+                userdetail && userdetail.image
+                  ? `http://127.0.0.1:8000/uploads/${userdetail.image}`
+                  : "assets/images/avatar/no-image-male.jpg"
+              }
+              alt=""
+            />
           </div>
           <form className="w-100">
-            <input
-              className="form-control pe-4 border-0"
+            <textarea
+              className="form-control rounded-pill pe-4 border-0"
+              rows="2"
+              data-autoresize
               placeholder="Partage tes pensées..."
               data-bs-toggle="modal"
               data-bs-target="#feedActionPhoto"
-            />
+            ></textarea>
           </form>
         </div>
-        {/* Share feed toolbar START */}
         <ul className="nav nav-pills nav-stack small fw-normal">
           <li className="nav-item">
             <a
               className="nav-link bg-light py-1 px-2 mb-0"
               href="#!"
               data-bs-toggle="modal"
-              data-bs-target="#modalCreateFeed"
+              data-bs-target="#feedActionPhoto"
             >
               {" "}
               <i className="bi bi-image-fill text-success pe-2" />
@@ -340,7 +339,7 @@ const PublicationsProfile = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="modalLabelCreateFeed">
-                Create post
+                Créer une publication
               </h5>
               <button
                 type="button"
@@ -352,7 +351,7 @@ const PublicationsProfile = () => {
 
             <div className="modal-body">
               <div className="d-flex mb-3">
-                <div className="avatar avatar-xs me-2">
+                <div className="avatar avatar-sm me-2">
                   <img
                     className="avatar-img rounded-circle"
                     src={
@@ -381,7 +380,7 @@ const PublicationsProfile = () => {
                       className="icon-md bg-success bg-opacity-10 text-success rounded-circle"
                       data-bs-toggle="tooltip"
                       data-bs-placement="top"
-                      title="Upload Image"
+                      title="Ajouter un média "
                     >
                       <input
                         type="file"
@@ -390,7 +389,7 @@ const PublicationsProfile = () => {
                         onChange={handleFileChange}
                         style={{ display: "none" }}
                       />
-                      <i className="bi bi-image-fill" />
+                      <i className="bi bi-camera-fill" />
                     </label>
                     {previewURL && (
                       <img

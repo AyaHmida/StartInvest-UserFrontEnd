@@ -53,7 +53,7 @@ const ModelPublication = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="modalLabelCreateFeed">
-                Create post
+                Créer une publication
               </h5>
               <button
                 type="button"
@@ -65,7 +65,7 @@ const ModelPublication = () => {
 
             <div className="modal-body">
               <div className="d-flex mb-3">
-                <div className="avatar avatar-xs me-2">
+                <div className="avatar avatar-sm me-2">
                   <img
                     className="avatar-img rounded-circle"
                     src={
@@ -94,7 +94,7 @@ const ModelPublication = () => {
                       className="icon-md bg-success bg-opacity-10 text-success rounded-circle"
                       data-bs-toggle="tooltip"
                       data-bs-placement="top"
-                      title="Upload Image"
+                      title="Ajouter un média "
                     >
                       <input
                         type="file"
@@ -103,7 +103,7 @@ const ModelPublication = () => {
                         onChange={handleFileChange}
                         style={{ display: "none" }}
                       />
-                      <i className="bi bi-image-fill" />
+                      <i className="bi bi-camera-fill" />
                     </label>
                     {previewURL && (
                       <img
