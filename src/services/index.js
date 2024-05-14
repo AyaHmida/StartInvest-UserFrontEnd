@@ -23,7 +23,6 @@ export { default as SidebarRight } from "../components/sidebarRight";
 export { default as Publications } from "../publication/publications";
 export { default as PublicationsProfile } from "../profile/publicationsProfile";
 export { default as PublicationsAutrePub } from "../profileUsers/profileAutrepub";
-export { default as Messages } from "../publication/messages";
 export { default as Reclamation } from "../reclamation/reclamation";
 export { default as ListReclamation } from "../reclamation/listReclamation";
 export { default as UpdateProfile } from "../profile/update";

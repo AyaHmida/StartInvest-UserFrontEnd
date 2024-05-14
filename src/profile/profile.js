@@ -263,7 +263,6 @@ const Profile = () => {
             </div>
           </div>
 
-          <ModelPublication />
         </>
       )}
     </div>
