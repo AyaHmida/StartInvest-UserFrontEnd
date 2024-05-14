@@ -5,11 +5,7 @@ import { Link } from "react-router-dom";
 import { callApi } from "../api";
 import { Button, Modal } from "react-bootstrap";
 
-import {
-  PublicationsProfile,
-  ModelPublication,
-  Connections,
-} from "../services";
+import { PublicationsProfile, Connections } from "../services";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
@@ -262,7 +258,6 @@ const Profile = () => {
               </div>
             </div>
           </div>
-
         </>
       )}
     </div>
