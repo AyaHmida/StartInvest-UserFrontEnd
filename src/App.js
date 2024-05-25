@@ -1,5 +1,4 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom"; // Modifier l'importation pour utiliser BrowserRouter au lieu de Router
+import { BrowserRouter } from "react-router-dom";
 
 import AuthentificatedRouter from "./routes/AuthentificatedRouter";
 import NoAuthentificatedRouter from "./routes/NoAuthentificatedRouter";
