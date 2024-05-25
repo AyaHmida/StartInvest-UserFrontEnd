@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.08)",
     borderRadius: 16,
-    position: "relative", // Ajout de position relative pour le positionnement absolu de CircularProgress
+    position: "relative", 
   },
   tableHeader: {
     backgroundColor: "#808080", // Gris

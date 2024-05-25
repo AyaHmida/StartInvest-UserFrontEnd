@@ -99,7 +99,7 @@ export default function Notifications() {
                                   <p className="small mb-0">
                                     <b>{notification.data.user}</b>{" "}
                                     {notification.data.title === "a abonné vous"
-                                      ? "a abonné à vous"
+                                      ? "a abonné  vous"
                                       : "a aimé votre publication"}{" "}
                                     : {notification.data.description}{" "}
                                     {notification.created_at}

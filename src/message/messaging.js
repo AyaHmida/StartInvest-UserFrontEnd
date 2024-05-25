@@ -387,9 +387,6 @@ const Messaging = () => {
                                                   minute: "2-digit",
                                                 })}
                                               </div>
-                                              <div className="small ms-2">
-                                                <i className="fa-solid fa-check-double text-info" />
-                                              </div>
                                             </div>
                                           </div>
                                         </div>
