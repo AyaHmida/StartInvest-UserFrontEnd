@@ -40,15 +40,18 @@ const InvestmentHistoryPage = () => {
   };
 
   const filterInvestmentHistory = (data, month, investor) => {
-    let filteredData = data.filter(
-      (investment) =>
-        moment(investment.transaction_date).format("YYYY-MM") === month
-    );
-    if (investor && investor.value !== "all") {
-      filteredData = filteredData.filter(
-        (investment) => investment.investor_name === investor.value
+    let filteredData = data.filter((investment) => {
+      const transactionDate = moment(investment.transaction_date);
+      const investmentMonth = transactionDate.isValid()
+        ? transactionDate.format("YYYY-MM")
+        : null;
+      return (
+        investmentMonth === month &&
+        (!investor ||
+          investor.value === "all" ||
+          investment.investor_name === investor.value)
       );
-    }
+    });
     setFilteredInvestmentHistory(filteredData);
   };
 
@@ -58,15 +61,20 @@ const InvestmentHistoryPage = () => {
     }
 
     const monthlyData = data.reduce((acc, investment) => {
-      const monthYear = moment(investment.transaction_date).format("YYYY-MM");
-      if (!acc[monthYear]) {
-        acc[monthYear] = {
-          count: 0,
-          investors: new Set(),
-        };
+      const transactionDate = moment(investment.transaction_date);
+      if (transactionDate.isValid()) {
+        const monthYear = transactionDate.format("YYYY-MM");
+        if (!acc[monthYear]) {
+          acc[monthYear] = {
+            count: 0,
+            investors: new Set(),
+          };
+        }
+        acc[monthYear].count++;
+        if (investment.investor_name) {
+          acc[monthYear].investors.add(investment.investor_name);
+        }
       }
-      acc[monthYear].count++;
-      acc[monthYear].investors.add(investment.investor_name);
       return acc;
     }, {});
 
@@ -165,19 +173,29 @@ const InvestmentHistoryPage = () => {
                 <canvas id="investmentChart"></canvas>
               </div>
               <div className="investment-list">
-                {filteredInvestmentHistory.map((investment, index) => (
-                  <div key={index} className="investment-item">
-                    <div className="investment-info">
-                      <div className="investment-id">ID: {index + 1}</div>
-                      <div className="investment-investor">
-                        Investisseur : {investment.investor_name}
-                      </div>
-                      <div className="investment-date">
-                        Date de transaction : {investment.transaction_date}
+                {filteredInvestmentHistory.length > 0 ? (
+                  filteredInvestmentHistory.map((investment, index) => (
+                    <div key={index} className="investment-item">
+                      <div className="investment-info">
+                        <div className="investment-id">ID: {index + 1}</div>
+                        {/* Vérification de la nullité de investor_name */}
+                        {investment.investor_name && (
+                          <div className="investment-investor">
+                            Investisseur : {investment.investor_name}
+                          </div>
+                        )}
+                        {/* Vérification de la nullité de transaction_date */}
+                        {investment.transaction_date && (
+                          <div className="investment-date">
+                            Date de transaction : {investment.transaction_date}
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <div>Aucune transaction trouvée.</div>
+                )}
               </div>
             </div>
           </div>

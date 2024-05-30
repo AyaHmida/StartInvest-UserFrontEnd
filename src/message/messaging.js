@@ -12,6 +12,32 @@ const Messaging = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [redirectToUpdate, setRedirectToUpdate] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const responseData = await callApi("auth/user");
+      if (responseData) {
+        if (
+          responseData.user &&
+          (responseData.user.type === null ||
+            (responseData.user.type !== "fondateur" &&
+              responseData.user.type !== "investisseur"))
+        ) {
+          setRedirectToUpdate(true);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (redirectToUpdate) {
+      window.open("/updateProfile", "_blank");
+    }
+  }, [redirectToUpdate]);
+
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const handleSearch = async () => {

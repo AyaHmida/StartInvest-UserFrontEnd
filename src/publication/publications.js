@@ -3,6 +3,31 @@ import { callApi } from "../api";
 import { navigate } from "@reach/router";
 const Publications = () => {
   const [publications, setPublications] = useState([]);
+  const [redirectToUpdate, setRedirectToUpdate] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const responseData = await callApi("auth/user");
+      if (responseData) {
+        if (
+          responseData.user &&
+          (responseData.user.type === null ||
+            (responseData.user.type !== "fondateur" &&
+              responseData.user.type !== "investisseur"))
+        ) {
+          setRedirectToUpdate(true);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (redirectToUpdate) {
+      window.open("/updateProfile", "_blank");
+    }
+  }, [redirectToUpdate]);
 
   const [likes, setLikes] = useState(
     publications && publications.map(() => false)
