@@ -24,17 +24,8 @@ function Resetpassword() {
       password: password,
       password_confirmation: password_confirmation,
     });
-    console.log(responseData);
     if (responseData) {
       window.location.href = "/login";
-    }
-    if (
-      password.length < 8 ||
-      !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/.test(password)
-    ) {
-      setPasswordValider(
-        "Veuillez choisir un mot de passe plus sûr. Essayez un mélange de lettres, de chiffres et de symboles avec au moins 8 caractères."
-      );
     }
   };
   const [showPassword, setShowPassword] = useState(false);
