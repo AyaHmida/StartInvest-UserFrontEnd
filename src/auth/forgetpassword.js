@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { callApi } from "../api";
 
 function Forgetpassword() {
@@ -14,7 +14,7 @@ function Forgetpassword() {
     try {
       const response = await callApi("auth/sendPasswordResetLink", "POST", {
         email,
-      }); // Envoyer l'email dans la requête
+      });
       if (response.data) {
         setSuccessMessage(response.data);
       } else {
