@@ -40,11 +40,9 @@ const PublicationsProfile = () => {
       `auth/publications/${publicationId}`,
       "DELETE"
     );
-
-    console.log("Publication supprimée avec succès");
-    setPublications((prevPublications) =>
-      prevPublications.filter((pub) => pub.id !== publicationId)
-    );
+    if (responseData) {
+      fetchPublications();
+    }
   };
 
   useEffect(() => {
@@ -170,9 +168,8 @@ const PublicationsProfile = () => {
                     className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="cardShareAction5"
                   >
-                    <li key={item.id}>
+                    <li>
                       <a
-                        href=""
                         className="dropdown-item"
                         onClick={() => {
                           handleDelete(item.id);
@@ -234,6 +231,7 @@ const PublicationsProfile = () => {
                 <ul className="nav nav-fill nav-stack small">
                   <li className="nav-item">
                     <a
+                      style={{ cursor: "pointer" }}
                       className="nav-link mb-0 active"
                       onClick={() => Like(item.id, index)}
                     >

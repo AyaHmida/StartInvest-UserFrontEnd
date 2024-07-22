@@ -24,7 +24,6 @@ export default function Notifications() {
           data: JSON.parse(notification.data),
         }));
 
-        // Filtrer les notifications pour n'afficher qu'une seule instance de chaque type
         const uniqueNotifications = [];
         const seenData = new Set();
 
@@ -37,14 +36,14 @@ export default function Notifications() {
         });
 
         setNotifications(uniqueNotifications);
-        setLoading(false); // Arrêter le chargement une fois les données chargées
+        setLoading(false); 
       })
       .catch((error) => {
         console.error(
           "Erreur lors de la récupération des notifications :",
           error
         );
-        setLoading(false); // Arrêter le chargement en cas d'erreur
+        setLoading(false); 
       });
   };
 
@@ -79,7 +78,6 @@ export default function Notifications() {
                           !notification.read_at && (
                             <li key={notification.id}>
                               <div className="rounded d-sm-flex border-0 mb-1 p-3 position-relative">
-                                {/* Avatar */}
                                 <div className="avatar text-center">
                                   <img
                                     src={

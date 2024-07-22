@@ -61,7 +61,7 @@ const InvestmentInfoPage = () => {
         error
       );
     } finally {
-      setLoading(false); // Arrêter le chargement une fois que les données sont récupérées ou en cas d'erreur
+      setLoading(false); 
     }
   };
   return (

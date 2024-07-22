@@ -135,7 +135,7 @@ const Profile = () => {
         console.error("Erreur lors de la génération du paiement:", error);
       }
     } finally {
-      setLoading(false); // Arrêter le chargement après l'appel API
+      setLoading(false); 
     }
   };
 

@@ -24,11 +24,10 @@ const ModalNotification = () => {
         responseData.notifications &&
         responseData.notifications.map((notification) => ({
           ...notification,
-          data: JSON.parse(notification.data),
+          data: JSON.parse(notification.data), 
         }));
 
       if (parsedNotifications) {
-        // Vérifiez si parsedNotifications est défini
         const uniqueNotifications = [];
         const seenData = new Set();
 
@@ -43,7 +42,6 @@ const ModalNotification = () => {
         setNotifications(uniqueNotifications);
         setNotificationCount(responseData.count);
       } else {
-        // Gérer le cas où parsedNotifications est undefined
         console.error("parsedNotifications est undefined");
       }
     }
@@ -152,7 +150,7 @@ const ModalNotification = () => {
                                             ...
                                           </>
                                         ) : (
-                                          <>Pas de description disponible...</>
+                                          <></>
                                         )}
                                         {notification.created_at}
                                       </p>

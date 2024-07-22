@@ -331,7 +331,6 @@ const Messaging = () => {
                               {messages &&
                                 messages.map((message, index) => (
                                   <div key={index}>
-                                    {/* Chat time */}
                                     {index === 0 ||
                                     new Date(message.created_at).getHours() !==
                                       new Date(

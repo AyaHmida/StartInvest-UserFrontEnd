@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   space: {
-    width: theme.spacing(2), // Définissez la largeur de l'espace ici
+    width: theme.spacing(2), 
+    
   },
 }));
 export default function Calendar() {
@@ -94,7 +95,7 @@ export default function Calendar() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ etat: "accepter" }), // Envoyer les données de la demande
+          body: JSON.stringify({ etat: "accepter" }), 
         }
       );
       if (!response.ok) {
@@ -115,9 +116,9 @@ export default function Calendar() {
   const handleRejectAppointment = async (taskId) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/auth/delete/${taskId}`, // Utilisation de l'ID de la tâche dans l'URL
+        `http://127.0.0.1:8000/api/auth/delete/${taskId}`, 
         {
-          method: "DELETE", // Utilisation de la méthode DELETE pour supprimer la tâche
+          method: "DELETE", 
         }
       );
       if (!response.ok) {
@@ -142,13 +143,13 @@ export default function Calendar() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(formData), // Utiliser formData pour envoyer les données modifiées
+          body: JSON.stringify(formData),
         }
       );
       if (response.ok) {
         console.log("Tâche mise à jour avec succès");
-        fetchEvents(); // Actualiser les événements après la modification
-        setSelectedTask(null); // Fermer le modal après la modification
+        fetchEvents(); 
+        setSelectedTask(null); 
       } else {
         throw new Error("Erreur lors de la mise à jour de la tâche");
       }
@@ -268,26 +269,22 @@ export default function Calendar() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Ajouter une validation spécifique pour la date de début
     if (name === "start_time") {
       const today = new Date();
       const selectedDate = new Date(value);
 
-      // Vérifier si la date sélectionnée est antérieure à la date d'aujourd'hui
       if (selectedDate < today) {
         alert(
           "La date de début ne peut pas être antérieure à la date d'aujourd'hui."
         );
-        return; // Arrêter la mise à jour du formulaire si la validation échoue
+        return; 
       }
 
-      // Vérifier si la date de début est après la date de fin actuelle
       if (formData.end_time && selectedDate > new Date(formData.end_time)) {
         alert("La date de début ne peut pas être après la date de fin.");
-        return; // Arrêter la mise à jour du formulaire si la validation échoue
+        return; 
       }
     } else if (name === "end_time" && formData.start_time) {
-      // Vérifier si la date de fin est avant la date de début actuelle
       if (new Date(value) < new Date(formData.start_time)) {
         alert("La date de fin ne peut pas être avant la date de début.");
         return;
@@ -342,14 +339,13 @@ export default function Calendar() {
       100
     );
 
-    // Formatage des dates
     const startDate =
       info.event.start instanceof Date
         ? info.event.start.toISOString().split("T")[0]
         : "";
     const endDate =
       info.event.end instanceof Date
-        ? info.event.end.toISOString() // Convertir en format ISO 8601
+        ? info.event.end.toISOString() 
         : "";
 
     setFormData((prevFormData) => ({
@@ -390,15 +386,14 @@ export default function Calendar() {
                         <div className={classes.buttonContainer}>
                           <Button
                             variant="outlined"
-                            onClick={() => handleAcceptAppointment(task.id)} // Utilisation d'une fonction fléchée pour passer l'ID de la tâche
+                            onClick={() => handleAcceptAppointment(task.id)} 
                             startIcon={<Check />}
                             className={classes.buttonText}
                           ></Button>
                           <div className={classes.space}></div>{" "}
-                          {/* Espace de 2 unités */}
                           <Button
                             variant="outlined"
-                            onClick={() => handleRejectAppointment(task.id)} // Utilisation d'une fonction fléchée pour passer l'ID de la tâche
+                            onClick={() => handleRejectAppointment(task.id)} 
                             startIcon={<Close />}
                             className={classes.buttonText}
                           ></Button>
@@ -429,7 +424,7 @@ export default function Calendar() {
                           weekends={true}
                           events={events.map((event) => ({
                             id: event.id,
-                            title: event.title, // Appel de la fonction truncate pour afficher uniquement les deux premiers mots
+                            title: event.title, 
                             start: event.start_time,
                             end: event.end_time,
                             description: event.description,
@@ -456,7 +451,7 @@ export default function Calendar() {
                           )}
                           eventClick={handleTaskClick}
                           locale={frLocale}
-                          height="600px" // Réduire la taille du calendrier
+                          height="600px"
                         />
                       </div>
                     </div>
@@ -495,7 +490,7 @@ export default function Calendar() {
                       className="form-control"
                       id="event-title"
                       name="title"
-                      value={formData.title} // Ajoutez cet attribut value
+                      value={formData.title} 
                       onChange={handleChange}
                     />
                   </div>
@@ -507,7 +502,7 @@ export default function Calendar() {
                       className="form-control"
                       id="event-description"
                       name="description"
-                      value={formData.description} // Ajoutez cet attribut value
+                      value={formData.description} 
                       onChange={handleChange}
                     />
                   </div>
@@ -524,7 +519,7 @@ export default function Calendar() {
                         formData.start_time
                           ? formData.start_time.split("T")[0]
                           : ""
-                      } // Afficher uniquement la partie date
+                      }
                       onChange={handleChange}
                     />
                   </div>
@@ -539,7 +534,7 @@ export default function Calendar() {
                       name="end_time"
                       value={
                         formData.end_time ? formData.end_time.split("T")[0] : ""
-                      } // Afficher uniquement la partie date
+                      } 
                       onChange={handleChange}
                     />
                   </div>

@@ -1,15 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Header } from "../services";
 import { callApi } from "../api";
 
 export default function UpdateProfile() {
   const [type, setType] = useState("");
-  const navigate = useNavigate();
 
   const handleSave = async (e) => {
     e.preventDefault();
-
     try {
       const response = await callApi("auth/getUserType", "POST", {
         typePerson: type,
