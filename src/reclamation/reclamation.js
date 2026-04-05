@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/header";
 import { SidebarLeft } from "../services";
-import { callApi } from "../api";
 import { Link } from "react-router-dom";
 
 export default function Reclamation() {
