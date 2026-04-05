@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000/api";
+const BASE_URL = "https://startinvest-backend.up.railway.app/api";
 
 export const callApi = async (
   endpoint,
