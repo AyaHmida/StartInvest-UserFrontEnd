@@ -28,7 +28,6 @@ export default function Reclamation() {
     setErrorMessage("");
 
     try {
-      const response = await callApi("auth/reclamation", "POST", formData);
 
       setSuccessMessage("Réclamation soumise avec succès !");
       setFormData({
