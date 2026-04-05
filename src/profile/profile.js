@@ -200,7 +200,7 @@ const Profile = () => {
                         onClick={() => setActiveTab("posts")}
                         style={{ cursor: "pointer" }}
                       >
-                        <a
+                        <a href="#"
                           className={`nav-link ${
                             activeTab === "posts" ? "active" : ""
                           }`}
@@ -213,7 +213,7 @@ const Profile = () => {
                         onClick={() => setActiveTab("connections")}
                         style={{ cursor: "pointer" }}
                       >
-                        <a
+                        <a href="#"
                           className={`nav-link ${
                             activeTab === "connections" ? "active" : ""
                           }`}

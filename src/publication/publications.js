@@ -170,6 +170,7 @@ const Publications = () => {
                 <ul className="nav nav-fill nav-stack small">
                   <li className="nav-item">
                     <a
+                    href="#"
                       style={{ cursor: "pointer" }}
                       className="nav-link mb-0 active"
                       onClick={() => Like(item.id, index)}
@@ -241,7 +242,7 @@ const Publications = () => {
                                     <div className="w-100">
                                       <div className="d-sm-flex align-items-start">
                                         <h6 className="mb-0">
-                                          <a>{like.user.name}</a>
+                                          <a href="#">{like.user.name}</a>
                                         </h6>
                                       </div>
                                     </div>

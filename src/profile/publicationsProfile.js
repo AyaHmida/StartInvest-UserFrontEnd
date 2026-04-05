@@ -169,7 +169,7 @@ const PublicationsProfile = () => {
                     aria-labelledby="cardShareAction5"
                   >
                     <li>
-                      <a
+                      <a href="#"
                         className="dropdown-item"
                         onClick={() => {
                           handleDelete(item.id);
@@ -230,7 +230,7 @@ const PublicationsProfile = () => {
               <div className="card-footer py-3">
                 <ul className="nav nav-fill nav-stack small">
                   <li className="nav-item">
-                    <a
+                    <a href="#"
                       style={{ cursor: "pointer" }}
                       className="nav-link mb-0 active"
                       onClick={() => Like(item.id, index)}
@@ -302,7 +302,7 @@ const PublicationsProfile = () => {
                                     <div className="w-100">
                                       <div className="d-sm-flex align-items-start">
                                         <h6 className="mb-0">
-                                          <a>{like.user.name}</a>
+                                          <a href="#">{like.user.name}</a>
                                         </h6>
                                       </div>
                                     </div>

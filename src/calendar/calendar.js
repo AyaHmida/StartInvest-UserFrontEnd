@@ -690,7 +690,7 @@ export default function Calendar() {
                                   <div className="w-100">
                                     <div className="d-sm-flex align-items-start">
                                       <h6 className="mb-0">
-                                        <a>{user.name}</a>{" "}
+                                        <a href="#">{user.name}</a>{" "}
                                       </h6>
                                     </div>
                                   </div>

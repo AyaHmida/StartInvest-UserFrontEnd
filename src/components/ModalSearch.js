@@ -75,7 +75,7 @@ const ModalSearch = () => {
                               className="avatar me-3"
                               onClick={() => redirectToProfile(user.id)}
                             >
-                              <a href="">
+                              <a href="#">
                                 {" "}
                                 <img
                                   className="avatar-img rounded-circle"
@@ -90,7 +90,7 @@ const ModalSearch = () => {
                             <div className="w-100">
                               <div className="d-sm-flex align-items-start">
                                 <h6 className="mb-0">
-                                  <a>{user?.name}</a>
+                                  <a href="#">{user?.name}</a>
                                   <p>{user?.type}</p>
                                 </h6>
                               </div>

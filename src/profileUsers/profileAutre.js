@@ -246,7 +246,7 @@ const Profile = () => {
                     <ul className="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
                       <li className="nav-item">
                         {" "}
-                        <a className="nav-link active"> Posts </a>{" "}
+                        <a href="#" className="nav-link active"> Posts </a>{" "}
                       </li>
                     </ul>
                   </div>
