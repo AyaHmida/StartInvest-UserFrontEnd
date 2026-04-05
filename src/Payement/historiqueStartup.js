@@ -27,7 +27,7 @@ const InvestmentHistoryPage = () => {
 
   useEffect(() => {
     fetchInvestmentHistory();
-  }, [selectedMonth, selectedInvestor]);
+  }, [fetchInvestmentHistory,selectedMonth, selectedInvestor]);
 
   const handleMonthChange = (increment) => {
     setSelectedMonth(

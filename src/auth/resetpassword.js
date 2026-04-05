@@ -6,7 +6,7 @@ function Resetpassword() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [password_confirmation, setPasswordConfirmation] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage] = useState("");
   const { token } = useParams();
   const [passwordconfirm, setPasswordConfirm] = useState("");
   const [passwordvalider, setPasswordValider] = useState("");

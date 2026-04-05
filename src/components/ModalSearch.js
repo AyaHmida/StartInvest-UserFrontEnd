@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { callApi } from "../api";
 import { navigate } from "@reach/router";
+import { Link } from "react-router-dom";
 
 const ModalSearch = () => {
   const [query, setQuery] = useState("");
@@ -19,7 +20,7 @@ const ModalSearch = () => {
     if (query.trim !== "") {
       handleSearch();
     }
-  }, [query]);
+  }, [query, handleSearch]);
   const redirectToProfile = (userId) => {
     navigate(`/${userId}`);
   };
@@ -75,8 +76,7 @@ const ModalSearch = () => {
                               className="avatar me-3"
                               onClick={() => redirectToProfile(user.id)}
                             >
-                              <a href="#">
-                                {" "}
+<Link to={`/user/${user.id}`}>                                {" "}
                                 <img
                                   className="avatar-img rounded-circle"
                                   src={
@@ -84,13 +84,13 @@ const ModalSearch = () => {
                                       ? `http://127.0.0.1:8000/uploads/${user.image}`
                                       : "assets/images/avatar/no-image-male.jpg"
                                   }
+                                      alt={user?.name || "avatar"}
                                 />{" "}
-                              </a>
-                            </div>
+</Link>                            </div>
                             <div className="w-100">
                               <div className="d-sm-flex align-items-start">
                                 <h6 className="mb-0">
-                                  <a href="#">{user?.name}</a>
+                                  <a href={`/user/${user.id}`}>{user?.name}</a>
                                   <p>{user?.type}</p>
                                 </h6>
                               </div>

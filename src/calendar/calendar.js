@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function Calendar() {
-  const [userID, setUserID] = useState(null);
+  const [ setUserID] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -330,7 +330,7 @@ export default function Calendar() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [query]);
+  }, [query, handleSearch]);
 
   const handleTaskClick = (info) => {
     setSelectedTask(info.event);
@@ -690,8 +690,7 @@ export default function Calendar() {
                                   <div className="w-100">
                                     <div className="d-sm-flex align-items-start">
                                       <h6 className="mb-0">
-                                        <a href="#">{user.name}</a>{" "}
-                                      </h6>
+<a href={`/user/${user.id}`}>{user.name}</a>                                      </h6>
                                     </div>
                                   </div>
                                 </div>

@@ -35,12 +35,7 @@ const CompteFlouci = () => {
       formData.append("app_public", app_public);
       formData.append("app_secret", app_secret);
       formData.append("amount", amount);
-      const response = await callApi(
-        "auth/createCompte",
-        "POST",
-        formData,
-        true
-      );
+     
       setAppSecret("");
       setAppPublic("");
       setAmount(0);
